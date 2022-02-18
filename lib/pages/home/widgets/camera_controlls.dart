@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
+import '../../qr_decode/qr_decode.dart';
+
 class CameraController extends StatefulWidget {
   const CameraController(this.controller, {Key? key}) : super(key: key);
 
@@ -63,29 +65,14 @@ class _CameraControllerState extends State<CameraController> {
                       },
                     ),
                   ),
-                )
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  margin: const EdgeInsets.all(8),
-                  child: ElevatedButton(
-                    onPressed: () async {
-                      await widget.controller?.pauseCamera();
-                    },
-                    child: const Text('pause', style: TextStyle(fontSize: 20)),
-                  ),
                 ),
                 Container(
                   margin: const EdgeInsets.all(8),
                   child: ElevatedButton(
-                    onPressed: () async {
-                      await widget.controller?.resumeCamera();
+                    onPressed: () {
+                      Navigator.restorablePushNamed(context, QrDecode.routeName);
                     },
-                    child: const Text('resume', style: TextStyle(fontSize: 20)),
+                    child: const Text('Image Gallery'),
                   ),
                 )
               ],
@@ -96,3 +83,22 @@ class _CameraControllerState extends State<CameraController> {
     );
   }
 }
+
+// Container(
+//   margin: const EdgeInsets.all(8),
+//   child: ElevatedButton(
+//     onPressed: () async {
+//       await widget.controller?.pauseCamera();
+//     },
+//     child: const Text('pause', style: TextStyle(fontSize: 20)),
+//   ),
+// ),
+// Container(
+//   margin: const EdgeInsets.all(8),
+//   child: ElevatedButton(
+//     onPressed: () async {
+//       await widget.controller?.resumeCamera();
+//     },
+//     child: const Text('resume', style: TextStyle(fontSize: 20)),
+//   ),
+// ),

@@ -6,6 +6,8 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+const imageSize = 2048.00;
+
 Future<void> writeToFile(ByteData data, String path) async {
   final buffer = data.buffer;
   await File(path).writeAsBytes(buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
@@ -28,24 +30,26 @@ Future<String> createQrPicture(String qrText, Color? foregroundColor, Color? bac
     return '';
   }
 
-  final painter = QrPainter.withQr(
+  final image = await QrPainter.withQr(
     qr: qrCode,
     color: foregroundColor,
     emptyColor: backgroundColor,
     gapless: true,
     embeddedImageStyle: null,
     embeddedImage: null,
-  );
+  ).toImage(imageSize, format: ui.ImageByteFormat.png);
+
+  ByteData? picData = await CodePainter(qrImage: image, color: backgroundColor).toImageData(imageSize);
+
+  if (picData == null) {
+    return '';
+  }
 
   Directory tempDir = await getTemporaryDirectory();
   String tempPath = tempDir.path;
   final ts = DateTime.now().millisecondsSinceEpoch.toString();
   String path = '$tempPath/$ts.png';
 
-  final picData = await painter.toImageData(2048, format: ui.ImageByteFormat.png);
-  if (picData == null) {
-    return '';
-  }
   await writeToFile(picData, path);
   return path;
 }
@@ -62,4 +66,47 @@ void downloadQrPicture(String qrText, BuildContext context, Color? foregroundCol
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     content: success ? const Text('Image saved to Gallery') : const Text('Error saving image'),
   ));
+}
+
+class CodePainter extends CustomPainter {
+  final double margin;
+  final ui.Image qrImage;
+  late Paint _paint;
+  final Color? color;
+
+  CodePainter({required this.qrImage, this.margin = 10, this.color}) {
+    _paint = Paint()
+      ..color = color ?? Colors.red
+      ..style = ui.PaintingStyle.fill;
+  }
+
+  //***************************** PUBLIC METHODS *************************** //
+  @override
+  void paint(Canvas canvas, Size size) {
+    // Draw everything in white.
+    final rect = Rect.fromPoints(Offset.zero, Offset(size.width, size.height));
+    canvas.drawRect(rect, _paint);
+
+    // Draw the image in the center.
+    canvas.drawImage(qrImage, Offset(margin, margin), Paint());
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+
+  ui.Picture toPicture(double size) {
+    final recorder = ui.PictureRecorder();
+    final canvas = Canvas(recorder);
+    paint(canvas, Size(size, size));
+    return recorder.endRecording();
+  }
+
+  Future<ui.Image> toImage(double size, {ui.ImageByteFormat format = ui.ImageByteFormat.png}) async {
+    return await toPicture(size).toImage(size.toInt(), size.toInt());
+  }
+
+  Future<ByteData?> toImageData(double originalSize, {ui.ImageByteFormat format = ui.ImageByteFormat.png}) async {
+    final image = await toImage(originalSize + margin * 2, format: format);
+    return image.toByteData(format: format);
+  }
 }

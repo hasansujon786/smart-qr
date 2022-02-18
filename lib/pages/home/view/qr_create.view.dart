@@ -45,6 +45,7 @@ class _QrCreateViewState extends State<QrCreateView> {
       body: Column(
         children: [
           QrImage(
+            padding: const EdgeInsets.all(10),
             size: 250,
             data: _qrText,
             foregroundColor: _forgroundColor,

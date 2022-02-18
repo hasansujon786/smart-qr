@@ -6,6 +6,7 @@ import 'pages/home/home.dart';
 import 'pages/qr_result/qr_result.dart';
 import 'pages/sample_items/sample_items.dart';
 import 'pages/settings/settings.dart';
+import 'pages/qr_decode/qr_decode.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -44,9 +45,9 @@ class MyApp extends StatelessWidget {
               textTheme: ButtonTextTheme.primary,
             ),
             colorScheme: const ColorScheme.light(
-              // primary: Colors.black, //flat button text color
-              // secondary: Palette.lightBlue,
-            ),
+                // primary: Colors.black, //flat button text color
+                // secondary: Palette.lightBlue,
+                ),
           ),
           darkTheme: ThemeData.dark(),
           themeMode: settingsController.themeMode,
@@ -64,7 +65,9 @@ class MyApp extends StatelessWidget {
                     return const SampleItemsPage();
                   case SampleItemDetailsPage.routeName:
                     return const SampleItemDetailsPage();
-
+                  // ****** main features ************ //
+                  case QrDecode.routeName:
+                    return const QrDecode();
                   case QrResultPage.routeName:
                     return const QrResultPage();
                   case HomePage.routeName:
