@@ -1,40 +1,53 @@
 import 'package:flutter/material.dart';
 
-import '../../sample_items/sample_items.dart';
-import '../../settings/settings.dart';
+import './view.dart';
 
-/// Displays detailed information about a SampleItem.
-class HomePage extends StatelessWidget {
-  const HomePage({
-    Key? key,
-  }) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   static const routeName = '/';
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _currentViewIndex = 0;
+  static const List<Widget> _screens = <Widget>[
+    QrScanView(),
+    QrCreateView(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home Page'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              // Navigate to the settings page. If the user leaves and returns
-              // to the app after it has been killed while running in the
-              // background, the navigation stack is restored.
-              Navigator.restorablePushNamed(context, SettingsPage.routeName);
-            },
+        title: const Text('Smart QR'),
+        centerTitle: true,
+      ),
+      // Tips: To persists screen state use IndexdStack()
+      body: _screens.elementAt(_currentViewIndex),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentViewIndex,
+        selectedItemColor: Colors.amber[800],
+        unselectedItemColor: Colors.grey[600],
+        selectedFontSize: 12,
+        unselectedFontSize: 12,
+        /* selectedIconTheme: const IconThemeData(size: 24), */
+        /* iconSize: 20, */
+        type: BottomNavigationBarType.fixed,
+        /* backgroundColor: Theme.of(context).primaryColor, */
+        onTap: (int index) => setState(() => _currentViewIndex = index),
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.qr_code_scanner_outlined),
+            label: 'Scan',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.qr_code_outlined),
+            label: 'Create',
           ),
         ],
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.restorablePushNamed(context, SampleItemsPage.routeName);
-          },
-          child: const Text('View Sample Items'),
-        ),
       ),
     );
   }
