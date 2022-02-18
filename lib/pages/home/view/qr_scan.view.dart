@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 
-class QrScanView extends StatelessWidget {
+import '../widgets/widgets.dart';
+
+class QrScanView extends StatefulWidget {
   const QrScanView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Container(child: Text('moo'));
-  }
+  State<QrScanView> createState() => _QrScanViewState();
 }
 
+class _QrScanViewState extends State<QrScanView> {
+
+  @override
+  Widget build(BuildContext context) {
+    return const Camera();
+  }
+}

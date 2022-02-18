@@ -12,6 +12,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  gallery_saver: ^2.3.2
+  path_provider: ^2.0.9
+  qr_code_scanner: ^0.6.1
+  qr_flutter: ^4.0.0
 
 dev_dependencies:
   flutter_test:

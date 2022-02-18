@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'config/palette.dart';
 import 'domain/settings/settings_controller.dart';
 import 'pages/home/home.dart';
+import 'pages/qr_result/qr_result.dart';
 import 'pages/sample_items/sample_items.dart';
 import 'pages/settings/settings.dart';
 
@@ -63,6 +64,9 @@ class MyApp extends StatelessWidget {
                     return const SampleItemsPage();
                   case SampleItemDetailsPage.routeName:
                     return const SampleItemDetailsPage();
+
+                  case QrResultPage.routeName:
+                    return const QrResultPage();
                   case HomePage.routeName:
                   default:
                     return const HomePage();
@@ -75,3 +79,9 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+  // gallery_saver
+  // path_provider
+  // qr_code_scanner
+  // qr_flutter
+  // start ms-settings:developers
