@@ -54,18 +54,9 @@ Future<String> createQrPicture(String qrText, Color? foregroundColor, Color? bac
   return path;
 }
 
-void downloadQrPicture(String qrText, BuildContext context, Color? foregroundColor, Color? backgroundColor) async {
+Future<bool?> downloadQrPicture(String qrText, Color? foregroundColor, Color? backgroundColor) async {
   String path = await createQrPicture(qrText, foregroundColor, backgroundColor);
-
-  final success = await GallerySaver.saveImage(path);
-  if (success == null) return;
-
-  print('======================');
-  print('downloaded..');
-  print('======================');
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    content: success ? const Text('Image saved to Gallery') : const Text('Error saving image'),
-  ));
+  return await GallerySaver.saveImage(path);
 }
 
 class CodePainter extends CustomPainter {

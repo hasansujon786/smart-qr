@@ -11,60 +11,78 @@ class QrCreateView extends StatefulWidget {
 }
 
 class _QrCreateViewState extends State<QrCreateView> {
+  //***************************** Statue *************************** //
   var _qrText = 'Any text here';
-
   final _forgroundColor = Colors.grey[600];
-
   final _backgroundColor = Colors.white;
-
   final _textController = TextEditingController(text: '');
 
-  @override
-  Widget build(BuildContext context) {
-    // Full screen width and height
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+  //***************************** Methods *************************** //
+  void _updateQrView(text) {
+    setState(() {
+      _qrText = text;
+    });
+  }
 
-    // Height (without SafeArea)
-    var padding = MediaQuery.of(context).padding;
-    double height1 = height - padding.top - padding.bottom;
+  void _onDownload() async {
+    _updateQrView(_textController.text);
 
-    // Height (without status bar)
-    double height2 = height - padding.top;
-
-    // Height (without status and toolbar)
-    double height3 = height - padding.top - kToolbarHeight;
-
-    void _updateQrView(text) {
-      setState(() {
-        _qrText = text;
-      });
+    FocusScopeNode currentFocus = FocusScope.of(context);
+    if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+      currentFocus.focusedChild!.unfocus();
     }
 
+    final success = await downloadQrPicture(_qrText, _forgroundColor, _backgroundColor) ?? false;
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: success ? const Text('Image saved to Gallery') : const Text('Error saving image'),
+    ));
+  }
+
+  //***************************** Widget *************************** //
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          QrImage(
-            padding: const EdgeInsets.all(10),
-            size: 250,
-            data: _qrText,
-            foregroundColor: _forgroundColor,
-            backgroundColor: _backgroundColor,
+      body: SingleChildScrollView(
+        // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+        reverse: true,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 12),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              buildQr(),
+              const SizedBox(height: 24),
+              buildTextFeild(),
+              const SizedBox(height: 24),
+              ElevatedButton(
+                onPressed: _onDownload,
+                child: const Text('Download'),
+              )
+            ],
           ),
-          TextField(
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Insert your QR code here',
-            ),
-            controller: _textController,
-            onSubmitted: _updateQrView,
-          ),
-          ElevatedButton(
-            onPressed: () => downloadQrPicture(_qrText, context, _forgroundColor, _backgroundColor),
-            child: const Text('Download'),
-          ),
-        ],
+        ),
       ),
+    );
+  }
+
+  Widget buildQr() {
+    return QrImage(
+      padding: const EdgeInsets.all(10),
+      size: 250,
+      data: _qrText,
+      foregroundColor: _forgroundColor,
+      backgroundColor: _backgroundColor,
+    );
+  }
+
+  buildTextFeild() {
+    return TextField(
+      decoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: 'Insert your QR code here',
+      ),
+      controller: _textController,
+      onSubmitted: _updateQrView,
     );
   }
 }
