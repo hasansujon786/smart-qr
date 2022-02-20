@@ -21,10 +21,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Smart QR'),
-        centerTitle: true,
-      ),
       // Tips: To persists screen state use IndexdStack()
       body: _screens.elementAt(_currentViewIndex),
       bottomNavigationBar: BottomNavigationBar(

@@ -36,31 +36,53 @@ class _CameraState extends State<Camera> {
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            flex: 4,
-            child: QRView(
-              key: qrKey,
-              onQRViewCreated: _onQRViewCreated,
-              overlay: QrScannerOverlayShape(
-                borderColor: Colors.red,
-                borderRadius: 10,
-                borderLength: 30,
-                borderWidth: 10,
-                cutOutSize: scanArea,
-              ),
-              onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
-            ),
+      appBar: AppBar(
+        title: const Text('Smart QR'),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.menu),
+          onPressed: () {},
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.image),
+            onPressed: () {},
           ),
-          /* Expanded( */
-          /*   flex: 1, */
-          /*   child: Center( */
-          /*     child: (result != null) */
-          /*         ? Text('Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}') */
-          /*         : const Text('Scan a code'), */
-          /*   ), */
-          /* ), */
+          IconButton(
+            icon: const Icon(Icons.flip_camera_ios),
+            // FutureBuilder(
+            //     future: widget.controller?.getCameraInfo(),
+            //     builder: (context, snapshot) {
+            //       // if (snapshot.data != null)
+            //       // return Text('Camera facing ${describeEnum(snapshot.data!)}');
+            //       // else
+            //       // return const Text('loading');
+            //       return const Icon(Icons.flip_camera_ios, color: Colors.white);
+            //     },
+            //   )
+            onPressed: () async {
+              await controller?.flipCamera();
+              setState(() {});
+            },
+          ),
+          const SizedBox(width: 4)
+        ],
+      ),
+      body: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          QRView(
+            key: qrKey,
+            onQRViewCreated: _onQRViewCreated,
+            overlay: QrScannerOverlayShape(
+              borderColor: Colors.red,
+              borderRadius: 10,
+              borderLength: 30,
+              borderWidth: 10,
+              cutOutSize: scanArea,
+            ),
+            onPermissionSet: (ctrl, p) => _onPermissionSet(context, ctrl, p),
+          ),
           CameraController(controller),
         ],
       ),

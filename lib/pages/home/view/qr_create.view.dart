@@ -42,6 +42,10 @@ class _QrCreateViewState extends State<QrCreateView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Smart QR'),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         reverse: true,
