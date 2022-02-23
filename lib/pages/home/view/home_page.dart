@@ -14,8 +14,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentViewIndex = 0;
   static const List<Widget> _screens = <Widget>[
-    QrScanView(),
-    QrCreateView(),
+    ScanView(),
+    CreateView(),
   ];
 
   @override

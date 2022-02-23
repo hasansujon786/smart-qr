@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../widgets/widgets.dart';
 
-class QrScanView extends StatefulWidget {
-  const QrScanView({Key? key}) : super(key: key);
+class ScanView extends StatefulWidget {
+  const ScanView({Key? key}) : super(key: key);
 
   @override
-  State<QrScanView> createState() => _QrScanViewState();
+  State<ScanView> createState() => _ScanViewState();
 }
 
-class _QrScanViewState extends State<QrScanView> {
+class _ScanViewState extends State<ScanView> {
 
   @override
   Widget build(BuildContext context) {

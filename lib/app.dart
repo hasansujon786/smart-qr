@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'config/palette.dart';
 import 'domain/settings/settings_controller.dart';
 import 'pages/home/home.dart';
+import 'pages/qr_create/qr_create.dart';
+import 'pages/qr_decode/qr_decode.dart';
 import 'pages/qr_result/qr_result.dart';
 import 'pages/sample_items/sample_items.dart';
 import 'pages/settings/settings.dart';
-import 'pages/qr_decode/qr_decode.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -69,6 +70,9 @@ class MyApp extends StatelessWidget {
                   // ****** main features ************ //
                   case QrDecode.routeName:
                     return const QrDecode();
+
+                  case QrCreatePage.routeName:
+                    return const QrCreatePage();
                   case QrResultPage.routeName:
                     return const QrResultPage();
                   case HomePage.routeName:
