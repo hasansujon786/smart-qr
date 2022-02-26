@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import './wigets.dart';
 
-class QrInputTel extends StatelessWidget {
-  const QrInputTel({
+class QrInputWifi extends StatelessWidget {
+  const QrInputWifi({
     Key? key,
     required this.updateFormData,
   }) : super(key: key);
@@ -14,12 +14,21 @@ class QrInputTel extends StatelessWidget {
     return Column(
       children: [
         QrFormField(
-          label: 'Enter your number',
+          label: 'SSID',
           onSaved: (val) {
-            updateFormData('tel', val);
+            updateFormData('ssid', val);
+          },
+        ),
+        const SizedBox(height: 8),
+        QrFormField(
+          label: 'Password',
+          onSaved: (val) {
+            updateFormData('pass', val);
+            updateFormData('type', 'WPA');
           },
         ),
       ],
     );
   }
 }
+

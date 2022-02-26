@@ -16,4 +16,8 @@ const qrCodeTypes = [
     type: 'tel',
     name: 'Telephone',
   ),
+  QrType(
+    type: 'wifi',
+    name: 'Wifi',
+  ),
 ];

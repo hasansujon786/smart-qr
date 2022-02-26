@@ -24,6 +24,7 @@ class _QrCreatePageState extends State<QrCreatePage> {
   void _onDone(String qrType) {
     _formKey.currentState?.save();
     var qrCode = textToQrCode(qrType, _formState);
+    print(qrCode);
     Navigator.restorablePushNamed(context, QrView.routeName, arguments: {'qrCode': qrCode});
   }
 
@@ -34,7 +35,7 @@ class _QrCreatePageState extends State<QrCreatePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create a Qr code'),
+        title: const Text('Create QR code'),
         centerTitle: true,
       ),
       backgroundColor: Colors.white,
@@ -67,8 +68,10 @@ class _QrCreatePageState extends State<QrCreatePage> {
 
   buildQrInputFeilds(String qrType) {
     switch (qrType) {
+      case 'wifi':
+        return QrInputWifi(updateFormData: _updateFromData);
       case 'tel':
-        return const QrInputTel();
+        return QrInputTel(updateFormData: _updateFromData);
       case 'text':
       default:
         return QrInputText(updateFormData: _updateFromData);
