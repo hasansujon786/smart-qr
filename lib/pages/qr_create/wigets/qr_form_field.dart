@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class QrFormField extends StatelessWidget {
   final String label;
-  // final TextEditingController textController;
+  final Function(String?)? onSaved;
 
-  const QrFormField(
-    {
+  const QrFormField({
     Key? key,
     required this.label,
+    this.onSaved,
   }) : super(key: key);
 
   @override
@@ -18,12 +18,11 @@ class QrFormField extends StatelessWidget {
         Text(label),
         const SizedBox(height: 8),
         TextFormField(
+          onSaved: onSaved,
           decoration: const InputDecoration(
             border: OutlineInputBorder(),
             // labelText: label,
           ),
-          // controller: textController,
-          // onSubmitted: _updateQrView,
         )
       ],
     );

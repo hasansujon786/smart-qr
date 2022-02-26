@@ -2,13 +2,23 @@ import 'package:flutter/material.dart';
 import './wigets.dart';
 
 class QrInputText extends StatelessWidget {
-  const QrInputText({Key? key}) : super(key: key);
+  const QrInputText({
+    Key? key,
+    required this.updateFormData,
+  }) : super(key: key);
+
+  final Function updateFormData;
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [
-        QrFormField(label: 'Enter text'),
+      children: [
+        QrFormField(
+          label: 'Enter text',
+          onSaved: (val) {
+            updateFormData('text', val);
+          },
+        ),
       ],
     );
   }

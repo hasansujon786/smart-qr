@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
-import '../../../domain/qr_to_picture.dart';
+import '../../../domain/text_to_qr_code.dart';
+import '../../qr_view/qr_view.dart';
 import '../qr_create.dart';
 
 class QrCreatePage extends StatefulWidget {
@@ -14,31 +14,17 @@ class QrCreatePage extends StatefulWidget {
 }
 
 class _QrCreatePageState extends State<QrCreatePage> {
-  //***************************** Statue *************************** //
-  var _qrText = 'Any text here';
-  final _forgroundColor = Colors.grey[600];
-  final _backgroundColor = Colors.white;
-  final _textController = TextEditingController(text: '');
+  final _formKey = GlobalKey<FormState>();
+  final Map<String, String> _formState = {};
 
-  //***************************** Methods *************************** //
-  void _updateQrView(text) {
-    setState(() {
-      _qrText = text;
-    });
+  void _updateFromData(String key, String val) {
+    _formState[key] = val;
   }
 
-  void _onDownload() async {
-    _updateQrView(_textController.text);
-
-    FocusScopeNode currentFocus = FocusScope.of(context);
-    if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
-      currentFocus.focusedChild!.unfocus();
-    }
-
-    final success = await downloadQrPicture(_qrText, _forgroundColor, _backgroundColor) ?? false;
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: success ? const Text('Image saved to Gallery') : const Text('Error saving image'),
-    ));
+  void _onDone(String qrType) {
+    _formKey.currentState?.save();
+    var qrCode = textToQrCode(qrType, _formState);
+    Navigator.restorablePushNamed(context, QrView.routeName, arguments: {'qrCode': qrCode});
   }
 
   //***************************** Widget *************************** //
@@ -48,7 +34,7 @@ class _QrCreatePageState extends State<QrCreatePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Smart QR'),
+        title: const Text('Create a Qr code'),
         centerTitle: true,
       ),
       backgroundColor: Colors.white,
@@ -60,29 +46,22 @@ class _QrCreatePageState extends State<QrCreatePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // buildQr(),
-              const SizedBox(height: 34),
               Form(
+                key: _formKey,
                 child: buildQrInputFeilds(args['qrType'] ?? 'text'),
               ),
+              const SizedBox(height: 12),
               ElevatedButton(
-                onPressed: _onDownload,
-                child: const Text('Done'),
+                onPressed: () => _onDone(args['qrType'] ?? 'text'),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('Done'),
+                ),
               )
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget buildQr() {
-    return QrImage(
-      padding: const EdgeInsets.all(10),
-      size: 250,
-      data: _qrText,
-      foregroundColor: _forgroundColor,
-      backgroundColor: _backgroundColor,
     );
   }
 
@@ -92,7 +71,7 @@ class _QrCreatePageState extends State<QrCreatePage> {
         return const QrInputTel();
       case 'text':
       default:
-        return const QrInputText();
+        return QrInputText(updateFormData: _updateFromData);
     }
   }
 }

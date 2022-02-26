@@ -6,6 +6,7 @@ import 'pages/home/home.dart';
 import 'pages/qr_create/qr_create.dart';
 import 'pages/qr_decode/qr_decode.dart';
 import 'pages/qr_result/qr_result.dart';
+import 'pages/qr_view/qr_view.dart';
 import 'pages/sample_items/sample_items.dart';
 import 'pages/settings/settings.dart';
 
@@ -71,6 +72,8 @@ class MyApp extends StatelessWidget {
                   case QrDecode.routeName:
                     return const QrDecode();
 
+                  case QrView.routeName:
+                    return const QrView();
                   case QrCreatePage.routeName:
                     return const QrCreatePage();
                   case QrResultPage.routeName:
