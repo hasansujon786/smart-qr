@@ -9,7 +9,7 @@ class QrResultPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, String?>;
     final code = args['code'] ?? '';
-    // final format = args['format'] ?? '';
+    final format = args['format'] ?? '';
 
     return Scaffold(
       appBar: AppBar(
@@ -39,6 +39,11 @@ class QrResultPage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   width: double.infinity,
                   child: Text(code, style: const TextStyle(fontSize: 15)),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  width: double.infinity,
+                  child: Text(format, style: const TextStyle(fontSize: 15)),
                 ),
               ],
             ),

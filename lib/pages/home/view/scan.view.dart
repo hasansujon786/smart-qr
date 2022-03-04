@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
+import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
 import '../../qr_result/qr_result.dart';
 import '../widgets/widgets.dart';
 
@@ -17,15 +18,26 @@ class _ScanViewState extends State<ScanView> {
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
-  // In order to get hot reload to work we need to pause the camera if the platform
-  // is android, or resume the camera if the platform is iOS.
-  @override
-  void reassemble() {
-    super.reassemble();
-    controller!.pauseCamera();
-    Future.delayed(const Duration(seconds: 1), (() {
-      controller!.resumeCamera();
-    }));
+  bool _foundQr = false;
+  void _onQRViewCreated(QRViewController controller) {
+    setState(() {
+      this.controller = controller;
+    });
+    controller.scannedDataStream.listen((scanData) {
+      if (!_foundQr) {
+        _foundQr = true;
+        Future.delayed(const Duration(seconds: 2), () => _foundQr = false);
+
+        _gotoResultPage(scanData.code, describeEnum(scanData.format));
+      }
+    });
+  }
+
+  void _gotoResultPage(String? result, String? format) {
+    Navigator.restorablePushNamed(context, QrResultPage.routeName, arguments: <String, String?>{
+      'code': result,
+      'format': format,
+    });
   }
 
   @override
@@ -40,30 +52,21 @@ class _ScanViewState extends State<ScanView> {
       appBar: AppBar(
         title: const Text('Smart QR'),
         centerTitle: true,
-        // leading: IconButton(
-        //   icon: const Icon(Icons.menu),
-        //   onPressed: () {},
-        // ),
+        leading: IconButton(
+          icon: const Icon(Icons.flip_camera_ios),
+          onPressed: () async {
+            await controller?.flipCamera();
+            setState(() {});
+          },
+        ),
         actions: [
-          // IconButton(
-          //   icon: const Icon(Icons.image),
-          //   onPressed: () {},
-          // ),
           IconButton(
-            icon: const Icon(Icons.flip_camera_ios),
-            // FutureBuilder(
-            //     future: widget.controller?.getCameraInfo(),
-            //     builder: (context, snapshot) {
-            //       // if (snapshot.data != null)
-            //       // return Text('Camera facing ${describeEnum(snapshot.data!)}');
-            //       // else
-            //       // return const Text('loading');
-            //       return const Icon(Icons.flip_camera_ios, color: Colors.white);
-            //     },
-            //   )
-            onPressed: () async {
-              await controller?.flipCamera();
-              setState(() {});
+            icon: const Icon(Icons.image),
+            onPressed: () {
+              qr_tools.parseFromImage((result, format) {
+                if (result == null) return;
+                _gotoResultPage(result, format);
+              });
             },
           ),
           const SizedBox(width: 4)
@@ -90,23 +93,6 @@ class _ScanViewState extends State<ScanView> {
     );
   }
 
-  bool _foundQr = false;
-  void _onQRViewCreated(QRViewController controller) {
-    setState(() {
-      this.controller = controller;
-    });
-    controller.scannedDataStream.listen((scanData) {
-      if (!_foundQr) {
-        Navigator.restorablePushNamed(context, QrResultPage.routeName, arguments: <String, String?>{
-          'code': scanData.code,
-          'format': describeEnum(scanData.format),
-        });
-        _foundQr = true;
-        Future.delayed(const Duration(seconds: 1), () => _foundQr = false);
-      }
-    });
-  }
-
   void _onPermissionSet(BuildContext context, QRViewController ctrl, bool p) {
     // log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
     if (!p) {
@@ -114,6 +100,17 @@ class _ScanViewState extends State<ScanView> {
         const SnackBar(content: Text('no Permission')),
       );
     }
+  }
+
+  // In order to get hot reload to work we need to pause the camera if the platform
+  // is android, or resume the camera if the platform is iOS.
+  @override
+  void reassemble() {
+    super.reassemble();
+    controller!.pauseCamera();
+    Future.delayed(const Duration(seconds: 1), (() {
+      controller!.resumeCamera();
+    }));
   }
 
   @override
