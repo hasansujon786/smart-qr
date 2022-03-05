@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gallery_saver/gallery_saver.dart';
@@ -8,12 +9,17 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 const imageSize = 2048.00;
 
-Future<void> writeToFile(ByteData data, String path) async {
+Future<bool?> downloadQrAsPng(String qrText, Color? foregroundColor, Color? backgroundColor) async {
+  String path = await _createQrPicture(qrText, foregroundColor, backgroundColor);
+  return await GallerySaver.saveImage(path);
+}
+
+Future<void> _writeToFile(ByteData data, String path) async {
   final buffer = data.buffer;
   await File(path).writeAsBytes(buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
 }
 
-Future<String> createQrPicture(String qrText, Color? foregroundColor, Color? backgroundColor) async {
+Future<String> _createQrPicture(String qrText, Color? foregroundColor, Color? backgroundColor) async {
   // https://medium.com/codex/exporting-qr-codes-in-flutter-dd30220fcba4
   final qrValidationResult = QrValidator.validate(
     data: qrText,
@@ -50,13 +56,8 @@ Future<String> createQrPicture(String qrText, Color? foregroundColor, Color? bac
   final ts = DateTime.now().millisecondsSinceEpoch.toString();
   String path = '$tempPath/$ts.png';
 
-  await writeToFile(picData, path);
+  await _writeToFile(picData, path);
   return path;
-}
-
-Future<bool?> downloadQrPicture(String qrText, Color? foregroundColor, Color? backgroundColor) async {
-  String path = await createQrPicture(qrText, foregroundColor, backgroundColor);
-  return await GallerySaver.saveImage(path);
 }
 
 class CodePainter extends CustomPainter {

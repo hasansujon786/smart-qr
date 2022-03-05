@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:smart_qr/domain/qr_to_picture.dart';
+
+import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
 
 class QrView extends StatefulWidget {
   const QrView({Key? key}) : super(key: key);
@@ -21,7 +22,7 @@ class _QrViewState extends State<QrView> {
       currentFocus.focusedChild!.unfocus();
     }
 
-    final success = await downloadQrPicture(qrCode, _forgroundColor, _backgroundColor) ?? false;
+    final success = await qr_tools.downloadQrAsPng(qrCode, _forgroundColor, _backgroundColor) ?? false;
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: success ? const Text('Image saved to Gallery') : const Text('Error saving image'),
     ));

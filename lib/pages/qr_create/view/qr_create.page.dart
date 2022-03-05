@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain/text_to_qr_code.dart';
+import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
 import '../../qr_view/qr_view.dart';
 import '../qr_create.dart';
 
@@ -23,7 +23,7 @@ class _QrCreatePageState extends State<QrCreatePage> {
 
   void _onDone(String qrType) {
     _formKey.currentState?.save();
-    var qrCode = textToQrCode(qrType, _formState);
+    var qrCode = qr_tools.convertTextToQrCode(qrType, _formState);
     print(qrCode);
     Navigator.restorablePushNamed(context, QrView.routeName, arguments: {'qrCode': qrCode});
   }
