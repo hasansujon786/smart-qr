@@ -28,20 +28,22 @@ class _CameraState extends State<Camera> {
           scanAreaScale: .7,
           scanLineColor: Colors.red,
           onCapture: (data) {
-            Navigator.pushNamed(context, QrResultPage.routeName, arguments: <String, String?>{
+            Navigator.pushNamed(context, QrResultPage.routeName, arguments: {
               'code': data,
             }).then((value) {
               controller.resume();
             });
           },
         ),
-        Positioned(
-          bottom: 0,
-          child: Center(
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 12),
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                ElevatedButton(
-                  child: Text("toggleTorchMode"),
+                iconButtonRounded(
+                  const Icon(Icons.flash_on, color: Colors.white),
                   onPressed: () {
                     controller.toggleTorchMode();
                   },
@@ -70,4 +72,18 @@ class _CameraState extends State<Camera> {
     controller.pause();
     super.dispose();
   }
+}
+
+Widget iconButtonRounded(icon, {required onPressed}) {
+  // TODO: Glassmorphism Button
+  // https://www.youtube.com/watch?v=ZVW2NR52KLc&list=TLPQMTkwMjIwMjLv1wY_Upj8Yg&index=2
+  return TextButton(
+    style: TextButton.styleFrom(
+      fixedSize: const Size(56, 56),
+      backgroundColor: Colors.redAccent,
+      shape: const CircleBorder(),
+    ),
+    child: icon,
+    onPressed: onPressed,
+  );
 }

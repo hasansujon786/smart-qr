@@ -26,10 +26,10 @@ class _ScanViewState extends State<ScanView> {
         actions: [
           IconButton(
             icon: const Icon(Icons.image),
-            onPressed: () async {
-              var reslult = await qr_tools.parseFromImage();
-              Navigator.pushNamed(context, QrResultPage.routeName, arguments: <String, String?>{
-                'code': reslult,
+            onPressed: () {
+              qr_tools.decodeFromImage().then((reslult) {
+                if (reslult == null) return;
+                Navigator.pushNamed(context, QrResultPage.routeName, arguments: {'code': reslult});
               });
             },
           ),

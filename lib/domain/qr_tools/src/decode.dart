@@ -1,7 +1,7 @@
 import 'package:images_picker/images_picker.dart';
 import 'package:scan/scan.dart';
 
-Future<String?> parseFromImage() async {
+Future<String?> decodeFromImage() async {
   // var image = await ImagePicker().getImage(source: ImageSource.gallery);
   // if (image == null) return null;
   // var code = await FlutterQrReader.imgScan(File(image.path));
