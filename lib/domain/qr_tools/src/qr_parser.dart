@@ -1,15 +1,16 @@
-import 'dart:io';
+import 'package:images_picker/images_picker.dart';
+import 'package:scan/scan.dart';
 
-import 'package:flutter_qr_scan/flutter_qr_scan.dart';
-import 'package:image_picker/image_picker.dart';
+Future<String?> parseFromImage() async {
+  // var image = await ImagePicker().getImage(source: ImageSource.gallery);
+  // if (image == null) return null;
+  // var code = await FlutterQrReader.imgScan(File(image.path));
+  // callback(code, 'parsed_img');
 
-parseFromImage(callback) async {
-  var image = await ImagePicker().getImage(source: ImageSource.gallery);
-  if (image == null) return null;
-  var code = await FlutterQrReader.imgScan(File(image.path));
-  callback(code, 'parsed_img');
+  List<Media>? img = await ImagesPicker.pick();
+  if (img == null) return null;
+  return await Scan.parse(img[0].path);
 }
-
 
 String convertTextToQrCode(qrType, valueObj) {
   switch (qrType) {
