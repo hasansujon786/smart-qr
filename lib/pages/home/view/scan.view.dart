@@ -36,10 +36,13 @@ class _ScanViewState extends State<ScanView> {
           const SizedBox(width: 4)
         ],
       ),
-      body: const SafeArea(
+      body: SafeArea(
         top: true,
         bottom: true,
-        child: Camera(),
+        child: Container(
+          color: Colors.black,
+          child: const Camera(),
+        ),
       ),
     );
   }
