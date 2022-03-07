@@ -1,6 +1,8 @@
+import 'package:smart_qr/domain/qr_tools/qr_tools.dart';
+
 class QrType {
   final String name;
-  final String type;
+  final QrcodeValueType type;
   const QrType({
     required this.name,
     required this.type,
@@ -9,15 +11,15 @@ class QrType {
 
 const qrCodeTypes = [
   QrType(
-    type: 'text',
+    type: QrcodeValueType.text,
     name: 'Text',
   ),
   QrType(
-    type: 'tel',
-    name: 'Telephone',
+    type: QrcodeValueType.phone,
+    name: 'Phone',
   ),
   QrType(
-    type: 'wifi',
+    type: QrcodeValueType.wifi,
     name: 'Wifi',
   ),
 ];

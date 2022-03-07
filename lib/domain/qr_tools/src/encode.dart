@@ -7,6 +7,8 @@ import 'package:gallery_saver/gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+import '../qr_tools.dart';
+
 const imageSize = 2048.00;
 
 Future<bool?> downloadQrAsPng(String qrText, Color? foregroundColor, Color? backgroundColor) async {
@@ -100,5 +102,23 @@ class CodePainter extends CustomPainter {
   Future<ByteData?> toImageData(double originalSize, {ui.ImageByteFormat format = ui.ImageByteFormat.png}) async {
     final image = await toImage(originalSize + margin * 2, format: format);
     return image.toByteData(format: format);
+  }
+}
+
+MeCard encodeToMeCard(qrcodeType, formState) {
+  switch (qrcodeType) {
+    case QrcodeValueType.wifi:
+      return MeCard.wifi(
+        ssid: formState['ssid'],
+        password: formState['pass'],
+        type: formState['type'],
+      );
+
+    case QrcodeValueType.phone:
+      return MeCard.contact(tel: formState['tel']);
+
+    case QrcodeValueType.text:
+    default:
+      return formState['text'];
   }
 }

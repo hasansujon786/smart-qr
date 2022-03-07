@@ -16,13 +16,13 @@ class _QrViewState extends State<QrView> {
   final _forgroundColor = Colors.grey[600];
   final _backgroundColor = Colors.white;
 
-  void _onDownload(qrCode) async {
+  void _onDownload(qrcodeRawValue) async {
     FocusScopeNode currentFocus = FocusScope.of(context);
     if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
       currentFocus.focusedChild!.unfocus();
     }
 
-    final success = await qr_tools.downloadQrAsPng(qrCode, _forgroundColor, _backgroundColor) ?? false;
+    final success = await qr_tools.downloadQrAsPng(qrcodeRawValue, _forgroundColor, _backgroundColor) ?? false;
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: success ? const Text('Image saved to Gallery') : const Text('Error saving image'),
     ));
@@ -31,7 +31,7 @@ class _QrViewState extends State<QrView> {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)?.settings.arguments as Map<String, String?>;
-    final qrCode = args['qrCode'];
+    final qrcodeRawValue = args['qrcodeRawValue'];
 
     return Scaffold(
       appBar: AppBar(
@@ -46,10 +46,10 @@ class _QrViewState extends State<QrView> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 24),
-              buildQr(qrCode),
+              _buildQrcodeView(qrcodeRawValue),
               const SizedBox(height: 12),
               ElevatedButton(
-                onPressed: () => _onDownload(qrCode),
+                onPressed: () => _onDownload(qrcodeRawValue),
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text('Download'),
@@ -63,7 +63,7 @@ class _QrViewState extends State<QrView> {
     );
   }
 
-  Widget buildQr(data) {
+  Widget _buildQrcodeView(data) {
     return QrImage(
       padding: const EdgeInsets.all(10),
       size: 250,

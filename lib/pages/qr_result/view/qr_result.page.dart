@@ -14,11 +14,12 @@ class QrResultPage extends StatefulWidget {
 }
 
 class _QrResultPageState extends State<QrResultPage> {
+  String? _copyText = '';
+
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, String?>;
-    final rawQrCode = args['code'] ?? '';
-    // final format = args['format'] ?? '';
+    final qrcode = qr_tools.parse(args['qrcodeRawValue'] ?? '');
 
     return Scaffold(
       appBar: AppBar(
@@ -33,17 +34,17 @@ class _QrResultPageState extends State<QrResultPage> {
                 const SizedBox(height: 40),
                 _buildQrTypeLogo(),
                 const SizedBox(height: 52),
-                _buildResultView(rawQrCode),
+                _buildResultView(qrcode),
               ],
             ),
           ),
-          _buildFatButton(rawQrCode),
+          _buildFatButton(_copyText),
         ],
       ),
     );
   }
 
-  _buildFatButton(code) {
+  _buildFatButton(copyText) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
       width: double.infinity,
@@ -56,7 +57,7 @@ class _QrResultPageState extends State<QrResultPage> {
           ),
         ),
         onPressed: () {
-          Clipboard.setData(ClipboardData(text: code)).then((_) {
+          Clipboard.setData(ClipboardData(text: copyText)).then((_) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                 content: Text('Text copied'),
@@ -85,8 +86,7 @@ class _QrResultPageState extends State<QrResultPage> {
     );
   }
 
-  Widget _buildResultView(rawCode) {
-    final barcode = qr_tools.parse(rawCode);
+  Widget _buildResultView(Barcode barcode) {
     // print('==========================');
     // print(barcode.valueType);
     // print('==========================');
@@ -118,13 +118,18 @@ class _QrResultPageState extends State<QrResultPage> {
       //   break;
       case BarcodeValueType.wifi:
         BarcodeWifi barcodeWifi = barcode as BarcodeWifi;
+        _copyText = barcodeWifi.password;
         return ResultWifi(barcodeWifi);
+
       case BarcodeValueType.phone:
         BarcodePhone barcodePhone = barcode as BarcodePhone;
+        _copyText = barcodePhone.number;
         return ResultPhone(barcodePhone);
+
       case BarcodeValueType.text:
       default:
         BarcodeText barcodeText = barcode as BarcodeText;
+        _copyText = barcodeText.rawValue;
         return ResultText(barcodeText);
     }
   }

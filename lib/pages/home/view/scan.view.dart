@@ -29,7 +29,9 @@ class _ScanViewState extends State<ScanView> {
             onPressed: () {
               qr_tools.decodeFromImage().then((reslult) {
                 if (reslult == null) return;
-                Navigator.pushNamed(context, QrResultPage.routeName, arguments: {'code': reslult});
+                Navigator.pushNamed(context, QrResultPage.routeName, arguments: {
+                  'qrcodeRawValue': reslult,
+                });
               });
             },
           ),

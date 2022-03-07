@@ -37,7 +37,7 @@ class CreateView extends StatelessWidget {
         ),
         tileColor: Colors.white,
         onTap: () {
-          Navigator.restorablePushNamed(ctx, QrCreatePage.routeName, arguments: {'qrType': qrType.type});
+          Navigator.pushNamed(ctx, QrCreatePage.routeName, arguments: qrType.type);
         },
         title: Text(qrType.name, style: Theme.of(ctx).textTheme.titleMedium),
         trailing: const Icon(Icons.chevron_right),

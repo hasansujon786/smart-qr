@@ -29,7 +29,7 @@ class _CameraState extends State<Camera> {
           scanLineColor: Colors.red,
           onCapture: (data) {
             Navigator.pushNamed(context, QrResultPage.routeName, arguments: {
-              'code': data,
+              'qrcodeRawValue': data,
             }).then((value) {
               controller.resume();
             });

@@ -21,17 +21,18 @@ class _QrCreatePageState extends State<QrCreatePage> {
     _formState[key] = val;
   }
 
-  void _onDone(String qrType) {
+  void _onDone(qr_tools.QrcodeValueType qrcodeType) {
     _formKey.currentState?.save();
-    var qrCode = qr_tools.convertTextToQrCode(qrType, _formState);
-    print(qrCode);
-    Navigator.restorablePushNamed(context, QrView.routeName, arguments: {'qrCode': qrCode});
+    var qrcodeRawValue = qr_tools.encodeToMeCard(qrcodeType, _formState);
+    Navigator.pushNamed(context, QrView.routeName, arguments: {
+      'qrcodeRawValue': qrcodeRawValue.toString(),
+    });
   }
 
   //***************************** Widget *************************** //
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, String?>;
+    final qrcodeType = ModalRoute.of(context)!.settings.arguments as qr_tools.QrcodeValueType;
 
     return Scaffold(
       appBar: AppBar(
@@ -49,11 +50,11 @@ class _QrCreatePageState extends State<QrCreatePage> {
             children: [
               Form(
                 key: _formKey,
-                child: buildQrInputFeilds(args['qrType'] ?? 'text'),
+                child: buildQrInputFeilds(qrcodeType),
               ),
               const SizedBox(height: 12),
               ElevatedButton(
-                onPressed: () => _onDone(args['qrType'] ?? 'text'),
+                onPressed: () => _onDone(qrcodeType),
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text('Done'),
@@ -66,13 +67,13 @@ class _QrCreatePageState extends State<QrCreatePage> {
     );
   }
 
-  buildQrInputFeilds(String qrType) {
-    switch (qrType) {
-      case 'wifi':
+  buildQrInputFeilds(qr_tools.QrcodeValueType qrcodeType) {
+    switch (qrcodeType) {
+      case qr_tools.QrcodeValueType.wifi:
         return QrInputWifi(updateFormData: _updateFromData);
-      case 'tel':
+      case qr_tools.QrcodeValueType.phone:
         return QrInputTel(updateFormData: _updateFromData);
-      case 'text':
+      case qr_tools.QrcodeValueType.text:
       default:
         return QrInputText(updateFormData: _updateFromData);
     }
