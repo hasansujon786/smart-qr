@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
-import 'package:smart_qr/pages/qr_result/wigets/wigets.dart';
+import '../wigets/wigets.dart';
 
 class QrResultPage extends StatefulWidget {
   const QrResultPage({Key? key}) : super(key: key);
@@ -29,14 +29,16 @@ class _QrResultPageState extends State<QrResultPage> {
       body: Column(
         children: [
           Expanded(
-            child: Column(
-              children: [
-                const SizedBox(height: 40),
-                _buildQrTypeLogo(),
-                const SizedBox(height: 52),
-                _buildResultView(qrcode),
-              ],
-            ),
+            child: Column(children: [
+              const SizedBox(height: 40),
+              QrTypeLogo(qrcode),
+              const SizedBox(height: 40),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                width: double.infinity,
+                child: _buildResultView(qrcode),
+              ),
+            ]),
           ),
           _buildFatButton(_copyText),
         ],
@@ -68,21 +70,6 @@ class _QrResultPageState extends State<QrResultPage> {
         },
         child: const Text('Copy Text', style: TextStyle(fontSize: 16)),
       ),
-    );
-  }
-
-  _buildQrTypeLogo() {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: Colors.grey[300],
-        boxShadow: [
-          BoxShadow(color: Colors.grey.shade400, blurRadius: 3),
-        ],
-      ),
-      width: 100,
-      height: 100,
-      child: const Center(child: Text('QR', style: TextStyle(fontSize: 32))),
     );
   }
 
@@ -126,6 +113,7 @@ class _QrResultPageState extends State<QrResultPage> {
         _copyText = barcodePhone.number;
         return ResultPhone(barcodePhone);
 
+      // TODO: change default
       case BarcodeValueType.text:
       default:
         BarcodeText barcodeText = barcode as BarcodeText;
