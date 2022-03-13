@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+  // primary: '#9966FF',
+  // primaryDark: 'purple.600',
 class Palette {
   static final darkerGrey = Colors.grey[600];
   static const Color lightGrey = Color(0xffE5E5E5);

@@ -113,12 +113,14 @@ class _QrResultPageState extends State<QrResultPage> {
         _copyText = barcodePhone.number;
         return ResultPhone(barcodePhone);
 
-      // TODO: change default
       case BarcodeValueType.text:
-      default:
         BarcodeText barcodeText = barcode as BarcodeText;
         _copyText = barcodeText.rawValue;
         return ResultText(barcodeText);
+
+      default:
+        _copyText = barcode.rawValue;
+        return ResultDefault(barcode);
     }
   }
 }

@@ -14,13 +14,9 @@ class CreateView extends StatelessWidget {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 12, bottom: 2),
-              child: Text('Qr Code', style: Theme.of(context).textTheme.titleLarge),
-            ),
             ...qrCodeTypes.map((qtType) => buildListItem(context, qtType))
           ],
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,8 +27,10 @@ class CreateView extends StatelessWidget {
 
   buildListItem(BuildContext ctx, QrType qrType) {
     return Container(
-      margin: const EdgeInsets.only(top: 6),
+      margin: const EdgeInsets.only(top: 7),
       child: ListTile(
+        contentPadding: const EdgeInsets.symmetric(vertical: 2, horizontal: 10),
+        minLeadingWidth: 20,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.0),
         ),
@@ -40,7 +38,14 @@ class CreateView extends StatelessWidget {
         onTap: () {
           Navigator.pushNamed(ctx, QrCreatePage.routeName, arguments: qrType.type);
         },
-        title: Text(qrType.name, style: Theme.of(ctx).textTheme.titleMedium),
+        leading: CircleAvatar(
+          backgroundColor: Theme.of(ctx).colorScheme.primary.withOpacity(0.5),
+          child: Icon(qrType.icon, color: Colors.white),
+        ),
+        title: Text(
+          qrType.name,
+          style: Theme.of(ctx).textTheme.titleMedium?.merge(const TextStyle(fontWeight: FontWeight.w500)),
+        ),
         trailing: const Icon(Icons.chevron_right, color: Palette.lightGrey),
       ),
     );

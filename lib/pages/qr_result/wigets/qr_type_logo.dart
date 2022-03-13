@@ -39,8 +39,9 @@ class QrTypeLogo extends StatelessWidget {
       case BarcodeValueType.phone:
         return 'Tel';
       case BarcodeValueType.text:
-      default:
         return 'Text';
+      default:
+        return 'QR';
     }
   }
 }

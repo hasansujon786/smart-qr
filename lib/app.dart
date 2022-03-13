@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
             // ),
             colorScheme: const ColorScheme.light(
               // primary: Colors.black, //flat button text color
-              secondary: Colors.redAccent,
+              // secondary: Colors.redAccent,
             ),
           ),
           darkTheme: ThemeData.dark(),

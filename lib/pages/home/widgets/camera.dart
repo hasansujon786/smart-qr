@@ -84,8 +84,8 @@ Widget iconButtonRounded(icon, {required onPressed}) {
       blur: 10,
       opacity: 0.2,
       child: SizedBox(
-        width: 56,
-        height: 56,
+        width: 58,
+        height: 58,
         child: Icon(icon, color: Colors.white, size: 24),
       ),
     ),
