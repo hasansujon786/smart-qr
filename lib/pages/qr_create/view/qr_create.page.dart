@@ -39,7 +39,6 @@ class _QrCreatePageState extends State<QrCreatePage> {
         title: const Text('Create QR code'),
         centerTitle: true,
       ),
-      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         reverse: true,
@@ -48,9 +47,14 @@ class _QrCreatePageState extends State<QrCreatePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Form(
-                key: _formKey,
-                child: buildQrInputFeilds(qrcodeType),
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                  child: Form(
+                    key: _formKey,
+                    child: buildQrInputFeilds(qrcodeType),
+                  ),
+                ),
               ),
               const SizedBox(height: 12),
               ElevatedButton(

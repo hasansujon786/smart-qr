@@ -12,19 +12,13 @@ class QrFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label),
-        const SizedBox(height: 8),
-        TextFormField(
-          onSaved: onSaved,
-          decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            // labelText: label,
-          ),
-        )
-      ],
+    return TextFormField(
+      onSaved: onSaved,
+      decoration: InputDecoration(
+        label: Text(label),
+        border: const OutlineInputBorder(),
+        // labelText: label,
+      ),
     );
   }
 }

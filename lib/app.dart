@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'config/palette.dart';
+import 'config/config.dart';
 import 'domain/settings/settings_controller.dart';
 import 'pages/home/home.dart';
 import 'pages/qr_create/qr_create.dart';
@@ -35,22 +35,18 @@ class MyApp extends StatelessWidget {
           // returns to the app after it has been killed while running in the
           // background.
           restorationScopeId: 'app',
-          // Define a light and dark color theme. Then, read the user's
-          // preferred ThemeMode (light, dark, or system default) from the
-          // SettingsController to display the correct theme.
-          // theme: ThemeData(),
           theme: ThemeData(
             visualDensity: VisualDensity.adaptivePlatformDensity,
-            canvasColor: Palette.lightGrey,
-            primaryColor: Palette.darkerGrey,
-            buttonTheme: const ButtonThemeData(
-              buttonColor: Palette.darkerGrey,
-              textTheme: ButtonTextTheme.primary,
-            ),
+            canvasColor: Palette.lightBackground,
+            // primaryColor: Palette.darkerGrey,
+            // buttonTheme: const ButtonThemeData(
+            //   buttonColor: Palette.darkerGrey,
+            //   textTheme: ButtonTextTheme.primary,
+            // ),
             colorScheme: const ColorScheme.light(
-                // primary: Colors.black, //flat button text color
-                // secondary: Palette.lightBlue,
-                ),
+              // primary: Colors.black, //flat button text color
+              secondary: Colors.redAccent,
+            ),
           ),
           darkTheme: ThemeData.dark(),
           themeMode: settingsController.themeMode,
@@ -95,4 +91,3 @@ class MyApp extends StatelessWidget {
   // path_provider
   // qr_code_scanner
   // qr_flutter
-  // start ms-settings:developers

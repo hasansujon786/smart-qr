@@ -1,7 +1,9 @@
 // import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
 import 'package:scan/scan.dart';
-import 'package:smart_qr/pages/qr_result/view/qr_result.page.dart';
+
+import '../../qr_result/qr_result.dart';
+import '../../../ui/ui.dart';
 
 class Camera extends StatefulWidget {
   const Camera({Key? key}) : super(key: key);
@@ -26,7 +28,7 @@ class _CameraState extends State<Camera> {
         ScanView(
           controller: controller,
           scanAreaScale: .7,
-          scanLineColor: Colors.red,
+          scanLineColor: Colors.red.shade400,
           onCapture: (data) {
             Navigator.pushNamed(context, QrResultPage.routeName, arguments: {
               'qrcodeRawValue': data,
@@ -38,12 +40,12 @@ class _CameraState extends State<Camera> {
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.only(bottom: 20),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 iconButtonRounded(
-                  const Icon(Icons.flash_on, color: Colors.white),
+                  Icons.flash_on,
                   onPressed: () {
                     controller.toggleTorchMode();
                   },
@@ -75,15 +77,18 @@ class _CameraState extends State<Camera> {
 }
 
 Widget iconButtonRounded(icon, {required onPressed}) {
-  // TODO: Glassmorphism Button
-  // https://www.youtube.com/watch?v=ZVW2NR52KLc&list=TLPQMTkwMjIwMjLv1wY_Upj8Yg&index=2
   return TextButton(
-    style: TextButton.styleFrom(
-      fixedSize: const Size(56, 56),
-      backgroundColor: Colors.redAccent,
-      shape: const CircleBorder(),
+    style: TextButton.styleFrom(shape: const CircleBorder()),
+    child: GlassMorphism(
+      borderRadius: 50,
+      blur: 10,
+      opacity: 0.2,
+      child: SizedBox(
+        width: 56,
+        height: 56,
+        child: Icon(icon, color: Colors.white, size: 24),
+      ),
     ),
-    child: icon,
     onPressed: onPressed,
   );
 }

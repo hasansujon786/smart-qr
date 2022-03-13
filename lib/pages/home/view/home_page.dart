@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './view.dart';
+import '../home.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -12,8 +12,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentViewIndex = 0;
+  int _currentViewIndex = 1;
   static const List<Widget> _screens = <Widget>[
+    HistoryView(),
     ScanView(),
     CreateView(),
   ];
@@ -23,27 +24,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       // Tips: To persists screen state use IndexdStack()
       body: _screens.elementAt(_currentViewIndex),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentViewIndex,
-        selectedItemColor: Colors.amber[800],
-        unselectedItemColor: Colors.grey[600],
-        selectedFontSize: 12,
-        unselectedFontSize: 12,
-        /* selectedIconTheme: const IconThemeData(size: 24), */
-        /* iconSize: 20, */
-        type: BottomNavigationBarType.fixed,
-        /* backgroundColor: Theme.of(context).primaryColor, */
-        onTap: (int index) => setState(() => _currentViewIndex = index),
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.qr_code_scanner_outlined),
-            label: 'Scan',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.qr_code_outlined),
-            label: 'Create',
-          ),
-        ],
+      bottomNavigationBar: BottomNavBar(
+        index: _currentViewIndex,
+        onTap: (index) => setState(() => _currentViewIndex = index),
       ),
     );
   }

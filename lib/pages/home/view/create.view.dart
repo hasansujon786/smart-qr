@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../config/config.dart';
 import '../../qr_create/qr_create.dart';
 
 class CreateView extends StatelessWidget {
@@ -40,7 +41,7 @@ class CreateView extends StatelessWidget {
           Navigator.pushNamed(ctx, QrCreatePage.routeName, arguments: qrType.type);
         },
         title: Text(qrType.name, style: Theme.of(ctx).textTheme.titleMedium),
-        trailing: const Icon(Icons.chevron_right),
+        trailing: const Icon(Icons.chevron_right, color: Palette.lightGrey),
       ),
     );
   }
