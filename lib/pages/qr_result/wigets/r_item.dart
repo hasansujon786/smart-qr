@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class RItem extends StatelessWidget {
-  const RItem({
+class QrResultItem extends StatelessWidget {
+  const QrResultItem({
     Key? key,
     required this.title,
     required this.content,

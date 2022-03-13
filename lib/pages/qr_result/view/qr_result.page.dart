@@ -36,7 +36,10 @@ class _QrResultPageState extends State<QrResultPage> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 width: double.infinity,
-                child: _buildResultView(qrcode),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: _buildResultItems(qrcode),
+                ),
               ),
             ]),
           ),
@@ -73,26 +76,13 @@ class _QrResultPageState extends State<QrResultPage> {
     );
   }
 
-  Widget _buildResultView(Barcode barcode) {
-    // print('==========================');
-    // print(barcode.valueType);
-    // print('==========================');
-
+  List<Widget> _buildResultItems(Barcode barcode) {
     switch (barcode.valueType) {
-      // case BarcodeValueType.url:
-      //   BarcodeUrl barcodeUrl = barcode as BarcodeUrl;
-      //   break;
       // case BarcodeValueType.contactInfo:
       //   BarcodeContactInfo barcodeContactInfo = barcode as BarcodeContactInfo;
       //   break;
       // case BarcodeValueType.location:
       //   BarcodeLocation barcodeLocation = barcode as BarcodeLocation;
-      //   break;
-      // case BarcodeValueType.email:
-      //   BarcodeEmail barcodeEmail = barcode as BarcodeEmail;
-      //   break;
-      // case BarcodeValueType.sms:
-      //   BarcodeSms barcodeSms = barcode as BarcodeSms;
       //   break;
       // case BarcodeValueType.calendarEvent:
       //   BarcodeCalendarEvent barcodeCalendarEvent = barcode as BarcodeCalendarEvent;
@@ -100,27 +90,63 @@ class _QrResultPageState extends State<QrResultPage> {
       // case BarcodeValueType.driverLicense:
       //   BarcodeDriverLicense barcodeDriverLicense = barcode as BarcodeDriverLicense;
       //   break;
-      // case BarcodeValueType.product:
-      //   BarcodeProduct barcodeProduct = barcode as BarcodeProduct;
-      //   break;
+
+      case BarcodeValueType.sms:
+        BarcodeSms barcodeSms = barcode as BarcodeSms;
+        return [
+          QrResultItem(title: 'Phone Number', content: barcodeSms.phoneNumber ?? ''),
+          QrResultItem(title: 'Message', content: barcodeSms.message ?? ''),
+        ];
+
+      case BarcodeValueType.email:
+        BarcodeEmail barcodeEmail = barcode as BarcodeEmail;
+        return [
+          ...barcodeEmail.recipients.map((recipient) {
+            return recipient == '' ? Container() : QrResultItem(title: 'Email', content: recipient);
+          }),
+          QrResultItem(title: 'Subject', content: barcodeEmail.subject ?? ''),
+          QrResultItem(title: '', content: barcodeEmail.body ?? ''),
+        ];
+
+      case BarcodeValueType.product:
+        BarcodeProduct barcodeProduct = barcode as BarcodeProduct;
+        return [
+          QrResultItem(title: 'Product Code', content: barcodeProduct.code.toString()),
+        ];
+
+      case BarcodeValueType.url:
+        BarcodeUrl barcodeUrl = barcode as BarcodeUrl;
+        return [
+          QrResultItem(title: 'Url', content: barcodeUrl.url ?? ''),
+        ];
+
       case BarcodeValueType.wifi:
         BarcodeWifi barcodeWifi = barcode as BarcodeWifi;
         _copyText = barcodeWifi.password;
-        return ResultWifi(barcodeWifi);
+        return [
+          QrResultItem(title: 'SSID', content: barcodeWifi.ssid ?? ''),
+          QrResultItem(title: 'Password', content: barcodeWifi.password ?? ''),
+        ];
 
       case BarcodeValueType.phone:
         BarcodePhone barcodePhone = barcode as BarcodePhone;
         _copyText = barcodePhone.number;
-        return ResultPhone(barcodePhone);
+        return [
+          QrResultItem(title: 'Number', content: barcodePhone.number ?? ''),
+        ];
 
       case BarcodeValueType.text:
         BarcodeText barcodeText = barcode as BarcodeText;
         _copyText = barcodeText.rawValue;
-        return ResultText(barcodeText);
+        return [
+          QrResultItem(title: '', content: barcodeText.rawValue),
+        ];
 
       default:
         _copyText = barcode.rawValue;
-        return ResultDefault(barcode);
+        return [
+          QrResultItem(title: '', content: barcode.rawValue),
+        ];
     }
   }
 }

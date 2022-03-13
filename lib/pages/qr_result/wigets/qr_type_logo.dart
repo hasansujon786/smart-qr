@@ -26,14 +26,19 @@ class QrTypeLogo extends StatelessWidget {
 
   String _buildLogoText(Barcode barcode) {
     switch (barcode.valueType) {
-      // case BarcodeValueType.url:
       // case BarcodeValueType.contactInfo:
       // case BarcodeValueType.location:
-      // case BarcodeValueType.email:
-      // case BarcodeValueType.sms:
       // case BarcodeValueType.calendarEvent:
       // case BarcodeValueType.driverLicense:
-      // case BarcodeValueType.product:
+
+      case BarcodeValueType.email:
+        return 'Email';
+      case BarcodeValueType.sms:
+        return 'SMS';
+      case BarcodeValueType.product:
+        return 'Product';
+      case BarcodeValueType.url:
+        return 'URL';
       case BarcodeValueType.wifi:
         return 'Wifi';
       case BarcodeValueType.phone:
