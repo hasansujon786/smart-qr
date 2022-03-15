@@ -65,17 +65,10 @@ class _QrCreatePageState extends State<QrCreatePage> {
               const SizedBox(height: 12),
               ElevatedButton(
                 onPressed: () => _onGenerateQrCode(qrcodeType),
+                onLongPress: () => _log(qrcodeType),
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text('Generate'),
-                ),
-              ),
-              const SizedBox(height: 12),
-              ElevatedButton(
-                onPressed: () => _log(qrcodeType),
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('log'),
                 ),
               ),
             ],

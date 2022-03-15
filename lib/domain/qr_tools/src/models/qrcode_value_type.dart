@@ -1,13 +1,13 @@
 enum QrcodeValueType {
   unknown,
   contactInfo,
-  email,
-  phone,
+  email,       // i
+  phone,       // i
+  sms,         // i
+  text,        // i
+  url,         // i
+  wifi,        // i
   product,
-  sms,
-  text,
-  url,
-  wifi,
   location,
   calendarEvent,
   driverLicense,

@@ -130,6 +130,9 @@ String encodeToMeCard(qrcodeType, formState) {
         subject: formState['subject'],
       ).toString();
 
+    case QrcodeValueType.url:
+      return formState['url'];
+
     case QrcodeValueType.text:
     default:
       return formState['text'];

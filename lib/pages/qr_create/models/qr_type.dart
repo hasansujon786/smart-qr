@@ -39,5 +39,10 @@ const qrCodeTypes = [
     type: QrcodeValueType.email,
     name: 'Email',
     icon: Icons.email,
-  )
+  ),
+  QrType(
+    type: QrcodeValueType.url,
+    name: 'Url',
+    icon: Icons.mouse,
+  ),
 ];
