@@ -43,13 +43,13 @@ class _QrResultPageState extends State<QrResultPage> {
               ),
             ]),
           ),
-          _buildFatButton(_copyText),
+          _buildFatButton(_copyText, args['qrcodeRawValue']),
         ],
       ),
     );
   }
 
-  _buildFatButton(copyText) {
+  _buildFatButton(copyText, rawCode) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
       width: double.infinity,
@@ -61,6 +61,7 @@ class _QrResultPageState extends State<QrResultPage> {
             borderRadius: BorderRadius.circular(12), // <-- Radius
           ),
         ),
+        onLongPress: () => print(rawCode),
         onPressed: () {
           Clipboard.setData(ClipboardData(text: copyText)).then((_) {
             ScaffoldMessenger.of(context).showSnackBar(

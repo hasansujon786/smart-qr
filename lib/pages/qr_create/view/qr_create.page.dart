@@ -29,6 +29,12 @@ class _QrCreatePageState extends State<QrCreatePage> {
     });
   }
 
+  void _log(qr_tools.QrcodeValueType qrcodeType) {
+    _formKey.currentState?.save();
+    var qrcodeRawValue = qr_tools.encodeToMeCard(qrcodeType, _formState);
+    print(qrcodeRawValue);
+  }
+
   //***************************** Widget *************************** //
   @override
   Widget build(BuildContext context) {
@@ -52,7 +58,7 @@ class _QrCreatePageState extends State<QrCreatePage> {
                   padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
                   child: Form(
                     key: _formKey,
-                    child: buildQrInputFeilds(qrcodeType),
+                    child: QrCreateForm(qrcodeType, _updateFromData),
                   ),
                 ),
               ),
@@ -61,25 +67,21 @@ class _QrCreatePageState extends State<QrCreatePage> {
                 onPressed: () => _onDone(qrcodeType),
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Text('Done'),
+                  child: Text('Generate'),
                 ),
-              )
+              ),
+              const SizedBox(height: 12),
+              ElevatedButton(
+                onPressed: () => _log(qrcodeType),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text('log'),
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  buildQrInputFeilds(qr_tools.QrcodeValueType qrcodeType) {
-    switch (qrcodeType) {
-      case qr_tools.QrcodeValueType.wifi:
-        return QrInputWifi(updateFormData: _updateFromData);
-      case qr_tools.QrcodeValueType.phone:
-        return QrInputTel(updateFormData: _updateFromData);
-      case qr_tools.QrcodeValueType.text:
-      default:
-        return QrInputText(updateFormData: _updateFromData);
-    }
   }
 }
