@@ -105,17 +105,30 @@ class CodePainter extends CustomPainter {
   }
 }
 
-MeCard encodeToMeCard(qrcodeType, formState) {
+String encodeToMeCard(qrcodeType, formState) {
   switch (qrcodeType) {
     case QrcodeValueType.wifi:
       return MeCard.wifi(
         ssid: formState['ssid'],
         password: formState['pass'],
         type: formState['type'],
-      );
+      ).toString();
 
     case QrcodeValueType.phone:
-      return MeCard.contact(tel: formState['tel']);
+      return MeCard.contact(tel: formState['tel']).toString();
+
+    case QrcodeValueType.sms:
+      return GenerateSms(
+        phoneNumber: formState['phoneNumber'],
+        message: formState['message'],
+      ).toString();
+
+    case QrcodeValueType.email:
+      return MeCard.email(
+        email: formState['email'],
+        message: formState['message'],
+        subject: formState['subject'],
+      ).toString();
 
     case QrcodeValueType.text:
     default:

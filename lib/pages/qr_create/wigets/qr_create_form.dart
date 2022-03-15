@@ -17,8 +17,11 @@ class QrCreateForm extends StatelessWidget {
       case qr_tools.QrcodeValueType.phone:
         return QrInputTel(updateFormData: updateFromData);
 
-      // case qr_tools.QrcodeValueType.url:
-      //   return QrInputUrl(updateFormData: updateFromData);
+      case qr_tools.QrcodeValueType.sms:
+        return QrInputSms(updateFormData: updateFromData);
+
+      case qr_tools.QrcodeValueType.email:
+        return QrInputEmail(updateFormData: updateFromData);
 
       case qr_tools.QrcodeValueType.text:
       default:

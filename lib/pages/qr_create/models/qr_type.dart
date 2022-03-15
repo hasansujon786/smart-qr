@@ -30,4 +30,14 @@ const qrCodeTypes = [
     name: 'Wifi',
     icon: Icons.wifi,
   ),
+  QrType(
+    type: QrcodeValueType.sms,
+    name: 'SMS',
+    icon: Icons.message,
+  ),
+  QrType(
+    type: QrcodeValueType.email,
+    name: 'Email',
+    icon: Icons.email,
+  )
 ];

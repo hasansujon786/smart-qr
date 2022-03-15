@@ -98,6 +98,27 @@ class MeCard {
     return MeCard(type: 'WIFI', fields: fields);
   }
 
+  /// Create a Email MeCard
+  /// MATMSG:TO:youremail@gmail.com;SUB:this is subject;BODY:this is email body;;
+  factory MeCard.email({
+    required String email,
+    String? subject,
+    String? message,
+  }) {
+    final fields = <MeTuple>[];
+
+    fields.add(MeTuple('TO', email));
+
+    if (subject != null) {
+      fields.add(MeTuple('SUB', subject));
+    }
+    if (message != null) {
+      fields.add(MeTuple('BODY', message));
+    }
+
+    return MeCard(type: 'MATMSG', fields: fields);
+  }
+
   /// MeCard type
   final String type;
 
@@ -167,4 +188,22 @@ class MeTuple {
 
   /// The tuple value
   final String val;
+}
+
+/// Create a Sms MeCard
+/// SMSTO:34343434343:this is sms message
+class GenerateSms {
+  GenerateSms({
+    required this.phoneNumber,
+    required this.message,
+  });
+
+  final String type = 'sms';
+  final String phoneNumber;
+  final String message;
+
+  @override
+  String toString() {
+    return 'SMSTO:$phoneNumber:$message';
+  }
 }

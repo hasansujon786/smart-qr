@@ -21,16 +21,16 @@ class _QrCreatePageState extends State<QrCreatePage> {
     _formState[key] = val;
   }
 
-  void _onDone(qr_tools.QrcodeValueType qrcodeType) {
+  void _onGenerateQrCode(qr_tools.QrcodeValueType qrcodeType) {
     _formKey.currentState?.save();
-    var qrcodeRawValue = qr_tools.encodeToMeCard(qrcodeType, _formState);
-    Navigator.pushNamed(context, QrView.routeName, arguments: {
-      'qrcodeRawValue': qrcodeRawValue.toString(),
-    });
+    String qrcodeRawValue = qr_tools.encodeToMeCard(qrcodeType, _formState);
+    Navigator.pushNamed(context, QrView.routeName, arguments: {'qrcodeRawValue': qrcodeRawValue});
   }
 
   void _log(qr_tools.QrcodeValueType qrcodeType) {
     _formKey.currentState?.save();
+    // print(_formState);
+
     var qrcodeRawValue = qr_tools.encodeToMeCard(qrcodeType, _formState);
     print(qrcodeRawValue);
   }
@@ -64,7 +64,7 @@ class _QrCreatePageState extends State<QrCreatePage> {
               ),
               const SizedBox(height: 12),
               ElevatedButton(
-                onPressed: () => _onDone(qrcodeType),
+                onPressed: () => _onGenerateQrCode(qrcodeType),
                 child: const Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text('Generate'),
