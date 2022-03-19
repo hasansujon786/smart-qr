@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app.dart';
 import 'domain/settings/settings_controller.dart';
@@ -23,5 +24,7 @@ void main() async {
     systemNavigationBarColor: Colors.white,
     systemNavigationBarIconBrightness: Brightness.dark,
   ));
-  runApp(MyApp(settingsController: settingsController));
+  runApp(ProviderScope(
+    child: MyApp(settingsController: settingsController),
+  ));
 }

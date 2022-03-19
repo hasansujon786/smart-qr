@@ -18,18 +18,24 @@ dependencies:
   path_provider: ^2.0.9
   qr_flutter: ^4.0.0
   barcode_parser: ^0.2.0
+  hive: ^2.0.6
+  hive_flutter: ^1.1.0
+  flutter_riverpod: ^1.0.3
+  uuid: ^3.0.6
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^1.0.0
+  hive_generator: ^1.1.2
+  build_runner: ^2.1.8
 
 flutter:
   uses-material-design: true
 
   # Enable generation of localized Strings from arb files.
-  generate: true
+  # generate: false
 
   assets:
     # Add assets from the images directory to the application.
