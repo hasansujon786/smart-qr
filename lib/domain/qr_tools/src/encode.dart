@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui' as ui;
 
+import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gallery_saver/gallery_saver.dart';
@@ -107,33 +108,33 @@ class CodePainter extends CustomPainter {
 
 String encodeToMeCard(qrcodeType, formState) {
   switch (qrcodeType) {
-    case QrcodeValueType.wifi:
+    case BarcodeValueType.wifi:
       return MeCard.wifi(
         ssid: formState['ssid'],
         password: formState['pass'],
         type: formState['type'],
       ).toString();
 
-    case QrcodeValueType.phone:
+    case BarcodeValueType.phone:
       return MeCard.contact(tel: formState['tel']).toString();
 
-    case QrcodeValueType.sms:
+    case BarcodeValueType.sms:
       return GenerateSms(
         phoneNumber: formState['phoneNumber'],
         message: formState['message'],
       ).toString();
 
-    case QrcodeValueType.email:
+    case BarcodeValueType.email:
       return MeCard.email(
         email: formState['email'],
         message: formState['message'],
         subject: formState['subject'],
       ).toString();
 
-    case QrcodeValueType.url:
+    case BarcodeValueType.url:
       return formState['url'];
 
-    case QrcodeValueType.text:
+    case BarcodeValueType.text:
     default:
       return formState['text'];
   }

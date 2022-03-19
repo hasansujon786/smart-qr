@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_qr/domain/qr_tools/qr_tools.dart';
-import 'package:smart_qr/providers/history_provider.dart';
+import 'package:smart_qr/pages/home/home.dart';
+import 'package:smart_qr/providers/providers.dart';
 
 class HistoryView extends ConsumerWidget {
   const HistoryView({Key? key}) : super(key: key);
@@ -12,19 +12,18 @@ class HistoryView extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('HistoryView'),
+        title: const Text('History'),
         centerTitle: true,
       ),
-      body: ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          return Text(qrHistories[index].rawValue);
-        },
-        itemCount: qrHistories.length,
-        // qrHistories.cou
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.builder(
+          itemCount: qrHistories.length,
+          itemBuilder: (BuildContext context, int index) {
+            return QrHistoryItem(history: qrHistories[index]);
+          },
+        ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        ref.read(qrHistoryProvider.notifier).add('sdfsfsdf', QrcodeValueType.sms);
-      }),
     );
   }
 }

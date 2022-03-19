@@ -1,6 +1,5 @@
+import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
-
-import '../../../domain/qr_tools/qr_tools.dart';
 
 class QrType {
   const QrType({
@@ -10,38 +9,38 @@ class QrType {
   });
 
   final String name;
-  final QrcodeValueType type;
+  final BarcodeValueType type;
   final IconData icon;
 }
 
 const qrCodeTypes = [
   QrType(
-    type: QrcodeValueType.text,
+    type: BarcodeValueType.text,
     name: 'Text',
     icon: Icons.description,
   ),
   QrType(
-    type: QrcodeValueType.phone,
+    type: BarcodeValueType.phone,
     name: 'Phone',
     icon: Icons.phone_iphone,
   ),
   QrType(
-    type: QrcodeValueType.wifi,
+    type: BarcodeValueType.wifi,
     name: 'Wifi',
     icon: Icons.wifi,
   ),
   QrType(
-    type: QrcodeValueType.sms,
+    type: BarcodeValueType.sms,
     name: 'SMS',
     icon: Icons.message,
   ),
   QrType(
-    type: QrcodeValueType.email,
+    type: BarcodeValueType.email,
     name: 'Email',
     icon: Icons.email,
   ),
   QrType(
-    type: QrcodeValueType.url,
+    type: BarcodeValueType.url,
     name: 'Url',
     icon: Icons.mouse,
   ),

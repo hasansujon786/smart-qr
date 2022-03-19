@@ -1,3 +1,4 @@
+import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
@@ -21,13 +22,13 @@ class _QrCreatePageState extends State<QrCreatePage> {
     _formState[key] = val;
   }
 
-  void _onGenerateQrCode(qr_tools.QrcodeValueType qrcodeType) {
+  void _onGenerateQrCode(BarcodeValueType qrcodeType) {
     _formKey.currentState?.save();
     String qrcodeRawValue = qr_tools.encodeToMeCard(qrcodeType, _formState);
     Navigator.pushNamed(context, QrView.routeName, arguments: {'qrcodeRawValue': qrcodeRawValue});
   }
 
-  void _log(qr_tools.QrcodeValueType qrcodeType) {
+  void _log(BarcodeValueType qrcodeType) {
     _formKey.currentState?.save();
     // print(_formState);
 
@@ -38,7 +39,7 @@ class _QrCreatePageState extends State<QrCreatePage> {
   //***************************** Widget *************************** //
   @override
   Widget build(BuildContext context) {
-    final qrcodeType = ModalRoute.of(context)!.settings.arguments as qr_tools.QrcodeValueType;
+    final qrcodeType = ModalRoute.of(context)!.settings.arguments as BarcodeValueType;
 
     return Scaffold(
       appBar: AppBar(

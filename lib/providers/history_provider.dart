@@ -1,14 +1,11 @@
+import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_qr/domain/qr_tools/qr_tools.dart';
 import 'package:uuid/uuid.dart';
 
 var _uuid = const Uuid();
 
-final _sampleHistories = [
-  QrHistory('qr 1', type: QrcodeValueType.sms),
-  QrHistory('qr 2', type: QrcodeValueType.sms),
-];
+final List<QrHistory> _sampleHistories = [];
 
 final qrHistoryProvider = StateNotifierProvider<QrHistoryNotifier, List<QrHistory>>((ref) {
   return QrHistoryNotifier(ref.read, _sampleHistories);
@@ -19,8 +16,8 @@ class QrHistoryNotifier extends StateNotifier<List<QrHistory>> {
 
   final Reader read;
 
-  void add(String raw, QrcodeValueType type) {
-    state = [...state, QrHistory(raw, type: type)];
+  void add(String raw, BarcodeValueType type) {
+    state = [QrHistory(raw, type: type), ...state];
   }
 
   // void edit({required String id, required String description}) {
@@ -46,11 +43,14 @@ class QrHistoryNotifier extends StateNotifier<List<QrHistory>> {
 class QrHistory {
   final String id;
   final String rawValue;
-  final QrcodeValueType type;
+  final BarcodeValueType type;
+  final DateTime createdAt;
 
   QrHistory(
     this.rawValue, {
     required this.type,
+    DateTime? createdAt,
     String? id,
-  }) : id = id ?? _uuid.v4();
+  })  : createdAt = createdAt ?? DateTime.now(),
+        id = id ?? _uuid.v4();
 }

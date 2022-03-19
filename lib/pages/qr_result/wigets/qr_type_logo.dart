@@ -18,35 +18,42 @@ class QrTypeLogo extends StatelessWidget {
       ),
       child: Center(
         child: FittedBox(
-          child: Text(_buildLogoText(barcode), style: const TextStyle(fontSize: 32)),
+          child: Text(getQrIcon(barcode.valueType), style: const TextStyle(fontSize: 32)),
         ),
       ),
     );
   }
+}
 
-  String _buildLogoText(Barcode barcode) {
-    switch (barcode.valueType) {
-      // case BarcodeValueType.contactInfo:
-      // case BarcodeValueType.location:
-      // case BarcodeValueType.calendarEvent:
-      // case BarcodeValueType.driverLicense:
+String getQrIcon(BarcodeValueType valueType) {
+  switch (valueType) {
+    // case BarcodeValueType.contactInfo:
+    // case BarcodeValueType.location:
+    // case BarcodeValueType.calendarEvent:
+    // case BarcodeValueType.driverLicense:
 
-      case BarcodeValueType.email:
-        return 'Email';
-      case BarcodeValueType.sms:
-        return 'SMS';
-      case BarcodeValueType.product:
-        return 'Product';
-      case BarcodeValueType.url:
-        return 'URL';
-      case BarcodeValueType.wifi:
-        return 'Wifi';
-      case BarcodeValueType.phone:
-        return 'Tel';
-      case BarcodeValueType.text:
-        return 'Text';
-      default:
-        return 'QR';
-    }
+    // icon: Icons.description,
+    // icon: Icons.phone_iphone,
+    // icon: Icons.wifi,
+    // icon: Icons.message,
+    // icon: Icons.email,
+    // icon: Icons.mouse,
+
+    case BarcodeValueType.email:
+      return 'Email';
+    case BarcodeValueType.sms:
+      return 'SMS';
+    case BarcodeValueType.product:
+      return 'Product';
+    case BarcodeValueType.url:
+      return 'URL';
+    case BarcodeValueType.wifi:
+      return 'Wifi';
+    case BarcodeValueType.phone:
+      return 'Tel';
+    case BarcodeValueType.text:
+      return 'Text';
+    default:
+      return 'QR';
   }
 }

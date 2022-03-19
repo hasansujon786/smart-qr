@@ -1,32 +1,32 @@
+import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
 import './wigets.dart';
-import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
 
 class QrCreateForm extends StatelessWidget {
   const QrCreateForm(this.qrcodeType, this.updateFromData, {Key? key}) : super(key: key);
 
-  final qr_tools.QrcodeValueType qrcodeType;
+  final BarcodeValueType qrcodeType;
   final Function updateFromData;
 
   @override
   Widget build(BuildContext context) {
     switch (qrcodeType) {
-      case qr_tools.QrcodeValueType.wifi:
+      case BarcodeValueType.wifi:
         return QrInputWifi(updateFormData: updateFromData);
 
-      case qr_tools.QrcodeValueType.phone:
+      case BarcodeValueType.phone:
         return QrInputTel(updateFormData: updateFromData);
 
-      case qr_tools.QrcodeValueType.sms:
+      case BarcodeValueType.sms:
         return QrInputSms(updateFormData: updateFromData);
 
-      case qr_tools.QrcodeValueType.email:
+      case BarcodeValueType.email:
         return QrInputEmail(updateFormData: updateFromData);
 
-      case qr_tools.QrcodeValueType.url:
+      case BarcodeValueType.url:
         return QrInputUrl(updateFormData: updateFromData);
 
-      case qr_tools.QrcodeValueType.text:
+      case BarcodeValueType.text:
       default:
         return QrInputText(updateFormData: updateFromData);
     }

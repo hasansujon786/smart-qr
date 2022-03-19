@@ -1,51 +1,74 @@
 import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
+import '../../../providers/providers.dart';
 import '../wigets/wigets.dart';
 
-class QrResultPage extends StatefulWidget {
+class QrResultPage extends ConsumerWidget {
   const QrResultPage({Key? key}) : super(key: key);
   static const routeName = '/qr_result';
 
   @override
-  State<QrResultPage> createState() => _QrResultPageState();
-}
-
-class _QrResultPageState extends State<QrResultPage> {
-  String? _copyText = '';
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, String?>;
-    final qrcode = qr_tools.parse(args['qrcodeRawValue'] ?? '');
+    final rawCode = args['qrcodeRawValue'] ?? '';
+    final qrcode = qr_tools.parse(rawCode);
+
+    Future.delayed(const Duration(seconds: 1), () {
+      ref.read(qrHistoryProvider.notifier).add(qrcode.rawValue, qrcode.valueType);
+    });
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Result'),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Column(children: [
-              const SizedBox(height: 40),
-              QrTypeLogo(qrcode),
-              const SizedBox(height: 40),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: _buildResultItems(qrcode),
-                ),
+      body: ResultView(qrcode: qrcode, rawCode: rawCode),
+    );
+  }
+}
+
+class ResultView extends StatefulWidget {
+  const ResultView({
+    Key? key,
+    required this.qrcode,
+    required this.rawCode,
+  }) : super(key: key);
+
+  final Barcode qrcode;
+  final String rawCode;
+
+  @override
+  _ResultViewState createState() => _ResultViewState();
+}
+
+class _ResultViewState extends State<ResultView> {
+  String? _copyText = '';
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Expanded(
+          child: Column(children: [
+            const SizedBox(height: 40),
+            QrTypeLogo(widget.qrcode),
+            const SizedBox(height: 40),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              width: double.infinity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: _buildResultItems(widget.qrcode),
               ),
-            ]),
-          ),
-          _buildFatButton(_copyText, args['qrcodeRawValue']),
-        ],
-      ),
+            ),
+          ]),
+        ),
+        _buildFatButton(_copyText, widget.rawCode),
+      ],
     );
   }
 
