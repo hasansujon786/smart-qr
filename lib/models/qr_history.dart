@@ -6,11 +6,6 @@ var _uuid = const Uuid();
 
 @immutable
 class QrHistory {
-  final String id;
-  final String rawValue;
-  final BarcodeValueType type;
-  final DateTime createdAt;
-
   QrHistory(
     this.rawValue, {
     required this.type,
@@ -18,4 +13,9 @@ class QrHistory {
     String? id,
   })  : createdAt = createdAt ?? DateTime.now(),
         id = id ?? _uuid.v4();
+
+  final String id;
+  final String rawValue;
+  final BarcodeValueType type;
+  final DateTime createdAt;
 }

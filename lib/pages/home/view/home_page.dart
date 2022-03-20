@@ -15,6 +15,7 @@ class _HomePageState extends State<HomePage> {
   int _currentViewIndex = 1;
   static const List<Widget> _screens = <Widget>[
     HistoryView(),
+    // HiveExample(),
     ScanView(),
     CreateView(),
   ];
