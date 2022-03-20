@@ -1,29 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_qr/pages/home/home.dart';
-import 'package:smart_qr/providers/providers.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-class HistoryView extends ConsumerWidget {
+import '../../../models/models.dart';
+
+class HistoryView extends StatelessWidget {
   const HistoryView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final qrHistories = ref.watch(qrHistoryProvider);
+  Widget build(BuildContext context) {
+    // final qrHistoryBox = Hive.box(hiveBoxQrHistory);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('History'),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView.builder(
-          itemCount: qrHistories.length,
-          itemBuilder: (BuildContext context, int index) {
-            return QrHistoryItem(history: qrHistories[index]);
-          },
-        ),
+      body: ValueListenableBuilder(
+        valueListenable: Hive.box(hiveBoxQrHistory).listenable(),
+        builder: (context, Box box, widget) {
+          return ListView.builder(
+            itemCount: box.length,
+            itemBuilder: (BuildContext context, int index) {
+              QrHistory person = box.getAt(index);
+              return ListTile(
+                title: Text(person.rawValue),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete),
+                  onPressed: () {
+                    box.deleteAt(index);
+                  },
+                ),
+              );
+            },
+          );
+        },
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () async {
+      //     final qrHistoryBox = Hive.box(hiveBoxQrHistory);
+      //     qrHistoryBox.add(QrHistory(
+      //       rawValue: 'rsdfsdfsd',
+      //       type: BarcodeValueType.sms.name,
+      //     ));
+      //   },
+      // ),
     );
   }
 }

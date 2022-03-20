@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart';
 
 import 'app.dart';
 import 'domain/settings/settings_controller.dart';
 import 'domain/settings/settings_service.dart';
-import 'package:smart_qr/models/person.dart';
+import 'models/models.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final document = await getApplicationDocumentsDirectory();
-  await Hive.initFlutter(document.path);
-  Hive.registerAdapter(PersonAdapter());
-  await Hive.openBox(hiveBoxPersons);
+  // set up hive
+  await Hive.initFlutter();
+  Hive.registerAdapter(QrHistoryAdapter());
+  await Hive.openBox(hiveBoxQrHistory);
 
   // Set up the SettingsController, which will glue user settings to multiple
   // Flutter Widgets.

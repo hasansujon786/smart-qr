@@ -15,7 +15,7 @@ class QrHistoryNotifier extends StateNotifier<List<QrHistory>> {
   final Reader read;
 
   void add(String raw, BarcodeValueType type) {
-    state = [QrHistory(raw, type: type), ...state];
+    state = [QrHistory(type: type.name, rawValue: raw), ...state];
   }
 
   // void edit({required String id, required String description}) {

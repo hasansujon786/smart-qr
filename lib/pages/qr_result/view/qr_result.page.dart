@@ -1,24 +1,29 @@
 import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
-import '../../../providers/providers.dart';
+import '../../../models/models.dart';
 import '../wigets/wigets.dart';
 
-class QrResultPage extends ConsumerWidget {
+class QrResultPage extends StatelessWidget {
   const QrResultPage({Key? key}) : super(key: key);
   static const routeName = '/qr_result';
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, String?>;
     final rawCode = args['qrcodeRawValue'] ?? '';
     final qrcode = qr_tools.parse(rawCode);
 
-    Future.delayed(const Duration(seconds: 1), () {
-      ref.read(qrHistoryProvider.notifier).add(qrcode.rawValue, qrcode.valueType);
+    Future.delayed(const Duration(seconds: 3), () {
+      // ref.read(qrHistoryProvider.notifier).add(qrcode.rawValue, qrcode.valueType);
+      final qrHistoryBox = Hive.box(hiveBoxQrHistory);
+      qrHistoryBox.add(QrHistory(
+        rawValue: qrcode.rawValue,
+        type: qrcode.valueType.name,
+      ));
     });
 
     return Scaffold(
