@@ -17,7 +17,7 @@ class QrResultPage extends StatelessWidget {
     final rawCode = args['qrcodeRawValue'] ?? '';
     final qrcode = qr_tools.parse(rawCode);
 
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 1), () {
       // ref.read(qrHistoryProvider.notifier).add(qrcode.rawValue, qrcode.valueType);
       final qrHistoryBox = Hive.box(hiveBoxQrHistory);
       qrHistoryBox.add(QrHistory(
