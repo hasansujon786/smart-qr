@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../config/config.dart';
+import '../../../models/models.dart';
 import '../../qr_create/qr_create.dart';
 
 class CreateView extends StatelessWidget {

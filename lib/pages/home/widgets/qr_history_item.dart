@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:smart_qr/config/config.dart';
-import 'package:smart_qr/pages/qr_create/models/models.dart';
-import 'package:smart_qr/providers/providers.dart';
+
+import '../../../config/config.dart';
+import '../../../models/models.dart';
 
 class QrHistoryItem extends StatelessWidget {
   const QrHistoryItem({Key? key, required this.history}) : super(key: key);

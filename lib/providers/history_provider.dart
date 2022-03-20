@@ -1,9 +1,7 @@
 import 'package:barcode_parser/barcode_parser.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uuid/uuid.dart';
 
-var _uuid = const Uuid();
+import '../models/models.dart';
 
 final List<QrHistory> _sampleHistories = [];
 
@@ -37,20 +35,4 @@ class QrHistoryNotifier extends StateNotifier<List<QrHistory>> {
   void remove(String id) {
     state = state.where((element) => element.id != id).toList();
   }
-}
-
-@immutable
-class QrHistory {
-  final String id;
-  final String rawValue;
-  final BarcodeValueType type;
-  final DateTime createdAt;
-
-  QrHistory(
-    this.rawValue, {
-    required this.type,
-    DateTime? createdAt,
-    String? id,
-  })  : createdAt = createdAt ?? DateTime.now(),
-        id = id ?? _uuid.v4();
 }
