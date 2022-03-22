@@ -8,6 +8,7 @@ class Palette {
   static const Color lightBlue = Color(0xffC1F1EB);
 
   static final appBackground = Colors.grey[100];
+  static final mutedBorder = Colors.grey.shade200;
 }
 
 int hexColor(String color) {

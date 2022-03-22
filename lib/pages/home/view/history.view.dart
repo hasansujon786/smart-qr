@@ -29,7 +29,7 @@ class HistoryView extends StatelessWidget {
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               mainAxisSpacing: 12,
               crossAxisSpacing: 12,
-              childAspectRatio: 3 / 2.5,
+              childAspectRatio: 3 / 2,
               maxCrossAxisExtent: 300,
             ),
           );
