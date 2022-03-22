@@ -15,6 +15,8 @@ class QrInputText extends StatelessWidget {
       children: [
         QrFormField(
           label: 'Enter text',
+          hintText: 'Enter text here',
+          isLastField: true,
           onSaved: (val) {
             updateFormData('text', val);
           },

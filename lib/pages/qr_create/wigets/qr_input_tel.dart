@@ -14,7 +14,9 @@ class QrInputTel extends StatelessWidget {
     return Column(
       children: [
         QrFormField(
-          label: 'Enter your number',
+          label: 'Your phone number',
+          hintText: 'Enter number here',
+          isLastField: true,
           onSaved: (val) {
             updateFormData('tel', val);
           },

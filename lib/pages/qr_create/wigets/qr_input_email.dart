@@ -15,6 +15,7 @@ class QrInputEmail extends StatelessWidget {
       children: [
         QrFormField(
           label: 'Email',
+          hintText: 'Enter Email here',
           onSaved: (val) {
             updateFormData('email', val);
           },
@@ -22,13 +23,16 @@ class QrInputEmail extends StatelessWidget {
         const SizedBox(height: 8),
         QrFormField(
           label: 'Subject',
+          hintText: 'Enter Subject here',
           onSaved: (val) {
             updateFormData('subject', val);
           },
         ),
         const SizedBox(height: 8),
         QrFormField(
-          label: 'Message',
+          label: 'Your Message',
+          isLastField: true,
+          hintText: 'Enter Message here',
           onSaved: (val) {
             updateFormData('message', val);
           },

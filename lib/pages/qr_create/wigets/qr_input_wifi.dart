@@ -15,6 +15,7 @@ class QrInputWifi extends StatelessWidget {
       children: [
         QrFormField(
           label: 'SSID',
+          hintText: 'Enter wifi name here',
           onSaved: (val) {
             updateFormData('ssid', val);
           },
@@ -23,6 +24,7 @@ class QrInputWifi extends StatelessWidget {
         QrFormField(
           isLastField: true,
           label: 'Password',
+          hintText: 'Enter password here',
           onSaved: (val) {
             updateFormData('pass', val);
             updateFormData('type', 'WPA');

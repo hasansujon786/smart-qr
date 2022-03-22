@@ -15,13 +15,16 @@ class QrInputSms extends StatelessWidget {
       children: [
         QrFormField(
           label: 'Phone number',
+          hintText: 'Enter number here',
           onSaved: (val) {
             updateFormData('phoneNumber', val);
           },
         ),
         const SizedBox(height: 8),
         QrFormField(
-          label: 'Message',
+          label: 'Your Message',
+          hintText: 'Enter message here',
+          isLastField: true,
           onSaved: (val) {
             updateFormData('message', val);
           },

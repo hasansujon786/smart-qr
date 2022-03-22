@@ -14,7 +14,9 @@ class QrInputUrl extends StatelessWidget {
     return Column(
       children: [
         QrFormField(
-          label: 'Url',
+          label: 'Enter website URL',
+          hintText: 'Enter URL here',
+          isLastField: true,
           onSaved: (val) {
             updateFormData('url', val);
           },
