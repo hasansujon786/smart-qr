@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
           restorationScopeId: 'app',
           theme: ThemeData(
             visualDensity: VisualDensity.adaptivePlatformDensity,
-            canvasColor: Palette.lightBackground,
+            canvasColor: Palette.appBackground,
             // primaryColor: Palette.darkerGrey,
             // buttonTheme: const ButtonThemeData(
             //   buttonColor: Palette.darkerGrey,

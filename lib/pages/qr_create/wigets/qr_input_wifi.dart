@@ -21,6 +21,7 @@ class QrInputWifi extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         QrFormField(
+          isLastField: true,
           label: 'Password',
           onSaved: (val) {
             updateFormData('pass', val);

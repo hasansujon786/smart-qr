@@ -1,7 +1,9 @@
 import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
 
+import '../../../config/config.dart';
 import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
+import '../../../ui/ui.dart';
 import '../../qr_view/qr_view.dart';
 import '../qr_create.dart';
 
@@ -23,6 +25,7 @@ class _QrCreatePageState extends State<QrCreatePage> {
   }
 
   void _onGenerateQrCode(BarcodeValueType qrcodeType) {
+    FocusScope.of(context).unfocus();
     _formKey.currentState?.save();
     String qrcodeRawValue = qr_tools.encodeToMeCard(qrcodeType, _formState);
     Navigator.pushNamed(context, QrView.routeName, arguments: {'qrcodeRawValue': qrcodeRawValue});
@@ -42,6 +45,7 @@ class _QrCreatePageState extends State<QrCreatePage> {
     final qrcodeType = ModalRoute.of(context)!.settings.arguments as BarcodeValueType;
 
     return Scaffold(
+      backgroundColor: Color(hexColor('#fcfcfc')),
       appBar: AppBar(
         title: const Text('Create QR code'),
         centerTitle: true,
@@ -50,27 +54,20 @@ class _QrCreatePageState extends State<QrCreatePage> {
         // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         reverse: true,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 12),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-                  child: Form(
-                    key: _formKey,
-                    child: QrCreateForm(qrcodeType, _updateFromData),
-                  ),
-                ),
+              Form(
+                key: _formKey,
+                child: QrCreateForm(qrcodeType, _updateFromData),
               ),
-              const SizedBox(height: 12),
-              ElevatedButton(
+              const SizedBox(height: 30),
+              FatButton(
+                text: 'Generate QR',
+                icon: Icons.qr_code,
                 onPressed: () => _onGenerateQrCode(qrcodeType),
-                onLongPress: () => _log(qrcodeType),
-                child: const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text('Generate'),
-                ),
+                // onLongPress: () => _log(qrcodeType),
               ),
             ],
           ),
