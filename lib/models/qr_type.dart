@@ -1,6 +1,8 @@
 import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
 
+import '../../../config/config.dart';
+
 class QrType {
   const QrType({
     required this.name,
@@ -19,37 +21,37 @@ final qrCodeTypes = [
   QrType(
     type: BarcodeValueType.text,
     name: 'Text',
-    icon: Icons.description,
-    color: Colors.lime.shade200,
+    icon: Icons.description_outlined,
+    color: Color(hexColor('#B485FE')),
   ),
   QrType(
     type: BarcodeValueType.phone,
-    name: 'Phone number',
-    icon: Icons.phone_iphone,
-    color: Colors.green.shade200,
+    name: 'Phone Number',
+    icon: Icons.phone_iphone_outlined,
+    color: Color(hexColor('#FF9B97')),
   ),
   QrType(
     type: BarcodeValueType.wifi,
-    name: 'Wifi',
-    icon: Icons.wifi,
-    color: Colors.amber.shade200,
+    name: 'WiFi',
+    icon: Icons.wifi_outlined,
+    color: Color(hexColor('#F2CD41')),
   ),
   QrType(
     type: BarcodeValueType.sms,
     name: 'SMS',
-    icon: Icons.sms,
-    color: Colors.pink.shade200,
+    icon: Icons.sms_outlined,
+    color: Color(hexColor('#75CFFE')),
   ),
   QrType(
     type: BarcodeValueType.email,
     name: 'Email',
-    icon: Icons.email,
-    color: Colors.red.shade200,
+    icon: Icons.email_outlined,
+    color: Color(hexColor('#64DC9B')),
   ),
   QrType(
     type: BarcodeValueType.url,
     name: 'Website URL',
-    icon: Icons.mouse,
-    color: Colors.indigo.shade200,
+    icon: Icons.mouse_outlined,
+    color: Color(hexColor('#6ADCCC')),
   ),
 ];
