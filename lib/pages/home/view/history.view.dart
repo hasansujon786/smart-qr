@@ -21,6 +21,7 @@ class HistoryView extends StatelessWidget {
             itemCount: box.length,
             itemBuilder: (BuildContext context, int index) {
               QrHistory qr = box.getAt(index);
+              // box.clear();
               return QrHistoryItem(qr, index: index, onDelete: () {
                 box.deleteAt(index);
               });

@@ -2,8 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:scan/scan.dart';
 
-import '../../qr_result/qr_result.dart';
+import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
 import '../../../ui/ui.dart';
+import '../../qr_result/qr_result.dart';
 
 class Camera extends StatefulWidget {
   const Camera({Key? key}) : super(key: key);
@@ -40,18 +41,10 @@ class _CameraState extends State<Camera> {
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                iconButtonRounded(
-                  Icons.flash_on,
-                  onPressed: () {
-                    controller.toggleTorchMode();
-                  },
-                ),
-              ],
-            ),
+            padding: const EdgeInsets.only(bottom: 80),
+            child: ButtonsControlls(toggleFlash: () {
+              controller.toggleTorchMode();
+            }),
           ),
         ),
       ],
@@ -76,19 +69,54 @@ class _CameraState extends State<Camera> {
   }
 }
 
-Widget iconButtonRounded(icon, {required onPressed}) {
-  return TextButton(
-    style: TextButton.styleFrom(shape: const CircleBorder()),
-    child: GlassMorphism(
-      borderRadius: 50,
+class ButtonsControlls extends StatefulWidget {
+  final Function toggleFlash;
+  const ButtonsControlls({
+    Key? key,
+    required this.toggleFlash,
+  }) : super(key: key);
+
+  @override
+  _ButtonsControllsState createState() => _ButtonsControllsState();
+}
+
+class _ButtonsControllsState extends State<ButtonsControlls> {
+  bool isFlashOn = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GlassMorphism(
+      borderRadius: 20,
       blur: 10,
       opacity: 0.2,
       child: SizedBox(
-        width: 58,
-        height: 58,
-        child: Icon(icon, color: Colors.white, size: 24),
+        width: 145,
+        height: 48,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            IconButton(
+              onPressed: () {
+                widget.toggleFlash();
+                setState(() => isFlashOn = !isFlashOn);
+              },
+              icon: Icon(isFlashOn ? Icons.flash_on : Icons.flash_off, color: Colors.white, size: 24),
+            ),
+            Text('|', style: TextStyle(color: Colors.white.withOpacity(0.1), fontSize: 22)),
+            IconButton(
+              onPressed: () {
+                qr_tools.decodeFromImage().then((reslult) {
+                  if (reslult == null) return;
+                  Navigator.pushNamed(context, QrResultPage.routeName, arguments: {
+                    'qrcodeRawValue': reslult,
+                  });
+                });
+              },
+              icon: const Icon(Icons.image_outlined, color: Colors.white, size: 24),
+            )
+          ],
+        ),
       ),
-    ),
-    onPressed: onPressed,
-  );
+    );
+  }
 }

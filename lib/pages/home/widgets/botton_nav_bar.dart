@@ -74,3 +74,117 @@ class BottomNavBar extends StatelessWidget {
   //   );
   // }
 }
+
+class FABBottomAppBarItem {
+  FABBottomAppBarItem({required this.icon, required this.text});
+  IconData icon;
+  String text;
+}
+
+class FabBottomAppBar extends StatefulWidget {
+  final List<FABBottomAppBarItem> items;
+  final String centerItemText;
+  final double height;
+  final double iconSize;
+  final Color backgroundColor;
+  final Color color;
+  final Color selectedColor;
+  final NotchedShape notchedShape;
+  final ValueChanged<int> onTabSelected;
+  final bool isFocused;
+
+  const FabBottomAppBar({
+    Key? key,
+    this.height = 60.0,
+    this.iconSize = 24.0,
+    this.backgroundColor = Colors.white,
+    this.color = Colors.blueGrey,
+    this.selectedColor = Colors.orange,
+    this.notchedShape = const CircularNotchedRectangle(),
+    required this.isFocused,
+    required this.items,
+    required this.onTabSelected,
+    required this.centerItemText,
+  })  : assert(items.length == 2 || items.length == 4),
+        super(key: key);
+
+  @override
+  _FabBottomAppBarState createState() => _FabBottomAppBarState();
+}
+
+class _FabBottomAppBarState extends State<FabBottomAppBar> {
+  int _selectedIndex = 0;
+
+  _updateIndex(int index) {
+    widget.onTabSelected(index);
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> items = List.generate(widget.items.length, (int index) {
+      return _buildTabItem(
+        item: widget.items[index],
+        index: index,
+        onPressed: _updateIndex,
+      );
+    });
+    items.insert(items.length >> 1, _buildMiddleTabItem());
+
+    return BottomAppBar(
+      notchMargin: 6,
+      shape: widget.notchedShape,
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: items,
+      ),
+      color: widget.backgroundColor,
+    );
+  }
+
+  Widget _buildMiddleTabItem() {
+    return Expanded(
+      child: SizedBox(
+        height: widget.height,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            SizedBox(height: widget.iconSize),
+            Text(widget.centerItemText, style: TextStyle(color: widget.color)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTabItem({
+    required FABBottomAppBarItem item,
+    required int index,
+    required ValueChanged<int> onPressed,
+  }) {
+    Color color = widget.isFocused && _selectedIndex == index ? widget.selectedColor : widget.color;
+    return Expanded(
+      child: SizedBox(
+        height: widget.height,
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            onTap: () => onPressed(index),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(item.icon, color: color, size: widget.iconSize),
+                Text(item.text, style: TextStyle(color: color, fontSize: 12))
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
