@@ -17,7 +17,7 @@ class HistoryView extends StatelessWidget {
       body: ValueListenableBuilder(
         valueListenable: Hive.box(hiveBoxQrHistory).listenable(),
         builder: (context, Box box, widget) {
-          return GridView.builder(
+          return ListView.builder(
             itemCount: box.length,
             itemBuilder: (BuildContext context, int index) {
               QrHistory qr = box.getAt(index);
@@ -26,12 +26,6 @@ class HistoryView extends StatelessWidget {
               });
             },
             padding: const EdgeInsets.all(12),
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              mainAxisSpacing: 12,
-              crossAxisSpacing: 12,
-              childAspectRatio: 3 / 2,
-              maxCrossAxisExtent: 300,
-            ),
           );
         },
       ),

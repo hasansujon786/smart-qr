@@ -9,6 +9,7 @@ import 'pages/qr_result/qr_result.dart';
 import 'pages/qr_view/qr_view.dart';
 import 'pages/sample_items/sample_items.dart';
 import 'pages/settings/settings.dart';
+import 'pages/qr_history_details/qr_history_detatils.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -43,10 +44,9 @@ class MyApp extends StatelessWidget {
             //   buttonColor: Palette.darkerGrey,
             //   textTheme: ButtonTextTheme.primary,
             // ),
-            colorScheme: const ColorScheme.light(
-              // primary: Colors.black, //flat button text color
-              // secondary: Colors.redAccent,
-            ),
+            // primary: Colors.black,
+            // secondary: Colors.redAccent,
+            colorScheme: const ColorScheme.light(),
           ),
           darkTheme: ThemeData.dark(),
           themeMode: settingsController.themeMode,
@@ -64,16 +64,17 @@ class MyApp extends StatelessWidget {
                     return const SampleItemsPage();
                   case SampleItemDetailsPage.routeName:
                     return const SampleItemDetailsPage();
-                  // ****** main features ************ //
                   case QrDecode.routeName:
                     return const QrDecode();
-
+                  // ****** main features ****** //
                   case QrView.routeName:
                     return const QrView();
                   case QrCreatePage.routeName:
                     return const QrCreatePage();
                   case QrResultPage.routeName:
                     return const QrResultPage();
+                  case QrHistoryDetailsPage.routeName:
+                    return const QrHistoryDetailsPage();
                   case HomePage.routeName:
                   default:
                     return const HomePage();
