@@ -9,6 +9,9 @@ class Palette {
 
   static final appBackground = Colors.grey[100];
   static final mutedBorder = Colors.grey.shade200;
+  static final textDark = Colors.blueGrey[700];
+  static final text = Colors.blueGrey[600];
+  static final textMuted = Colors.blueGrey[300];
 }
 
 int hexColor(String color) {

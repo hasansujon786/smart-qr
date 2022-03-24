@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_qr/ui/widgets/qr_icon.dart';
 
 import '../../../config/config.dart';
 import '../../../models/models.dart';
@@ -43,10 +44,10 @@ class CreateItem extends StatelessWidget {
     final radius = Constants.borderRadius;
 
     return Card(
-      color: qrType.color,
+      // color: qrType.color,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
-      elevation: 2,
-      shadowColor: qrType.color,
+      elevation: 0.1,
+      // shadowColor: qrType.color,
       child: InkWell(
         onTap: () {
           Navigator.pushNamed(context, QrCreatePage.routeName, arguments: qrType.type);
@@ -57,15 +58,11 @@ class CreateItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 5),
-            Icon(qrType.icon, color: Colors.white, size: 42),
+            QrIcon(color: qrType.color, icon: qrType.icon),
             const SizedBox(height: 16),
             Text(
               qrType.name,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Palette.text),
             ),
           ],
         ),
