@@ -3,16 +3,18 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 class GlassMorphism extends StatelessWidget {
-  const GlassMorphism({
-    Key? key,
-    required this.blur,
-    required this.opacity,
-    required this.child,
-    this.borderRadius = 20,
-  }) : super(key: key);
-
   final double blur, opacity, borderRadius;
   final Widget child;
+  final Color color;
+
+  const GlassMorphism({
+    Key? key,
+    required this.child,
+    this.blur = 10,
+    this.opacity = 0.2,
+    this.borderRadius = 20,
+    this.color = Colors.white,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +24,11 @@ class GlassMorphism extends StatelessWidget {
         filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(opacity),
+            color: color.withOpacity(opacity),
             borderRadius: BorderRadius.circular(borderRadius),
             border: Border.all(
               width: 1.5,
-              color: Colors.white.withOpacity(0.1),
+              color: color.withOpacity(0.1),
             ),
           ),
           child: child,
