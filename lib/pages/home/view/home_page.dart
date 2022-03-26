@@ -12,25 +12,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentViewIndex = 2;
   static const List<Widget> _screens = <Widget>[
-    HistoryView(),
     // HiveExample(),
+    HistoryView(),
+    Favorite(),
     CreateView(),
+    Settings(),
     ScanView(),
   ];
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     // Tips: To persists screen state use IndexdStack()
-  //     body: _screens.elementAt(_currentViewIndex),
-  //     bottomNavigationBar: BottomNavBar(
-  //       index: _currentViewIndex,
-  //       onTap: (index) => setState(() => _currentViewIndex = index),
-  //     ),
-  //   );
-  // }
+  static final int _scanViewIndex = _screens.length - 1;
+  int _currentViewIndex = _screens.length - 1;
 
   @override
   Widget build(BuildContext context) {
@@ -40,24 +32,34 @@ class _HomePageState extends State<HomePage> {
       body: _screens.elementAt(_currentViewIndex),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
+        elevation: 2.0,
         foregroundColor: Colors.white,
         backgroundColor: Theme.of(context).colorScheme.primary,
         onPressed: () {
-          setState(() => _currentViewIndex = 2);
+          setState(() => _currentViewIndex = _scanViewIndex);
         },
         tooltip: 'Scan',
-        child: Icon(Icons.qr_code_scanner_outlined, color: _currentViewIndex == 2 ? Colors.white60 : Colors.white),
-        elevation: 2.0,
+        child: Icon(
+          Icons.qr_code_scanner_outlined,
+          color: _currentViewIndex == _scanViewIndex ? Colors.white60 : Colors.white,
+        ),
       ),
       bottomNavigationBar: FabBottomAppBar(
-        isFocused: _currentViewIndex < 2,
+        isFocused: _currentViewIndex < _scanViewIndex,
         onTabSelected: (index) => setState(() => _currentViewIndex = index),
         centerItemText: '',
+        iconFontSize: 10,
         items: [
           FABBottomAppBarItem(icon: Icons.history_outlined, text: 'History'),
+          FABBottomAppBarItem(icon: Icons.star_border_outlined, text: 'Favorites'),
           FABBottomAppBarItem(icon: Icons.qr_code_outlined, text: 'Create'),
+          FABBottomAppBarItem(icon: Icons.settings_outlined, text: 'Settings'),
         ],
       ),
+      // bottomNavigationBar: BottomNavBar(
+      //   index: _currentViewIndex,
+      //   onTap: (index) => setState(() => _currentViewIndex = index),
+      // ),
     );
   }
 }

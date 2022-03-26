@@ -13,6 +13,14 @@ class HistoryView extends StatelessWidget {
       appBar: AppBar(
         title: const Text('History'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Hive.box(hiveBoxQrHistory).clear();
+            },
+            icon: const Icon(Icons.clear_all),
+          )
+        ],
       ),
       body: ValueListenableBuilder(
         valueListenable: Hive.box(hiveBoxQrHistory).listenable(),

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
-import '../../qr_result/qr_result.dart';
 import '../widgets/widgets.dart';
 
 class ScanView extends StatefulWidget {

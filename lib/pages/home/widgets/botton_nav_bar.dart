@@ -86,8 +86,9 @@ class FabBottomAppBar extends StatefulWidget {
   final String centerItemText;
   final double height;
   final double iconSize;
+  final double iconFontSize;
   final Color backgroundColor;
-  final Color color;
+  final Color? color;
   final Color selectedColor;
   final NotchedShape notchedShape;
   final ValueChanged<int> onTabSelected;
@@ -97,6 +98,7 @@ class FabBottomAppBar extends StatefulWidget {
     Key? key,
     this.height = 60.0,
     this.iconSize = 24.0,
+    this.iconFontSize = 12,
     this.backgroundColor = Colors.white,
     this.color = Colors.blueGrey,
     this.selectedColor = Colors.orange,
@@ -166,7 +168,7 @@ class _FabBottomAppBarState extends State<FabBottomAppBar> {
     required int index,
     required ValueChanged<int> onPressed,
   }) {
-    Color color = widget.isFocused && _selectedIndex == index ? widget.selectedColor : widget.color;
+    Color? color = widget.isFocused && _selectedIndex == index ? widget.selectedColor : widget.color;
     return Expanded(
       child: SizedBox(
         height: widget.height,
@@ -179,7 +181,7 @@ class _FabBottomAppBarState extends State<FabBottomAppBar> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Icon(item.icon, color: color, size: widget.iconSize),
-                Text(item.text, style: TextStyle(color: color, fontSize: 12))
+                Text(item.text, style: TextStyle(color: color, fontSize: widget.iconFontSize))
               ],
             ),
           ),
