@@ -1,43 +1,58 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smart_qr/providers/history_provider.dart';
+// import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../models/models.dart';
 import '../widgets/widgets.dart';
 
-class HistoryView extends StatelessWidget {
+class HistoryView extends ConsumerWidget {
   const HistoryView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    var qrHistories = ref.watch(qrHistoryProvider);
+    var qrHistoryController = ref.read(qrHistoryProvider.notifier);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('History'),
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {
-              Hive.box(hiveBoxQrHistory).clear();
-            },
+            onPressed: () => qrHistoryController.clear(),
             icon: const Icon(Icons.clear_all),
           )
         ],
       ),
-      body: ValueListenableBuilder(
-        valueListenable: Hive.box(hiveBoxQrHistory).listenable(),
-        builder: (context, Box box, widget) {
-          return ListView.builder(
-            itemCount: box.length,
-            itemBuilder: (BuildContext context, int index) {
-              QrHistory qr = box.getAt(index);
-              // box.clear();
-              return QrHistoryItem(qr, index: index, onDelete: () {
-                box.deleteAt(index);
-              });
-            },
-            padding: const EdgeInsets.all(12),
-          );
+      body: ListView.builder(
+        itemCount: qrHistories.length,
+        itemBuilder: (BuildContext context, int index) {
+          QrHistory qr = qrHistories[index];
+          return QrHistoryItem(qr, index: index, onDelete: () {
+            qrHistoryController.remove(id: qr.id, index: index);
+          });
         },
+        padding: const EdgeInsets.all(12),
       ),
     );
   }
 }
+
+
+// body: ValueListenableBuilder(
+//   valueListenable: Hive.box(hiveBoxQrHistory).listenable(),
+//   builder: (context, Box box, widget) {
+//     return ListView.builder(
+//       itemCount: box.length,
+//       itemBuilder: (BuildContext context, int index) {
+//         QrHistory qr = box.getAt(index);
+//         // box.clear();
+//         return QrHistoryItem(qr, index: index, onDelete: () {
+//           box.deleteAt(index);
+//         });
+//       },
+//       padding: const EdgeInsets.all(12),
+//     );
+//   },
+// ),
