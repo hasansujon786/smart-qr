@@ -1,22 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class Favorite extends StatefulWidget {
+import '../../../models/models.dart';
+import '../../../providers/providers.dart';
+import '../widgets/widgets.dart';
+
+class Favorite extends ConsumerWidget {
   const Favorite({Key? key}) : super(key: key);
 
   @override
-  _FavoriteState createState() => _FavoriteState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    var qrFavs = ref.watch(qrFavProvider);
+    var qrFavsController = ref.read(qrFavProvider.notifier);
 
-class _FavoriteState extends State<Favorite> {
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Favorites'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () => qrFavsController.clear(),
+            icon: const Icon(Icons.clear_all),
+          )
+        ],
       ),
-      body: const Center(
-        child: Text('Favorites screen'),
+      body: ListView.builder(
+        itemCount: qrFavs.length,
+        itemBuilder: (BuildContext context, int index) {
+          QrFav qr = qrFavs[index];
+          return QrFavItem(qr, index: index, onDelete: () {
+           // TODO: implement
+            // qrHistoryController.remove(id: qr.id, index: index);
+          });
+        },
+        padding: const EdgeInsets.all(12),
       ),
     );
   }

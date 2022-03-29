@@ -13,7 +13,9 @@ Future<void> main() async {
   // set up hive
   await Hive.initFlutter();
   Hive.registerAdapter(QrHistoryAdapter());
+  Hive.registerAdapter(QrFavAdapter());
   await Hive.openBox<QrHistory>(hiveBoxQrHistory);
+  await Hive.openBox<QrFav>(hiveBoxQrFav);
 
   // Set up the SettingsController, which will glue user settings to multiple
   // Flutter Widgets.
