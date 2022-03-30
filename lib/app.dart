@@ -9,7 +9,6 @@ import 'pages/qr_result/qr_result.dart';
 import 'pages/qr_view/qr_view.dart';
 import 'pages/sample_items/sample_items.dart';
 import 'pages/settings/settings.dart';
-import 'pages/qr_history_details/qr_history_detatils.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {

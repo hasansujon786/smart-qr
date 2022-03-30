@@ -2,36 +2,36 @@ import 'package:flutter/material.dart';
 
 import '../../../config/config.dart';
 import '../../../models/models.dart';
+import '../../../pages/qr_result/qr_result.dart';
 import '../../../ui/widgets/qr_icon.dart';
 
 final _radius = Constants.borderRadius;
 
 class QrFavItem extends StatelessWidget {
-  final QrFav history;
+  final QrFav fav;
   final int index;
   final Function onDelete;
-  const QrFavItem(this.history, {Key? key, required this.index, required this.onDelete}) : super(key: key);
+  const QrFavItem(this.fav, {Key? key, required this.index, required this.onDelete}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var qrType = qrCodeTypes.firstWhere((e) => e.type == history.typeAsEnum);
+    var qrTypeData = qrCodeTypes.firstWhere((e) => e.type == fav.typeAsEnum);
 
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: ListTile(
-        onTap: () async {
-          // var shouldDelete = await Navigator.pushNamed(context, QrHistoryDetailsPage.routeName, arguments: {
-          //   'history': history,
-          // });
-          // if (shouldDelete != null && shouldDelete == true) {
-          //   onDelete();
-          // }
+        onTap: () {
+          Navigator.pushNamed(context, QrHistoryDetailsPage.routeName, arguments: {
+            'qr_id': fav.id,
+            'rawcode': fav.rawValue,
+            'is_fav_page': true,
+          });
         },
         tileColor: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_radius)),
-        leading: QrIcon(color: qrType.color, icon: qrType.icon),
+        leading: QrIcon(color: qrTypeData.color, icon: qrTypeData.icon),
         title: Text(
-          qrType.name,
+          qrTypeData.name,
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Palette.textDark),
         ),
         subtitle: Text(

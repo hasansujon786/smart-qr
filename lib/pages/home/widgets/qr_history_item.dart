@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../../config/config.dart';
 import '../../../models/models.dart';
-import '../../../pages/qr_history_details/qr_history_detatils.dart';
+import '../../../pages/qr_result/qr_result.dart';
 import '../../../ui/widgets/qr_icon.dart';
 
-final radius = Constants.borderRadius;
+final _radius = Constants.borderRadius;
 
 class QrHistoryItem extends StatelessWidget {
   final QrHistory history;
@@ -15,24 +15,26 @@ class QrHistoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var qrType = qrCodeTypes.firstWhere((e) => e.type == history.typeAsEnum);
+    var qrTypeData = qrCodeTypes.firstWhere((e) => e.type == history.typeAsEnum);
 
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: ListTile(
         onTap: () async {
           var shouldDelete = await Navigator.pushNamed(context, QrHistoryDetailsPage.routeName, arguments: {
-            'history': history,
+            'qr_id': history.id,
+            'rawcode': history.rawValue,
+            'is_fav_page': false,
           });
           if (shouldDelete != null && shouldDelete == true) {
             onDelete();
           }
         },
         tileColor: Colors.white,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
-        leading: QrIcon(color: qrType.color, icon: qrType.icon),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_radius)),
+        leading: QrIcon(color: qrTypeData.color, icon: qrTypeData.icon),
         title: Text(
-          qrType.name,
+          qrTypeData.name,
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Palette.textDark),
         ),
         subtitle: Text(
