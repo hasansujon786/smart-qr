@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
 import '../../../pages/qr_result/qr_result.dart';
-import '../../../providers/providers.dart';
 
 class QrHistoryDetailsPage extends StatelessWidget {
   const QrHistoryDetailsPage({Key? key}) : super(key: key);
@@ -27,20 +25,7 @@ class QrHistoryDetailsPage extends StatelessWidget {
               onPressed: () => Navigator.pop(context, true),
               icon: const Icon(Icons.delete),
             ),
-          Consumer(builder: (context, WidgetRef ref, child) {
-            var favs = ref.watch(qrFavProvider);
-            var isFav = favs.indexWhere((el) => el.id == qrId) > -1;
-            return IconButton(
-              onPressed: () {
-                if (isFav) {
-                  ref.read(qrFavProvider.notifier).remove(id: qrId);
-                } else {
-                  ref.read(qrFavProvider.notifier).add(rawCode, qrcode.valueType, qrId);
-                }
-              },
-              icon: Icon(isFav ? Icons.star : Icons.star_border_outlined),
-            );
-          })
+          AddToFav(qrcode: qrcode, qrId: qrId)
         ],
       ),
       body: ResultView(qrcode: qrcode, rawCode: rawCode),

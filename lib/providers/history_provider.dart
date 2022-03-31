@@ -1,4 +1,3 @@
-import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -21,15 +20,14 @@ class QrHistoryNotifier extends StateNotifier<List<QrHistory>> {
 
   final box = Hive.box<QrHistory>(hiveBoxQrHistory);
 
-  void add(String raw, BarcodeValueType type) {
-    final isSupporTedType = qrCodeTypes.indexWhere((element) => element.type == type) > -1;
+  void add(QrHistory qrHistory) {
+    final isSupporTedType = qrCodeTypes.indexWhere((element) => element.type == qrHistory.typeAsEnum) > -1;
     if (!isSupporTedType) {
       print('================== unsupported qr type =====================');
       return;
     }
-    final newQr = QrHistory(type: type.name, rawValue: raw);
-    state = [newQr, ...state];
-    box.add(newQr);
+    state = [qrHistory, ...state];
+    box.add(qrHistory);
   }
 
   void clear() {
