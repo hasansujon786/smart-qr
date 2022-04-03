@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_qr/pages/home/home.dart';
 import 'package:smart_qr/ui/widgets/qr_icon.dart';
 
 import '../../../config/config.dart';
@@ -15,17 +16,19 @@ class CreateView extends StatelessWidget {
         title: const Text('Create'),
         centerTitle: true,
       ),
-      body: GridView.builder(
-        itemCount: qrCodeTypes.length,
-        itemBuilder: (BuildContext context, int index) {
-          return CreateItem(qrType: qrCodeTypes[index]);
-        },
-        padding: const EdgeInsets.all(12),
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          mainAxisSpacing: 3,
-          crossAxisSpacing: 2,
-          childAspectRatio: 3 / 2.4,
-          maxCrossAxisExtent: 300,
+      body: BottomNavBarPadding(
+        child: GridView.builder(
+          itemCount: qrCodeTypes.length,
+          itemBuilder: (BuildContext context, int index) {
+            return CreateItem(qrType: qrCodeTypes[index]);
+          },
+          padding: const EdgeInsets.all(12),
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            mainAxisSpacing: 3,
+            crossAxisSpacing: 2,
+            childAspectRatio: 3 / 2.4,
+            maxCrossAxisExtent: 300,
+          ),
         ),
       ),
     );

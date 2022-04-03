@@ -24,16 +24,18 @@ class Favorite extends ConsumerWidget {
           )
         ],
       ),
-      body: ListView.builder(
-        itemCount: qrFavs.length,
-        itemBuilder: (BuildContext context, int index) {
-          QrFav qr = qrFavs[index];
-          return QrFavItem(qr, index: index, onDelete: () {
-           // TODO: implement
-            // qrHistoryController.remove(id: qr.id, index: index);
-          });
-        },
-        padding: const EdgeInsets.all(12),
+      body: BottomNavBarPadding(
+        child: ListView.builder(
+          itemCount: qrFavs.length,
+          itemBuilder: (BuildContext context, int index) {
+            QrFav qr = qrFavs[index];
+            return QrFavItem(qr, index: index, onDelete: () {
+             // TODO: implement
+              // qrHistoryController.remove(id: qr.id, index: index);
+            });
+          },
+          padding: const EdgeInsets.all(12),
+        ),
       ),
     );
   }

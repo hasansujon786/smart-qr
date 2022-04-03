@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_qr/providers/history_provider.dart';
-// import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../models/models.dart';
+import '../../../providers/history_provider.dart';
 import '../widgets/widgets.dart';
 
 class HistoryView extends ConsumerWidget {
@@ -25,15 +24,17 @@ class HistoryView extends ConsumerWidget {
           )
         ],
       ),
-      body: ListView.builder(
-        itemCount: qrHistories.length,
-        itemBuilder: (BuildContext context, int index) {
-          QrHistory qr = qrHistories[index];
-          return QrHistoryItem(qr, index: index, onDelete: () {
-            qrHistoryController.remove(id: qr.id, index: index);
-          });
-        },
-        padding: const EdgeInsets.all(12),
+      body: BottomNavBarPadding(
+        child: ListView.builder(
+          itemCount: qrHistories.length,
+          itemBuilder: (BuildContext context, int index) {
+            QrHistory qr = qrHistories[index];
+            return QrHistoryItem(qr, index: index, onDelete: () {
+              qrHistoryController.remove(id: qr.id, index: index);
+            });
+          },
+          padding: const EdgeInsets.all(12),
+        ),
       ),
     );
   }

@@ -190,3 +190,16 @@ class _FabBottomAppBarState extends State<FabBottomAppBar> {
     );
   }
 }
+
+class BottomNavBarPadding extends StatelessWidget {
+  final Widget child;
+  const BottomNavBarPadding({Key? key, required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 60),
+      child: child,
+    );
+  }
+}
