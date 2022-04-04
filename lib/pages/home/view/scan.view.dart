@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/widgets.dart';
+import '../../../config/config.dart';
 
 class ScanView extends StatefulWidget {
   const ScanView({Key? key}) : super(key: key);
@@ -17,12 +18,8 @@ class _ScanViewState extends State<ScanView> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: const Text('Smart QR'),
+        title: const Text(appName),
         centerTitle: true,
-        // leading: IconButton(
-        //   icon: const Icon(Icons.menu),
-        //   onPressed: () {},
-        // ),
         // actions: [
         //   IconButton(
         //     icon: const Icon(Icons.image),

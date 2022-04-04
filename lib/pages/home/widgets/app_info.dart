@@ -25,12 +25,12 @@ class AppInfo extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         const Text(
-          'Smar QR',
+          appName,
           style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.indigo),
         ),
         const SizedBox(height: 4),
         Text(
-          'Version 1',
+          'Version $appVersionShort',
           style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Palette.textMuted),
         ),
       ],

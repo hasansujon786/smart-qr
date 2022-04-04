@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../widgets/widgets.dart';
 import '../../../config/config.dart';
 
 class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
+
+  void _launchMoreApps() async {
+    if (!await launch(playStoreMoreAppsLink)) throw 'Could not launch';
+  }
+
+  void _shareAppLink() {
+    // Share.share('Scan QR & Barcode with $appName. Download from $playStoreAppLink');
+    Share.share('Scan QR & Barcode with $appName.');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,53 +29,56 @@ class Settings extends StatelessWidget {
       body: BottomNavBarPadding(
         child: SingleChildScrollView(
           padding: const EdgeInsets.only(bottom: 34),
-          child: Column(
-            children: [
-              const AppInfo(),
-              Card(
-                margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
-                shadowColor: Colors.grey.withOpacity(0.3),
-                // elevation: 0.3,
-                child: Column(children: [
-                  const SizedBox(height: 12),
-                  buileSettingItem(
-                    icon: Icons.share,
-                    title: 'Share app',
-                  ),
-                  buileSettingItem(
-                    title: 'Rate the app',
-                  ),
-                  buileSettingItem(
-                    icon: Icons.apps,
-                    title: 'More apps',
-                  ),
-                  buileSettingItem(
-                    title: 'About',
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 12, bottom: 14),
-                    child: Text(
-                      'Version 1.0.0',
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Palette.textMuted),
-                    ),
-                  ),
-                ]),
-              ),
-            ],
-          ),
+          child: Column(children: [
+            const AppInfo(),
+            Card(
+              margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
+              shadowColor: Colors.grey.withOpacity(0.3),
+              child: Column(children: [
+                const SizedBox(height: 12),
+                SettingItem(icon: Icons.share, title: 'Share app', onPress: _shareAppLink),
+                SettingItem(icon: Icons.star_rounded, title: 'Rate the app', onPress: _launchMoreApps),
+                SettingItem(icon: Icons.apps_rounded, title: 'More apps', onPress: _launchMoreApps),
+                SettingItem(title: 'About', onPress: () {}),
+                buildVersionName(context),
+              ]),
+            ),
+          ]),
         ),
       ),
     );
   }
 
-  buileSettingItem({required String title, IconData icon = Icons.info, bool lastItem = false}) {
+  Widget buildVersionName(context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 12, bottom: 14),
+      child: Text(
+        'Version $appVersion',
+        style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Palette.textMuted),
+      ),
+    );
+  }
+}
+
+class SettingItem extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final VoidCallback onPress;
+
+  const SettingItem({
+    Key? key,
+    required this.title,
+    this.icon = Icons.info,
+    required this.onPress,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         ListTile(
-          onTap: () {
-            print('foo');
-          },
+          onTap: onPress,
           contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           leading: buildIcon(icon),
           title: Text(title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Palette.textDark)),
