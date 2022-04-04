@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-import '../widgets/widgets.dart';
 import '../../../config/config.dart';
+import '../../../ui/ui.dart';
+import '../widgets/widgets.dart';
 
 class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
@@ -15,6 +16,15 @@ class Settings extends StatelessWidget {
   void _shareAppLink() {
     // Share.share('Scan QR & Barcode with $appName. Download from $playStoreAppLink');
     Share.share('Scan QR & Barcode with $appName.');
+  }
+
+  void _showAbout(context) {
+    showDialog(
+      context: context,
+      builder: (ctx) {
+        return const AppAboutDialog();
+      },
+    );
   }
 
   @override
@@ -40,7 +50,7 @@ class Settings extends StatelessWidget {
                 SettingItem(icon: Icons.share, title: 'Share app', onPress: _shareAppLink),
                 SettingItem(icon: Icons.star_rounded, title: 'Rate the app', onPress: _launchMoreApps),
                 SettingItem(icon: Icons.apps_rounded, title: 'More apps', onPress: _launchMoreApps),
-                SettingItem(title: 'About', onPress: () {}),
+                SettingItem(title: 'About', onPress: () => _showAbout(context)),
                 buildVersionName(context),
               ]),
             ),
