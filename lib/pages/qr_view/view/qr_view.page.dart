@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
+import '../../../ui/ui.dart';
 
 class QrView extends StatefulWidget {
   const QrView({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class QrView extends StatefulWidget {
 }
 
 class _QrViewState extends State<QrView> {
-  final _forgroundColor = Colors.grey[600];
+  final _forgroundColor = Colors.grey[700];
   final _backgroundColor = Colors.white;
 
   void _onDownload(qrcodeRawValue) async {
@@ -30,12 +31,14 @@ class _QrViewState extends State<QrView> {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)?.settings.arguments as Map<String, String?>;
-    final qrcodeRawValue = args['qrcodeRawValue'];
+    final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    final qrcodeRawValue = args['qrcodeRawValue'] as String;
+    // final qrcodeType = args['qrcodeType'] as BarcodeValueType;
+    // final qrTypeData = qrCodeTypes.firstWhere((e) => e.type == qrcodeType);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Qr Code'),
+        title: const Text('Qr Preview'),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -55,7 +58,6 @@ class _QrViewState extends State<QrView> {
                   child: Text('Download'),
                 ),
               ),
-              const SizedBox(height: 100),
             ],
           ),
         ),
@@ -63,13 +65,15 @@ class _QrViewState extends State<QrView> {
     );
   }
 
-  Widget _buildQrcodeView(data) {
-    return QrImage(
-      padding: const EdgeInsets.all(10),
-      size: 250,
-      data: data,
-      foregroundColor: _forgroundColor,
-      backgroundColor: _backgroundColor,
+  Widget _buildQrcodeView(rawData) {
+    return WrapperCard(
+      blurRadius: 4,
+      child: QrImage(
+        size: 250,
+        data: rawData,
+        foregroundColor: _forgroundColor,
+        backgroundColor: _backgroundColor,
+      ),
     );
   }
 }

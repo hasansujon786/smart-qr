@@ -55,12 +55,14 @@ class _ResultViewState extends State<ResultView> {
 
   @override
   Widget build(BuildContext context) {
+    var qrTypeData = qrCodeTypes.firstWhere((e) => e.type == widget.qrcode.valueType);
+
     return Column(
       children: [
         Expanded(
           child: Column(children: [
             const SizedBox(height: 40),
-            QrTypeLogo(widget.qrcode),
+            QrTypeLogo(qrTypeData),
             const SizedBox(height: 40),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),

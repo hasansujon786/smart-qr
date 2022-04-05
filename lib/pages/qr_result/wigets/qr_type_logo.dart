@@ -1,9 +1,10 @@
 import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_qr/models/models.dart';
 
 class QrTypeLogo extends StatelessWidget {
-  const QrTypeLogo(this.barcode, {Key? key}) : super(key: key);
-  final Barcode barcode;
+  final QrType qrType;
+  const QrTypeLogo(this.qrType, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class QrTypeLogo extends StatelessWidget {
       ),
       child: Center(
         child: FittedBox(
-          child: Text(getQrIcon(barcode.valueType), style: const TextStyle(fontSize: 32)),
+          child: Text(getQrIcon(qrType.type), style: const TextStyle(fontSize: 32)),
         ),
       ),
     );

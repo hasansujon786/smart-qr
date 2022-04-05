@@ -18,15 +18,6 @@ class Settings extends StatelessWidget {
     Share.share('Scan QR & Barcode with $appName.');
   }
 
-  void _showAbout(context) {
-    showDialog(
-      context: context,
-      builder: (ctx) {
-        return const AppAboutDialog();
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final radius = Constants.borderRadius;
@@ -38,7 +29,7 @@ class Settings extends StatelessWidget {
       ),
       body: BottomNavBarPadding(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.only(bottom: 34),
+          padding: const EdgeInsets.only(bottom: 20),
           child: Column(children: [
             const AppInfo(),
             Card(
@@ -49,8 +40,16 @@ class Settings extends StatelessWidget {
                 const SizedBox(height: 12),
                 SettingItem(icon: Icons.share, title: 'Share app', onPress: _shareAppLink),
                 SettingItem(icon: Icons.star_rounded, title: 'Rate the app', onPress: _launchMoreApps),
-                SettingItem(icon: Icons.apps_rounded, title: 'More apps', onPress: _launchMoreApps),
-                SettingItem(title: 'About', onPress: () => _showAbout(context)),
+                SettingItem(icon: Icons.apps, title: 'More apps', onPress: _launchMoreApps),
+                SettingItem(
+                  title: 'About',
+                  onPress: () {
+                    showDialog(
+                      context: context,
+                      builder: (ctx) => const AppAboutDialog(),
+                    );
+                  },
+                ),
                 buildVersionName(context),
               ]),
             ),
