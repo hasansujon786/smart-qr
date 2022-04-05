@@ -37,14 +37,13 @@ class QrResultPage extends ConsumerWidget {
 }
 
 class ResultView extends StatefulWidget {
+  final Barcode qrcode;
+  final String rawCode;
   const ResultView({
     Key? key,
     required this.qrcode,
     required this.rawCode,
   }) : super(key: key);
-
-  final Barcode qrcode;
-  final String rawCode;
 
   @override
   _ResultViewState createState() => _ResultViewState();
@@ -57,6 +56,7 @@ class _ResultViewState extends State<ResultView> {
   Widget build(BuildContext context) {
     var qrTypeData = qrCodeTypes.firstWhere((e) => e.type == widget.qrcode.valueType);
 
+    // TODO: add scrollview
     return Column(
       children: [
         Expanded(
