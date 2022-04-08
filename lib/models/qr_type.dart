@@ -17,6 +17,13 @@ class QrType {
   final Color? color;
 }
 
+const unknownQrType = QrType(
+  type: BarcodeValueType.unknown,
+  name: 'QR',
+  icon: Icons.info_outline,
+  color: Colors.teal,
+);
+
 final qrCodeTypes = [
   QrType(
     type: BarcodeValueType.text,
@@ -32,7 +39,7 @@ final qrCodeTypes = [
   ),
   QrType(
     type: BarcodeValueType.wifi,
-    name: 'WiFi',
+    name: 'Wi-Fi',
     icon: Icons.wifi_outlined,
     color: Color(hexColor('#F2CD41')),
   ),
@@ -54,4 +61,5 @@ final qrCodeTypes = [
     icon: Icons.mouse_outlined,
     color: Color(hexColor('#6ADCCC')),
   ),
+  unknownQrType,
 ];

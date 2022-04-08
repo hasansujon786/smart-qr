@@ -54,15 +54,15 @@ class _ResultViewState extends State<ResultView> {
 
   @override
   Widget build(BuildContext context) {
-    var qrTypeData = qrCodeTypes.firstWhere((e) => e.type == widget.qrcode.valueType);
+    var qrType = qrCodeTypes.firstWhere((e) => e.type == widget.qrcode.valueType);
 
     // TODO: add scrollview
     return Column(
       children: [
         Expanded(
           child: Column(children: [
-            const SizedBox(height: 40),
-            QrTypeLogo(qrTypeData),
+            const SizedBox(height: 28),
+            QrTypeLogo(qrType: qrType),
             const SizedBox(height: 40),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),

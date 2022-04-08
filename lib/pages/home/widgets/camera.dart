@@ -105,6 +105,7 @@ class _ButtonsControllsState extends State<ButtonsControlls> {
             Text('|', style: TextStyle(color: Colors.white.withOpacity(0.1), fontSize: 22)),
             IconButton(
               onPressed: () {
+                // TODO: disable camera before scan
                 qr_tools.decodeFromImage().then((reslult) {
                   if (reslult == null) return;
                   Navigator.pushNamed(context, QrResultPage.routeName, arguments: {
