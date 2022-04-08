@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../config/config.dart';
 import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
 import '../../../models/models.dart';
 import '../../../providers/history_provider.dart';
+import '../../../ui/ui.dart';
 import '../wigets/wigets.dart';
 
 class QrResultPage extends ConsumerWidget {
@@ -56,23 +58,18 @@ class _ResultViewState extends State<ResultView> {
   Widget build(BuildContext context) {
     var qrType = qrCodeTypes.firstWhere((e) => e.type == widget.qrcode.valueType);
 
-    // TODO: add scrollview
     return Column(
       children: [
         Expanded(
-          child: Column(children: [
-            const SizedBox(height: 28),
-            QrTypeLogo(qrType: qrType),
-            const SizedBox(height: 40),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: _buildResultItems(widget.qrcode),
-              ),
-            ),
-          ]),
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: Constants.verticalPadding),
+            child: Column(children: [
+              const SizedBox(height: 28),
+              QrTypeLogo(qrType: qrType),
+              const SizedBox(height: 40),
+              ..._buildResultItems(widget.qrcode),
+            ]),
+          ),
         ),
         _buildFatButton(_copyText, widget.rawCode),
       ],
@@ -80,18 +77,11 @@ class _ResultViewState extends State<ResultView> {
   }
 
   _buildFatButton(copyText, rawCode) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-      width: double.infinity,
-      // color: Colors.red,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 12),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12), // <-- Radius
-          ),
-        ),
-        onLongPress: () => print(rawCode),
+    return Padding(
+      padding: EdgeInsets.all(Constants.verticalPadding),
+      child: FatButton(
+        icon: Icons.copy_rounded,
+        text: 'Copy Text',
         onPressed: () {
           Clipboard.setData(ClipboardData(text: copyText)).then((_) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -102,7 +92,6 @@ class _ResultViewState extends State<ResultView> {
             );
           });
         },
-        child: const Text('Copy Text', style: TextStyle(fontSize: 16)),
       ),
     );
   }

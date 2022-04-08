@@ -57,7 +57,7 @@ class _QrCreatePageState extends State<QrCreatePage> {
         // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         reverse: true,
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: Constants.verticalPadding),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -68,7 +68,7 @@ class _QrCreatePageState extends State<QrCreatePage> {
               const SizedBox(height: 30),
               FatButton(
                 text: 'Generate QR',
-                icon: Icons.qr_code,
+                icon: Icons.qr_code_rounded,
                 onPressed: () => _onGenerateQrCode(qrcodeType),
                 // onLongPress: () => _log(qrcodeType),
               ),

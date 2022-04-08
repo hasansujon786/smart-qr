@@ -61,5 +61,4 @@ final qrCodeTypes = [
     icon: Icons.mouse_outlined,
     color: Color(hexColor('#6ADCCC')),
   ),
-  unknownQrType,
 ];

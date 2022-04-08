@@ -3,6 +3,7 @@ class Constants {
   static double borderRadius = 12;
   static double borderRadiusLg = 20;
   static double cardElevation = 0.3;
+  static double verticalPadding = 16;
 }
 
 const appName = 'Smart QR';

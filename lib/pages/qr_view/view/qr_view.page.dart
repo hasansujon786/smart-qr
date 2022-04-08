@@ -29,22 +29,26 @@ class _QrViewState extends State<QrView> {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Qr Preview'), centerTitle: true),
-      body: Container(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: Column(children: [
-                _buildQrTypeName(qrType.name),
-                const SizedBox(height: 16),
-                _buildQrcodeView(qrcodeRawValue),
-              ]),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: Constants.verticalPadding, vertical: 20),
+              child: Column(
+                children: [
+                  _buildQrTypeName(qrType.name),
+                  const SizedBox(height: 16),
+                  _buildQrcodeView(qrcodeRawValue),
+                  const SizedBox(width: double.infinity),
+                ],
+              ),
             ),
-            DownloadButton(qrcodeRawValue, fg: _forgroundColor, bg: _backgroundColor),
-          ],
-        ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(Constants.verticalPadding),
+            child: DownloadButton(qrcodeRawValue, fg: _forgroundColor, bg: _backgroundColor),
+          ),
+        ],
       ),
     );
   }
