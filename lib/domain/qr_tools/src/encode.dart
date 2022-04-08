@@ -11,9 +11,12 @@ import 'package:qr_flutter/qr_flutter.dart';
 import '../qr_tools.dart';
 
 const imageSize = 2048.00;
+const imageMargin = 100.00;
 
 Future<bool?> downloadQrAsPng(String qrText, Color? foregroundColor, Color? backgroundColor) async {
-  String path = await _createQrPicture(qrText, foregroundColor, backgroundColor);
+  String? path = await _createQrPicture(qrText, foregroundColor, backgroundColor);
+  if (path == null) return false;
+
   return await GallerySaver.saveImage(path);
 }
 
@@ -22,7 +25,7 @@ Future<void> _writeToFile(ByteData data, String path) async {
   await File(path).writeAsBytes(buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
 }
 
-Future<String> _createQrPicture(String qrText, Color? foregroundColor, Color? backgroundColor) async {
+Future<String?> _createQrPicture(String qrText, Color? foregroundColor, Color? backgroundColor) async {
   // https://medium.com/codex/exporting-qr-codes-in-flutter-dd30220fcba4
   final qrValidationResult = QrValidator.validate(
     data: qrText,
@@ -32,11 +35,11 @@ Future<String> _createQrPicture(String qrText, Color? foregroundColor, Color? ba
 
   if (qrValidationResult.status != QrValidationStatus.valid) {
     // qrValidationResult.error
-    return '';
+    return null;
   }
   final qrCode = qrValidationResult.qrCode;
   if (qrCode == null) {
-    return '';
+    return null;
   }
 
   final image = await QrPainter.withQr(
@@ -48,10 +51,14 @@ Future<String> _createQrPicture(String qrText, Color? foregroundColor, Color? ba
     embeddedImage: null,
   ).toImage(imageSize, format: ui.ImageByteFormat.png);
 
-  ByteData? picData = await CodePainter(qrImage: image, color: backgroundColor).toImageData(imageSize);
+  ByteData? picData = await CodePainter(
+    qrImage: image,
+    color: backgroundColor,
+    margin: imageMargin,
+  ).toImageData(imageSize);
 
   if (picData == null) {
-    return '';
+    return null;
   }
 
   Directory tempDir = await getTemporaryDirectory();
@@ -63,6 +70,7 @@ Future<String> _createQrPicture(String qrText, Color? foregroundColor, Color? ba
   return path;
 }
 
+/// Adds margin to qr img
 class CodePainter extends CustomPainter {
   final double margin;
   final ui.Image qrImage;

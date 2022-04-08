@@ -31,7 +31,7 @@ class DownloadButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return FatButton(
       text: 'Download',
-      icon: Icons.download,
+      icon: Icons.download_rounded,
       onPressed: () async {
         _onDownload(qrcodeRawValue, context);
       },
