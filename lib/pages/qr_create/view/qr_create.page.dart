@@ -52,10 +52,15 @@ class _QrCreatePageState extends State<QrCreatePage> {
       appBar: AppBar(
         title: const Text('Create QR code'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () => _onGenerateQrCode(qrcodeType),
+            icon: const Icon(Icons.done_all),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        reverse: true,
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 20, horizontal: Constants.verticalPadding),
           child: Column(
