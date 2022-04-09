@@ -15,7 +15,7 @@ class QrHistoryDetailsPage extends StatelessWidget {
     final isFavPage = args['is_fav_page'] as bool;
     final qrcode = qr_tools.parse(rawCode);
 
-    return Scaffold(
+    return ResultView(
       appBar: AppBar(
         title: Text(isFavPage ? 'QR Details' : 'QR History'),
         centerTitle: true,
@@ -28,7 +28,8 @@ class QrHistoryDetailsPage extends StatelessWidget {
           AddToFav(qrcode: qrcode, qrId: qrId)
         ],
       ),
-      body: ResultView(qrcode: qrcode, rawCode: rawCode),
+      qrcode: qrcode,
+      rawCode: rawCode,
     );
   }
 }

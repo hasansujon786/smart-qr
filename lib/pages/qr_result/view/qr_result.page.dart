@@ -1,13 +1,9 @@
-import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../config/config.dart';
 import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
 import '../../../models/models.dart';
 import '../../../providers/history_provider.dart';
-import '../../../ui/ui.dart';
 import '../wigets/wigets.dart';
 
 class QrResultPage extends ConsumerWidget {
@@ -25,7 +21,7 @@ class QrResultPage extends ConsumerWidget {
       ref.read(qrHistoryProvider.notifier).add(qrHistory);
     });
 
-    return Scaffold(
+    return ResultView(
       appBar: AppBar(
         title: const Text('Result'),
         centerTitle: true,
@@ -33,140 +29,8 @@ class QrResultPage extends ConsumerWidget {
           AddToFav(qrcode: qrcode, qrId: qrHistory.id),
         ],
       ),
-      body: ResultView(qrcode: qrcode, rawCode: rawCode),
+      qrcode: qrcode,
+      rawCode: rawCode,
     );
-  }
-}
-
-class ResultView extends StatefulWidget {
-  final Barcode qrcode;
-  final String rawCode;
-  const ResultView({
-    Key? key,
-    required this.qrcode,
-    required this.rawCode,
-  }) : super(key: key);
-
-  @override
-  _ResultViewState createState() => _ResultViewState();
-}
-
-class _ResultViewState extends State<ResultView> {
-  String? _copyText = '';
-
-  @override
-  Widget build(BuildContext context) {
-    var qrType = qrCodeTypes.firstWhere((e) => e.type == widget.qrcode.valueType);
-
-    return Column(
-      children: [
-        Expanded(
-          child: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: Constants.verticalPadding),
-            child: Column(children: [
-              const SizedBox(height: 28),
-              QrTypeLogo(qrType: qrType),
-              const SizedBox(height: 40),
-              ..._buildResultItems(widget.qrcode),
-            ]),
-          ),
-        ),
-        _buildFatButton(_copyText, widget.rawCode),
-      ],
-    );
-  }
-
-  _buildFatButton(copyText, rawCode) {
-    return Padding(
-      padding: EdgeInsets.all(Constants.verticalPadding),
-      child: FatButton(
-        icon: Icons.copy_rounded,
-        text: 'Copy Text',
-        onPressed: () {
-          Clipboard.setData(ClipboardData(text: copyText)).then((_) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Text copied'),
-                duration: Duration(seconds: 3),
-              ),
-            );
-          });
-        },
-      ),
-    );
-  }
-
-  List<Widget> _buildResultItems(Barcode barcode) {
-    switch (barcode.valueType) {
-      // case BarcodeValueType.contactInfo:
-      //   BarcodeContactInfo barcodeContactInfo = barcode as BarcodeContactInfo;
-      //   break;
-      // case BarcodeValueType.location:
-      //   BarcodeLocation barcodeLocation = barcode as BarcodeLocation;
-      //   break;
-      // case BarcodeValueType.calendarEvent:
-      //   BarcodeCalendarEvent barcodeCalendarEvent = barcode as BarcodeCalendarEvent;
-      //   break;
-      // case BarcodeValueType.driverLicense:
-      //   BarcodeDriverLicense barcodeDriverLicense = barcode as BarcodeDriverLicense;
-      //   break;
-
-      case BarcodeValueType.sms:
-        BarcodeSms barcodeSms = barcode as BarcodeSms;
-        return [
-          QrResultItem(title: 'Phone Number', content: barcodeSms.phoneNumber ?? ''),
-          QrResultItem(title: 'Message', content: barcodeSms.message ?? ''),
-        ];
-
-      case BarcodeValueType.email:
-        BarcodeEmail barcodeEmail = barcode as BarcodeEmail;
-        return [
-          ...barcodeEmail.recipients.map((recipient) {
-            return recipient == '' ? Container() : QrResultItem(title: 'Email', content: recipient);
-          }),
-          QrResultItem(title: 'Subject', content: barcodeEmail.subject ?? ''),
-          QrResultItem(title: '', content: barcodeEmail.body ?? ''),
-        ];
-
-      case BarcodeValueType.product:
-        BarcodeProduct barcodeProduct = barcode as BarcodeProduct;
-        return [
-          QrResultItem(title: 'Product Code', content: barcodeProduct.code.toString()),
-        ];
-
-      case BarcodeValueType.url:
-        BarcodeUrl barcodeUrl = barcode as BarcodeUrl;
-        return [
-          QrResultItem(title: 'Url', content: barcodeUrl.url ?? ''),
-        ];
-
-      case BarcodeValueType.wifi:
-        BarcodeWifi barcodeWifi = barcode as BarcodeWifi;
-        _copyText = barcodeWifi.password;
-        return [
-          QrResultItem(title: 'SSID', content: barcodeWifi.ssid ?? ''),
-          QrResultItem(title: 'Password', content: barcodeWifi.password ?? ''),
-        ];
-
-      case BarcodeValueType.phone:
-        BarcodePhone barcodePhone = barcode as BarcodePhone;
-        _copyText = barcodePhone.number;
-        return [
-          QrResultItem(title: 'Number', content: barcodePhone.number ?? ''),
-        ];
-
-      case BarcodeValueType.text:
-        BarcodeText barcodeText = barcode as BarcodeText;
-        _copyText = barcodeText.rawValue;
-        return [
-          QrResultItem(title: '', content: barcodeText.rawValue),
-        ];
-
-      default:
-        _copyText = barcode.rawValue;
-        return [
-          QrResultItem(title: '', content: barcode.rawValue),
-        ];
-    }
   }
 }
