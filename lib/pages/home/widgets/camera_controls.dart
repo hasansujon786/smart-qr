@@ -5,15 +5,15 @@ import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
 import '../../qr_result/qr_result.dart';
 import '../../../ui/ui.dart';
 
-class CameraControlls extends StatefulWidget {
+class CameraControls extends StatefulWidget {
   final ScanController controller;
-  const CameraControlls({Key? key, required this.controller}) : super(key: key);
+  const CameraControls({Key? key, required this.controller}) : super(key: key);
 
   @override
-  _CameraControllsState createState() => _CameraControllsState();
+  _CameraControlsState createState() => _CameraControlsState();
 }
 
-class _CameraControllsState extends State<CameraControlls> with WidgetsBindingObserver {
+class _CameraControlsState extends State<CameraControls> with WidgetsBindingObserver {
   bool isFlashOn = false;
 
   @override
@@ -50,6 +50,7 @@ class _CameraControllsState extends State<CameraControlls> with WidgetsBindingOb
                 if (reslult == null) return;
 
                 // show result page
+                widget.controller.pause();
                 Navigator.pushNamed(context, QrResultPage.routeName, arguments: {
                   'qrcodeRawValue': reslult,
                 }).then((value) {

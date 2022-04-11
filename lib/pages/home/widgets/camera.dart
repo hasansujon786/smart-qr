@@ -38,7 +38,7 @@ class Camera extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           child: Padding(
             padding: const EdgeInsets.only(bottom: 80),
-            child: CameraControlls(controller: _controller),
+            child: CameraControls(controller: _controller),
           ),
         ),
       ],
