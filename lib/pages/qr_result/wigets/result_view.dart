@@ -90,7 +90,6 @@ ResultItems _buildResultItems(Barcode barcode) {
       ], copyText);
 
     case BarcodeValueType.phone:
-      // TODO: fix phoneNumber raw qr
       BarcodePhone barcodePhone = barcode as BarcodePhone;
       copyText = '${barcodePhone.number}';
 

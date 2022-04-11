@@ -190,20 +190,33 @@ class MeTuple {
   final String val;
 }
 
-/// Create a Sms MeCard
-/// SMSTO:34343434343:this is sms message
+/// Create a Sms QR
+/// SMSTO:34343434343:Your message
 class GenerateSms {
+  final String phoneNumber;
+  final String message;
+
   GenerateSms({
     required this.phoneNumber,
     required this.message,
   });
 
-  final String type = 'sms';
-  final String phoneNumber;
-  final String message;
-
   @override
   String toString() {
     return 'SMSTO:$phoneNumber:$message';
+  }
+}
+
+/// Create a Phone QR
+/// tel:+12125551212
+class GeneratePhoneNumber {
+  final String phoneNumber;
+  GeneratePhoneNumber({
+    required this.phoneNumber,
+  });
+
+  @override
+  String toString() {
+    return 'tel:$phoneNumber';
   }
 }
