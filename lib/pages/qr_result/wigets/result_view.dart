@@ -33,7 +33,10 @@ class ResultView extends StatelessWidget {
           ...resultItems.rItems,
         ]),
       ),
-      bottomNavigationBar: CopyButton(copyText: resultItems.copyText ?? ''),
+      bottomNavigationBar: CopyButton(
+        copyText: resultItems.copyText ?? '',
+        rawValue: qrcode.rawValue,
+      ),
     );
   }
 }

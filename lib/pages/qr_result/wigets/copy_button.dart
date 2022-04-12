@@ -6,7 +6,8 @@ import '../../../ui/ui.dart';
 
 class CopyButton extends StatelessWidget {
   final String copyText;
-  const CopyButton({Key? key, required this.copyText}) : super(key: key);
+  final String rawValue;
+  const CopyButton({Key? key, required this.copyText, required this.rawValue}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +16,10 @@ class CopyButton extends StatelessWidget {
       child: FatButton(
         icon: Icons.copy_rounded,
         text: 'Copy Text',
+        onLongPress: () {
+          print('=============================================');
+          print(rawValue);
+        },
         onPressed: () {
           Clipboard.setData(ClipboardData(text: copyText)).then((_) {
             FloatingSnackBar.showFloatingSnackBar(context, message: 'Text copied', width: 120);
