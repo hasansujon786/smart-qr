@@ -42,20 +42,24 @@ ResultItems _buildResultItems(Barcode barcode) {
   String copyText;
 
   switch (barcode.valueType) {
-    case BarcodeValueType.sms:
-      BarcodeSms barcodeSms = barcode as BarcodeSms;
-      copyText = 'Phone number: ${barcodeSms.phoneNumber} \nMessage: ${barcodeSms.message}';
-
+    case BarcodeValueType.product:
+      BarcodeProduct barcodeProduct = barcode as BarcodeProduct;
+      copyText = 'Product Code: ${barcodeProduct.code}';
       return ResultItems([
-        QrResultItem(title: 'Phone Number', content: barcodeSms.phoneNumber ?? ''),
-        QrResultItem(title: 'Message', content: barcodeSms.message ?? ''),
+        QrResultItem(title: 'Product Code', content: barcodeProduct.code.toString()),
+      ], copyText);
+
+    case BarcodeValueType.url:
+      BarcodeUrl barcodeUrl = barcode as BarcodeUrl;
+      copyText = '${barcodeUrl.url}';
+      return ResultItems([
+        QrResultItem(title: 'Url', content: barcodeUrl.url ?? ''),
       ], copyText);
 
     case BarcodeValueType.email:
       BarcodeEmail barcodeEmail = barcode as BarcodeEmail;
       // TODO: get recipients name
       copyText = 'Subject: ${barcodeEmail.subject} \nMessage: ${barcodeEmail.body}';
-
       return ResultItems([
         ...barcodeEmail.recipients.map((recipient) {
           return recipient == '' ? Container() : QrResultItem(title: 'Email', content: recipient);
@@ -64,26 +68,17 @@ ResultItems _buildResultItems(Barcode barcode) {
         QrResultItem(title: 'Message', content: barcodeEmail.body ?? ''),
       ], copyText);
 
-    case BarcodeValueType.product:
-      BarcodeProduct barcodeProduct = barcode as BarcodeProduct;
-      copyText = 'Product Code: ${barcodeProduct.code}';
-
+    case BarcodeValueType.sms:
+      BarcodeSms barcodeSms = barcode as BarcodeSms;
+      copyText = 'Phone number: ${barcodeSms.phoneNumber} \nMessage: ${barcodeSms.message}';
       return ResultItems([
-        QrResultItem(title: 'Product Code', content: barcodeProduct.code.toString()),
-      ], copyText);
-
-    case BarcodeValueType.url:
-      BarcodeUrl barcodeUrl = barcode as BarcodeUrl;
-      copyText = '${barcodeUrl.url}';
-
-      return ResultItems([
-        QrResultItem(title: 'Url', content: barcodeUrl.url ?? ''),
+        QrResultItem(title: 'Phone Number', content: barcodeSms.phoneNumber ?? ''),
+        QrResultItem(title: 'Message', content: barcodeSms.message ?? ''),
       ], copyText);
 
     case BarcodeValueType.wifi:
       BarcodeWifi barcodeWifi = barcode as BarcodeWifi;
       copyText = 'SSID: ${barcodeWifi.ssid} \nPassword: ${barcodeWifi.password}';
-
       return ResultItems([
         QrResultItem(title: 'SSID', content: barcodeWifi.ssid ?? ''),
         QrResultItem(title: 'Password', content: barcodeWifi.password ?? ''),
@@ -92,7 +87,6 @@ ResultItems _buildResultItems(Barcode barcode) {
     case BarcodeValueType.phone:
       BarcodePhone barcodePhone = barcode as BarcodePhone;
       copyText = '${barcodePhone.number}';
-
       return ResultItems([
         QrResultItem(title: 'Number', content: barcodePhone.number ?? ''),
       ], copyText);
@@ -100,16 +94,14 @@ ResultItems _buildResultItems(Barcode barcode) {
     case BarcodeValueType.text:
       BarcodeText barcodeText = barcode as BarcodeText;
       copyText = barcodeText.rawValue;
-
       return ResultItems([
         QrResultItem(title: 'Text', content: barcodeText.rawValue),
       ], copyText);
 
     default:
       copyText = barcode.rawValue;
-
       return ResultItems([
-        QrResultItem(title: 'Value', content: barcode.rawValue),
+        QrResultItem(title: '', content: barcode.rawValue),
       ], copyText);
 
     // case BarcodeValueType.contactInfo:

@@ -116,12 +116,8 @@ class CodePainter extends CustomPainter {
 
 String encodeToMeCard(BarcodeValueType qrcodeType, Map formState) {
   switch (qrcodeType) {
-    case BarcodeValueType.wifi:
-      return MeCard.wifi(
-        ssid: formState['ssid'],
-        password: formState['pass'],
-        type: formState['type'],
-      ).toString();
+    case BarcodeValueType.url:
+      return formState['url'];
 
     case BarcodeValueType.email:
       return MeCard.email(
@@ -136,13 +132,17 @@ String encodeToMeCard(BarcodeValueType qrcodeType, Map formState) {
         message: formState['message'],
       ).toString();
 
+    case BarcodeValueType.wifi:
+      return MeCard.wifi(
+        ssid: formState['ssid'],
+        password: formState['pass'],
+        type: formState['type'],
+      ).toString();
+
     case BarcodeValueType.phone:
       return GeneratePhoneNumber(
         phoneNumber: formState['tel'],
       ).toString();
-
-    case BarcodeValueType.url:
-      return formState['url'];
 
     case BarcodeValueType.text:
     default:

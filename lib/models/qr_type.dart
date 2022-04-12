@@ -61,4 +61,43 @@ final qrCodeTypes = [
     icon: Icons.mouse_outlined,
     color: Color(hexColor('#6ADCCC')),
   ),
+  // QrType(
+  //   type: BarcodeValueType.contactInfo,
+  //   name: 'Contact',
+  //   icon: Icons.contacts,
+  //   color: Color(hexColor('#6ADCCC')),
+  // ),
 ];
+
+// url,
+// email,
+// sms,
+// wifi,
+// phone,
+// text,
+
+// location,              geo:lat,long,alt
+// contactInfo,
+// unknown,
+// product,
+// calendarEvent,
+// driverLicense,
+// whatsapp,
+// twitter,
+// instagram,
+// linkedin,
+// facebook,
+
+
+// BEGIN:VCARD
+// VERSION:3.0
+// N:;Apu;;;
+// FN:Apu
+// TEL;TYPE=CELL:016-860-61547
+// TEL;TYPE=HOME:017-996-36991
+// TEL;TYPE=HOME:+8801974518582
+// NICKNAME:Sister
+// NICKNAME:Sister
+// BDAY:1990-04-08
+// END:VCARD
+

@@ -11,20 +11,20 @@ class QrCreateForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (qrcodeType) {
+      case BarcodeValueType.url:
+        return QrInputUrl(updateFormData: updateFromData);
+
+      case BarcodeValueType.email:
+        return QrInputEmail(updateFormData: updateFromData);
+
+      case BarcodeValueType.sms:
+        return QrInputSms(updateFormData: updateFromData);
+
       case BarcodeValueType.wifi:
         return QrInputWifi(updateFormData: updateFromData);
 
       case BarcodeValueType.phone:
         return QrInputTel(updateFormData: updateFromData);
-
-      case BarcodeValueType.sms:
-        return QrInputSms(updateFormData: updateFromData);
-
-      case BarcodeValueType.email:
-        return QrInputEmail(updateFormData: updateFromData);
-
-      case BarcodeValueType.url:
-        return QrInputUrl(updateFormData: updateFromData);
 
       case BarcodeValueType.text:
       default:

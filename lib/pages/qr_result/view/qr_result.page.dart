@@ -13,7 +13,7 @@ class QrResultPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, String?>;
+    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final rawCode = args['qrcodeRawValue'] ?? '';
     final qrcode = qr_tools.parse(rawCode);
 
