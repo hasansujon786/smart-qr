@@ -17,18 +17,7 @@ class CopyButton extends StatelessWidget {
         text: 'Copy Text',
         onPressed: () {
           Clipboard.setData(ClipboardData(text: copyText)).then((_) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                width: 130,
-                content: const SizedBox(height: 22, child: Center(child: Text('Text copied'))),
-                duration: const Duration(milliseconds: 1500),
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                // backgroundColor: Colors.blue,
-              ),
-            );
+            FloatingSnackBar.showFloatingSnackBar(context, message: 'Text copied', width: 120);
           });
         },
       ),

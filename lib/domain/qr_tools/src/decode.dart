@@ -1,4 +1,6 @@
 import 'package:barcode_parser/barcode_parser.dart';
+// TODO: check models from barcodeParser
+// import 'package:barcode_parser/models.dart';
 import 'package:images_picker/images_picker.dart';
 import 'package:scan/scan.dart';
 
@@ -18,4 +20,3 @@ Barcode parse(String rawValue) {
   BarcodeParser barcodeParser = BarcodeParser();
   return barcodeParser.parse(rawValue);
 }
-
