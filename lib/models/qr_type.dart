@@ -15,6 +15,10 @@ class QrType {
   final BarcodeValueType type;
   final IconData icon;
   final Color? color;
+
+  static QrType findByValueType(BarcodeValueType type) {
+    return allKnownQrTypes.firstWhere((e) => e.type == type, orElse: () => unknownQrType);
+  }
 }
 
 const unknownQrType = QrType(
@@ -24,7 +28,7 @@ const unknownQrType = QrType(
   color: Colors.teal,
 );
 
-final qrCodeTypes = [
+final supportedCreateQrTypes = [
   QrType(
     type: BarcodeValueType.text,
     name: 'Text',
@@ -61,14 +65,26 @@ final qrCodeTypes = [
     icon: Icons.mouse_outlined,
     color: Color(hexColor('#6ADCCC')),
   ),
-  // QrType(
-  //   type: BarcodeValueType.contactInfo,
-  //   name: 'Contact',
-  //   icon: Icons.contacts,
-  //   color: Color(hexColor('#6ADCCC')),
-  // ),
 ];
 
+final allKnownQrTypes = [
+  ...supportedCreateQrTypes,
+  unknownQrType,
+  QrType(
+    type: BarcodeValueType.location,
+    name: 'Location',
+    icon: Icons.location_pin,
+    color: Color(hexColor('#6ADCCC')),
+  ),
+  QrType(
+    type: BarcodeValueType.contactInfo,
+    name: 'Contact',
+    icon: Icons.contacts,
+    color: Color(hexColor('#6ADCCC')),
+  ),
+];
+
+//* location,              geo:lat,long,alt
 // url,
 // email,
 // sms,
@@ -76,7 +92,6 @@ final qrCodeTypes = [
 // phone,
 // text,
 
-// location,              geo:lat,long,alt
 // contactInfo,
 // unknown,
 // product,

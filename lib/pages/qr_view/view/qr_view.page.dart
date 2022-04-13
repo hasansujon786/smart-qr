@@ -25,7 +25,7 @@ class _QrViewState extends State<QrView> {
     final args = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
     final qrcodeRawValue = args['qrcodeRawValue'] as String;
     final qrcodeType = args['qrcodeType'] as BarcodeValueType;
-    final qrType = qrCodeTypes.firstWhere((e) => e.type == qrcodeType);
+    final QrType qrType = QrType.findByValueType(qrcodeType);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Qr Preview'), centerTitle: true),

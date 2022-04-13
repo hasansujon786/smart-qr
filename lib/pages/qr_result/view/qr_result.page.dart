@@ -1,10 +1,10 @@
+import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
 import '../../../models/models.dart';
 import '../../../providers/history_provider.dart';
-import '../../../ui/ui.dart';
 import '../wigets/wigets.dart';
 
 class QrResultPage extends ConsumerWidget {
@@ -15,13 +15,13 @@ class QrResultPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     final rawCode = args['qrcodeRawValue'] ?? '';
-    final qrcode = qr_tools.parse(rawCode);
+    final Barcode qrcode = qr_tools.parse(rawCode);
 
-    bool isSupportedValue = qrCodeTypes.any((element) => element.type == qrcode.valueType);
-    if (!isSupportedValue) {
-      Navigator.pop(context);
-      FloatingSnackBar.showFloatingSnackBar(context, message: 'Unsupported QR Code', width: 180);
-    }
+    // bool isSupportedValue = qrCodeTypes.any((element) => element.type == qrcode.valueType);
+    // if (!isSupportedValue) {
+    //   Navigator.pop(context);
+    //   FloatingSnackBar.showFloatingSnackBar(context, message: 'Unsupported QR Code', width: 180);
+    // }
 
     final qrHistory = QrHistory(rawValue: qrcode.rawValue, type: qrcode.valueType.name);
     Future.delayed(const Duration(seconds: 1), () {

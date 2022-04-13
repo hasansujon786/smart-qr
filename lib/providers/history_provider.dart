@@ -21,11 +21,11 @@ class QrHistoryNotifier extends StateNotifier<List<QrHistory>> {
   final box = Hive.box<QrHistory>(hiveBoxQrHistory);
 
   void add(QrHistory qrHistory) {
-    final isSupporTedType = qrCodeTypes.indexWhere((element) => element.type == qrHistory.typeAsEnum) > -1;
-    if (!isSupporTedType) {
-      print('================== unsupported qr type =====================');
-      return;
-    }
+    // final isSupporTedType = qrCodeTypes.indexWhere((element) => element.type == qrHistory.typeAsEnum) > -1;
+    // if (!isSupporTedType) {
+    //   print('================== unsupported qr type =====================');
+    //   return;
+    // }
     state = [qrHistory, ...state];
     box.add(qrHistory);
   }

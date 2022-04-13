@@ -22,11 +22,11 @@ class QrFavNotifier extends StateNotifier<List<QrFav>> {
   final box = Hive.box<QrFav>(hiveBoxQrFav);
 
   void add(String raw, BarcodeValueType type, String id) {
-    final isSupporTedType = qrCodeTypes.indexWhere((element) => element.type == type) > -1;
-    if (!isSupporTedType) {
-      print('================== unsupported qr type =====================');
-      return;
-    }
+    // final isSupporTedType = qrCodeTypes.indexWhere((element) => element.type == type) > -1;
+    // if (!isSupporTedType) {
+    //   print('================== unsupported qr type =====================');
+    //   return;
+    // }
     final newQr = QrFav(type: type.name, rawValue: raw, id: id);
     state = [newQr, ...state];
     box.add(newQr);

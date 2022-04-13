@@ -18,9 +18,9 @@ class CreateView extends StatelessWidget {
       ),
       body: BottomNavBarPadding(
         child: GridView.builder(
-          itemCount: qrCodeTypes.length,
+          itemCount: supportedCreateQrTypes.length,
           itemBuilder: (BuildContext context, int index) {
-            return CreateItem(qrType: qrCodeTypes[index]);
+            return CreateItem(qrType: supportedCreateQrTypes[index]);
           },
           padding: const EdgeInsets.all(12),
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(

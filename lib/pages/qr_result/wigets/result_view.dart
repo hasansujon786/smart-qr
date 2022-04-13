@@ -18,7 +18,7 @@ class ResultView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var qrType = qrCodeTypes.firstWhere((e) => e.type == qrcode.valueType);
+    final QrType qrType = QrType.findByValueType(qrcode.valueType);
 
     final resultItems = _buildResultItems(qrcode);
 
@@ -50,6 +50,14 @@ ResultItems _buildResultItems(Barcode barcode) {
       copyText = 'Product Code: ${barcodeProduct.code}';
       return ResultItems([
         QrResultItem(title: 'Product Code', content: barcodeProduct.code.toString()),
+      ], copyText);
+
+    case BarcodeValueType.location:
+      BarcodeLocation barcodeLocation = barcode as BarcodeLocation;
+      copyText = barcodeLocation.rawValue;
+      return ResultItems([
+        QrResultItem(title: 'Latitude', content: barcodeLocation.latitude.toString()),
+        QrResultItem(title: 'Longitude', content: barcodeLocation.longitude.toString()),
       ], copyText);
 
     case BarcodeValueType.url:

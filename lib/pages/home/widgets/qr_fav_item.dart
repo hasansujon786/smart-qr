@@ -15,7 +15,7 @@ class QrFavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var qrTypeData = qrCodeTypes.firstWhere((e) => e.type == fav.typeAsEnum);
+    final QrType qrTypeData = QrType.findByValueType(fav.typeAsEnum);
 
     return Padding(
       padding: const EdgeInsets.only(top: 8),

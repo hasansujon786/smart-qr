@@ -15,7 +15,7 @@ class QrHistoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var qrTypeData = qrCodeTypes.firstWhere((e) => e.type == history.typeAsEnum);
+    final QrType qrTypeData = QrType.findByValueType(history.typeAsEnum);
 
     return Padding(
       padding: const EdgeInsets.only(top: 8),
