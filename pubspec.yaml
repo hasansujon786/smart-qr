@@ -17,7 +17,9 @@ dependencies:
   gallery_saver: ^2.3.2
   path_provider: ^2.0.9
   qr_flutter: ^4.0.0
-  barcode_parser: ^0.2.0
+  # barcode_parser: ^0.2.0
+  barcode_parser:
+    path: packages/barcode_parser
   hive: ^2.0.6
   hive_flutter: ^1.1.0
   flutter_riverpod: ^1.0.3

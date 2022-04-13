@@ -32,9 +32,9 @@ packages:
   barcode_parser:
     dependency: "direct main"
     description:
-      name: barcode_parser
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "packages/barcode_parser"
+      relative: true
+    source: path
     version: "0.2.0"
   boolean_selector:
     dependency: transitive
