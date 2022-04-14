@@ -89,10 +89,13 @@ ResultItems _buildResultItems(Barcode barcode) {
 
     case BarcodeValueType.wifi:
       BarcodeWifi barcodeWifi = barcode as BarcodeWifi;
+      String? encryptionType = barcodeWifi.encryptionType?.name;
       copyText = 'SSID: ${barcodeWifi.ssid} \nPassword: ${barcodeWifi.password}';
+
       return ResultItems([
         QrResultItem(title: 'SSID', content: barcodeWifi.ssid ?? ''),
         QrResultItem(title: 'Password', content: barcodeWifi.password ?? ''),
+        QrResultItem(title: 'Network Encryption', content: encryptionType?.toUpperCase() ?? ''),
       ], copyText);
 
     case BarcodeValueType.phone:
