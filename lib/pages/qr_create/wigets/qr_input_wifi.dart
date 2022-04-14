@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+
 import './wigets.dart';
 
 class QrInputWifi extends StatelessWidget {
@@ -14,11 +16,15 @@ class QrInputWifi extends StatelessWidget {
     return Column(
       children: [
         QrFormField(
-          label: 'SSID',
+          label: 'SSID *',
           hintText: 'Enter wifi name here',
           onSaved: (val) {
             updateFormData('ssid', val);
           },
+          validator: MultiValidator([
+            QrFieldValidtors.requiredValidator,
+            QrFieldValidtors.maxLengthValidator(200, fieldName: 'SSID'),
+          ]),
         ),
         const SizedBox(height: 8),
         QrFormField(
@@ -29,9 +35,11 @@ class QrInputWifi extends StatelessWidget {
             updateFormData('pass', val);
             updateFormData('type', 'WPA');
           },
+          validator: MultiValidator([
+            QrFieldValidtors.maxLengthValidator(200, fieldName: 'Password'),
+          ]),
         ),
       ],
     );
   }
 }
-

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+
 import './wigets.dart';
 
 class QrInputUrl extends StatelessWidget {
@@ -14,12 +16,16 @@ class QrInputUrl extends StatelessWidget {
     return Column(
       children: [
         QrFormField(
-          label: 'Enter website URL',
+          label: 'Enter website URL *',
           hintText: 'Enter URL here',
           isLastField: true,
           onSaved: (val) {
             updateFormData('url', val);
           },
+          validator: MultiValidator([
+            QrFieldValidtors.requiredValidator,
+            QrFieldValidtors.maxLengthValidator(500, fieldName: 'Url'),
+          ]),
         ),
       ],
     );

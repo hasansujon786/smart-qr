@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:form_field_validator/form_field_validator.dart';
+
 import './wigets.dart';
 
 class QrInputSms extends StatelessWidget {
@@ -14,11 +16,15 @@ class QrInputSms extends StatelessWidget {
     return Column(
       children: [
         QrFormField(
-          label: 'Phone number',
+          label: 'Phone number *',
           hintText: 'Enter number here',
           onSaved: (val) {
             updateFormData('phoneNumber', val);
           },
+          validator: MultiValidator([
+            QrFieldValidtors.requiredValidator,
+            QrFieldValidtors.maxLengthValidator(100),
+          ]),
         ),
         const SizedBox(height: 8),
         QrFormField(
@@ -28,10 +34,11 @@ class QrInputSms extends StatelessWidget {
           onSaved: (val) {
             updateFormData('message', val);
           },
+          validator: MultiValidator([
+            QrFieldValidtors.maxLengthValidator(200, fieldName: 'Message'),
+          ]),
         ),
       ],
     );
   }
 }
-
-
