@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:smart_qr/config/config.dart';
 
 class FloatingSnackBar {
-  static void showFloatingSnackBar(context, {required String message, double width = 200}) {
-    ScaffoldMessenger.of(context).showSnackBar(
+  static ScaffoldFeatureController showFloatingSnackBar(context, {required String message, double width = 200}) {
+    return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         width: width,
         backgroundColor: Colors.white,

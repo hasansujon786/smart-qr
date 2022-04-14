@@ -10,8 +10,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import '../qr_tools.dart';
 
-const imageSize = 2048.00;
-const imageMargin = 100.00;
+const imageSize = 1080.00;
+const imageMargin = 10.00;
 
 Future<bool?> downloadQrAsPng(String qrText, Color? foregroundColor, Color? backgroundColor) async {
   String? path = await _createQrPicture(qrText, foregroundColor, backgroundColor);

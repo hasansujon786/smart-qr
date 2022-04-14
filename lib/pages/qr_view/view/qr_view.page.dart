@@ -19,6 +19,7 @@ class QrView extends StatefulWidget {
 class _QrViewState extends State<QrView> {
   final Color _forgroundColor = Color(hexColor('#333333'));
   final Color _backgroundColor = Colors.white;
+  ScaffoldFeatureController? _scaffoldController;
 
   @override
   Widget build(BuildContext context) {
@@ -27,28 +28,42 @@ class _QrViewState extends State<QrView> {
     final qrcodeType = args['qrcodeType'] as BarcodeValueType;
     final QrType qrType = QrType.findByValueType(qrcodeType);
 
-    return Scaffold(
-      appBar: AppBar(title: const Text('Qr Preview'), centerTitle: true),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: Constants.verticalPadding, vertical: 20),
-              child: Column(
-                children: [
-                  _buildQrTypeName(qrType.name),
-                  const SizedBox(height: 16),
-                  _buildQrcodeView(qrcodeRawValue),
-                  const SizedBox(width: double.infinity),
-                ],
+    return WillPopScope(
+      onWillPop: () {
+        _scaffoldController?.close();
+        return Future.value(true);
+      },
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Qr Preview'), centerTitle: true),
+        body: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: Constants.verticalPadding, vertical: 20),
+                child: Column(
+                  children: [
+                    _buildQrTypeName(qrType.name),
+                    const SizedBox(height: 16),
+                    _buildQrcodeView(qrcodeRawValue),
+                    const SizedBox(width: double.infinity),
+                  ],
+                ),
               ),
             ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(Constants.verticalPadding),
-            child: DownloadButton(qrcodeRawValue, fg: _forgroundColor, bg: _backgroundColor),
-          ),
-        ],
+          ],
+        ),
+        bottomNavigationBar: DownloadButton(
+          qrcodeRawValue,
+          fg: _forgroundColor,
+          bg: _backgroundColor,
+          onDownload: (success) {
+            _scaffoldController = FloatingSnackBar.showFloatingSnackBar(
+              context,
+              message: success ? 'Image saved to Gallery' : 'Error saving image',
+              width: 180,
+            );
+          },
+        ),
       ),
     );
   }

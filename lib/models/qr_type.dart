@@ -23,7 +23,7 @@ class QrType {
 
 const unknownQrType = QrType(
   type: BarcodeValueType.unknown,
-  name: 'QR',
+  name: 'Unknown',
   icon: Icons.info_outline,
   color: Colors.teal,
 );
