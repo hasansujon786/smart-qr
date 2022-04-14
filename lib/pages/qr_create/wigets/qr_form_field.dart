@@ -6,6 +6,7 @@ class QrFormField extends StatelessWidget {
   final String label;
   final String hintText;
   final Function(String?)? onSaved;
+  final String? Function(String?)? validator;
   final bool isLastField;
 
   const QrFormField({
@@ -14,6 +15,7 @@ class QrFormField extends StatelessWidget {
     this.hintText = 'Enter text here',
     this.isLastField = false,
     this.onSaved,
+    this.validator,
   }) : super(key: key);
 
   @override
@@ -36,6 +38,7 @@ class QrFormField extends StatelessWidget {
         TextFormField(
           textInputAction: isLastField ? TextInputAction.done : TextInputAction.next,
           onSaved: onSaved,
+          validator: validator,
           decoration: InputDecoration(
             hintText: hintText,
             filled: true,

@@ -26,12 +26,15 @@ class _QrCreatePageState extends State<QrCreatePage> {
 
   void _onGenerateQrCode(BarcodeValueType qrcodeType) {
     FocusScope.of(context).unfocus();
-    _formKey.currentState?.save();
-    String qrcodeRawValue = qr_tools.encodeToMeCard(qrcodeType, _formState);
-    Navigator.pushNamed(context, QrView.routeName, arguments: {
-      'qrcodeRawValue': qrcodeRawValue,
-      'qrcodeType': qrcodeType,
-    });
+    final isValidated = _formKey.currentState?.validate();
+    if (isValidated != null && isValidated) {
+      _formKey.currentState?.save();
+      String qrcodeRawValue = qr_tools.encodeToMeCard(qrcodeType, _formState);
+      Navigator.pushNamed(context, QrView.routeName, arguments: {
+        'qrcodeRawValue': qrcodeRawValue,
+        'qrcodeType': qrcodeType,
+      });
+    }
   }
 
   void _log(BarcodeValueType qrcodeType) {

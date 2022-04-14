@@ -1,6 +1,7 @@
 export 'qr_form_field.dart';
 export 'qr_create_form.dart';
 
+export '../utils/qr_field_validators.dart';
 export 'qr_input_tel.dart';
 export 'qr_input_text.dart';
 export 'qr_input_wifi.dart';
