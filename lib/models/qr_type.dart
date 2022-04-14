@@ -79,7 +79,55 @@ final allKnownQrTypes = [
   QrType(
     type: BarcodeValueType.contactInfo,
     name: 'Contact',
-    icon: Icons.contacts,
+    icon: Icons.person,
+    color: Color(hexColor('#6ADCCC')),
+  ),
+  QrType(
+    type: BarcodeValueType.product,
+    name: 'Product',
+    icon: Icons.shopping_bag_outlined,
+    color: Color(hexColor('#6ADCCC')),
+  ),
+  QrType(
+    type: BarcodeValueType.calendarEvent,
+    name: 'Event',
+    icon: Icons.event_outlined,
+    color: Color(hexColor('#6ADCCC')),
+  ),
+  QrType(
+    type: BarcodeValueType.driverLicense,
+    name: 'Driver License',
+    icon: Icons.car_rental,
+    color: Color(hexColor('#6ADCCC')),
+  ),
+  QrType(
+    type: BarcodeValueType.whatsapp,
+    name: 'WhatsApp',
+    icon: Icons.whatsapp,
+    color: Color(hexColor('#6ADCCC')),
+  ),
+  QrType(
+    type: BarcodeValueType.facebook,
+    name: 'Facebook',
+    icon: Icons.facebook,
+    color: Color(hexColor('#6ADCCC')),
+  ),
+  QrType(
+    type: BarcodeValueType.instagram,
+    name: 'Instagram',
+    icon: Icons.mouse_outlined,
+    color: Color(hexColor('#6ADCCC')),
+  ),
+  QrType(
+    type: BarcodeValueType.twitter,
+    name: 'Twitter',
+    icon: Icons.mouse_outlined,
+    color: Color(hexColor('#6ADCCC')),
+  ),
+  QrType(
+    type: BarcodeValueType.linkedin,
+    name: 'Linkedin',
+    icon: Icons.mouse_outlined,
     color: Color(hexColor('#6ADCCC')),
   ),
 ];
