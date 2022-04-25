@@ -220,3 +220,20 @@ class GeneratePhoneNumber {
     return 'tel:$phoneNumber';
   }
 }
+
+/// Create a Location Barcode
+/// geo:lat,long,alt => geo:40.7128,74.006?q=40.7128,74.006
+class GenerageBarcodeLocation {
+  final double latitude;
+  final double longitude;
+
+  GenerageBarcodeLocation({
+    required this.latitude,
+    required this.longitude,
+  });
+
+  @override
+  String toString() {
+    return 'geo:$latitude,$longitude?q=$latitude,$longitude';
+  }
+}

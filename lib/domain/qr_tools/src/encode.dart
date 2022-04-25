@@ -114,8 +114,14 @@ class CodePainter extends CustomPainter {
   }
 }
 
-String encodeToMeCard(BarcodeValueType qrcodeType, Map formState) {
+String encodeToBarCode(BarcodeValueType qrcodeType, Map formState) {
   switch (qrcodeType) {
+    case BarcodeValueType.location:
+      return GenerageBarcodeLocation(
+        latitude: double.parse(formState['lat']),
+        longitude: double.parse(formState['long']),
+      ).toString();
+
     case BarcodeValueType.url:
       return formState['url'];
 

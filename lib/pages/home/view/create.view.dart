@@ -22,7 +22,7 @@ class CreateView extends StatelessWidget {
           itemBuilder: (BuildContext context, int index) {
             return CreateItem(qrType: supportedCreateQrTypes[index]);
           },
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.only(top: 12, right: 12, left: 12, bottom: 32),
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
             mainAxisSpacing: 3,
             crossAxisSpacing: 2,

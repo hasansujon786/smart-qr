@@ -65,17 +65,17 @@ final supportedCreateQrTypes = [
     icon: Icons.mouse_outlined,
     color: Color(hexColor('#6ADCCC')),
   ),
+  QrType(
+    type: BarcodeValueType.location,
+    name: 'Location',
+    icon: Icons.location_pin,
+    color: Color(hexColor('#B485FE')),
+  ),
 ];
 
 final allKnownQrTypes = [
   ...supportedCreateQrTypes,
   unknownQrType,
-  QrType(
-    type: BarcodeValueType.location,
-    name: 'Location',
-    icon: Icons.location_pin,
-    color: Color(hexColor('#6ADCCC')),
-  ),
   QrType(
     type: BarcodeValueType.contactInfo,
     name: 'Contact',
@@ -132,7 +132,7 @@ final allKnownQrTypes = [
   ),
 ];
 
-//* location,              geo:lat,long,alt
+// location,
 // url,
 // email,
 // sms,

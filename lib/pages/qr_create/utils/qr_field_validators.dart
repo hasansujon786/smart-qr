@@ -10,4 +10,20 @@ class QrFieldValidtors {
   static MinLengthValidator minLengthValidator(len, {fieldName = 'Field'}) {
     return MinLengthValidator(len, errorText: '$fieldName needs to be at least $len characters long');
   }
+
+  static RequiredDoubleValidator requiredDoubleValidator({fieldName = 'Field'}) {
+    return RequiredDoubleValidator(errorText: '$fieldName should only contain valid numbers');
+  }
+}
+
+class RequiredDoubleValidator extends TextFieldValidator {
+  RequiredDoubleValidator({required String errorText}) : super(errorText);
+
+  @override
+  bool get ignoreEmptyValues => false;
+
+  @override
+  bool isValid(String? value) {
+    return value!.isNotEmpty && double.tryParse(value) != null;
+  }
 }

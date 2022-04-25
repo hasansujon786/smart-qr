@@ -11,6 +11,9 @@ class QrCreateForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (qrcodeType) {
+      case BarcodeValueType.location:
+        return QrInputLocation(updateFormData: updateFromData);
+
       case BarcodeValueType.url:
         return QrInputUrl(updateFormData: updateFromData);
 
