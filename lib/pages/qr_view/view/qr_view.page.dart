@@ -30,7 +30,11 @@ class _QrViewState extends State<QrView> {
 
     return WillPopScope(
       onWillPop: () {
-        _scaffoldController?.close();
+        try {
+          _scaffoldController?.close();
+        } catch (e) {
+          return Future.value(true);
+        }
         return Future.value(true);
       },
       child: Scaffold(
