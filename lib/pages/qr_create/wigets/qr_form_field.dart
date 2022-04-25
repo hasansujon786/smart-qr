@@ -8,6 +8,7 @@ class QrFormField extends StatelessWidget {
   final Function(String?)? onSaved;
   final String? Function(String?)? validator;
   final bool isLastField;
+  final String? initialValue;
 
   const QrFormField({
     Key? key,
@@ -16,6 +17,7 @@ class QrFormField extends StatelessWidget {
     this.isLastField = false,
     this.onSaved,
     this.validator,
+    this.initialValue,
   }) : super(key: key);
 
   @override

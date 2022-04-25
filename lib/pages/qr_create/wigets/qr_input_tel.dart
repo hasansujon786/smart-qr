@@ -4,12 +4,12 @@ import 'package:form_field_validator/form_field_validator.dart';
 import './wigets.dart';
 
 class QrInputTel extends StatelessWidget {
+  final Function updateFormData;
+
   const QrInputTel({
     Key? key,
     required this.updateFormData,
   }) : super(key: key);
-
-  final Function updateFormData;
 
   @override
   Widget build(BuildContext context) {

@@ -4,12 +4,12 @@ import 'package:form_field_validator/form_field_validator.dart';
 import './wigets.dart';
 
 class QrInputUrl extends StatelessWidget {
+  final Function updateFormData;
+
   const QrInputUrl({
     Key? key,
     required this.updateFormData,
   }) : super(key: key);
-
-  final Function updateFormData;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,8 @@ class QrInputUrl extends StatelessWidget {
       children: [
         QrFormField(
           label: 'Enter website URL *',
-          hintText: 'Enter URL here',
+          hintText: 'https://',
+          initialValue: 'https://',
           isLastField: true,
           onSaved: (val) {
             updateFormData('url', val);

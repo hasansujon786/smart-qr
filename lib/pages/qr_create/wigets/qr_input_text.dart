@@ -4,12 +4,12 @@ import 'package:form_field_validator/form_field_validator.dart';
 import './wigets.dart';
 
 class QrInputText extends StatelessWidget {
+  final Function updateFormData;
+
   const QrInputText({
     Key? key,
     required this.updateFormData,
   }) : super(key: key);
-
-  final Function updateFormData;
 
   @override
   Widget build(BuildContext context) {

@@ -5,12 +5,12 @@ import './wigets.dart';
 import '../../../ui/ui.dart';
 
 class QrInputWifi extends StatefulWidget {
+  final Function updateFormData;
+
   const QrInputWifi({
     Key? key,
     required this.updateFormData,
   }) : super(key: key);
-
-  final Function updateFormData;
 
   @override
   State<QrInputWifi> createState() => _QrInputWifiState();
