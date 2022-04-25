@@ -65,15 +65,18 @@ class _QrCreatePageState extends State<QrCreatePage> {
                 key: _formKey,
                 child: QrCreateForm(qrcodeType, _updateFromData),
               ),
-              const SizedBox(height: 30),
-              FatButton(
-                text: 'Generate QR',
-                icon: Icons.qr_code_rounded,
-                onPressed: () => _onGenerateQrCode(qrcodeType),
-                // onLongPress: () => _log(qrcodeType),
-              ),
+              const SizedBox(height: 32),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.all(Constants.verticalPadding),
+        child: FatButton(
+          text: 'Generate QR',
+          icon: Icons.qr_code_rounded,
+          onPressed: () => _onGenerateQrCode(qrcodeType),
+          // onLongPress: () => _log(qrcodeType),
         ),
       ),
     );
