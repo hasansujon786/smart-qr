@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../models/models.dart';
 import '../../../providers/providers.dart';
+import '../../../ui/ui.dart';
 import '../widgets/widgets.dart';
 
 class Favorite extends ConsumerWidget {
@@ -18,10 +19,7 @@ class Favorite extends ConsumerWidget {
         title: const Text('Favorites'),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () => qrFavsController.clear(),
-            icon: const Icon(Icons.clear_all),
-          )
+          buildPopupMenu(qrFavsController),
         ],
       ),
       body: BottomNavBarPadding(
@@ -30,7 +28,7 @@ class Favorite extends ConsumerWidget {
           itemBuilder: (BuildContext context, int index) {
             QrFav qr = qrFavs[index];
             return QrFavItem(qr, index: index, onDelete: () {
-             // TODO: implement
+              // TODO: implement
               // qrHistoryController.remove(id: qr.id, index: index);
             });
           },
@@ -39,4 +37,26 @@ class Favorite extends ConsumerWidget {
       ),
     );
   }
+
+  Widget buildPopupMenu(qrFavsController) {
+    return PopupMenuButton<_FavAppBarPopupMenu>(
+      onSelected: (value) {
+        switch (value) {
+          case _FavAppBarPopupMenu.deleteAll:
+            qrFavsController.clear();
+            break;
+          default:
+        }
+      },
+      itemBuilder: (contex) => [
+        const PopupMenuItem(
+          value: _FavAppBarPopupMenu.deleteAll,
+          child: PmItemChild(icon: Icons.delete_forever, text: 'Delete All'),
+        ),
+      ],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    );
+  }
 }
+
+enum _FavAppBarPopupMenu { deleteAll }

@@ -17,7 +17,7 @@ class QrInputLocation extends StatelessWidget {
       children: [
         QrFormField(
           label: 'Latitude *',
-          hintText: 'Enter latitude here',
+          hintText: 'Enter latitude (Ex: 40.7128)',
           onSaved: (val) {
             updateFormData('lat', val);
           },
@@ -30,7 +30,7 @@ class QrInputLocation extends StatelessWidget {
         const SizedBox(height: 8),
         QrFormField(
           label: 'Longitude *',
-          hintText: 'Enter longitude here',
+          hintText: 'Enter longitude (Ex: 74.006)',
           isLastField: true,
           onSaved: (val) {
             updateFormData('long', val);

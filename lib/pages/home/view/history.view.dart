@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../models/models.dart';
 import '../../../providers/history_provider.dart';
+import '../../../ui/ui.dart';
 import '../widgets/widgets.dart';
 
 class HistoryView extends ConsumerWidget {
@@ -18,10 +19,7 @@ class HistoryView extends ConsumerWidget {
         title: const Text('History'),
         centerTitle: true,
         actions: [
-          IconButton(
-            onPressed: () => qrHistoryController.clear(),
-            icon: const Icon(Icons.clear_all),
-          )
+          buildPopupMenu(qrHistoryController),
         ],
       ),
       body: BottomNavBarPadding(
@@ -38,9 +36,31 @@ class HistoryView extends ConsumerWidget {
       ),
     );
   }
+
+  Widget buildPopupMenu(qrHistoryController) {
+    return PopupMenuButton<_HistoryPopupAppBarMenu>(
+      onSelected: (value) {
+        switch (value) {
+          case _HistoryPopupAppBarMenu.deleteAll:
+            qrHistoryController.clear();
+            break;
+          default:
+        }
+      },
+      itemBuilder: (contex) => [
+        const PopupMenuItem(
+          value: _HistoryPopupAppBarMenu.deleteAll,
+          child: PmItemChild(icon: Icons.delete_forever, text: 'Delete All'),
+        ),
+      ],
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    );
+  }
 }
 
+enum _HistoryPopupAppBarMenu { deleteAll }
 
+// Read hive box direactly
 // body: ValueListenableBuilder(
 //   valueListenable: Hive.box(hiveBoxQrHistory).listenable(),
 //   builder: (context, Box box, widget) {
