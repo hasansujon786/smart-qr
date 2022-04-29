@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'config/config.dart';
 import 'domain/settings/settings_controller.dart';
 import 'pages/home/home.dart';
 import 'pages/qr_create/qr_create.dart';
@@ -9,18 +9,20 @@ import 'pages/qr_result/qr_result.dart';
 import 'pages/qr_view/qr_view.dart';
 import 'pages/sample_items/sample_items.dart';
 import 'pages/settings/settings.dart';
+import 'providers/providers.dart';
 
 /// The Widget that configures your application.
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
+  final SettingsController settingsController;
+
   const MyApp({
     Key? key,
     required this.settingsController,
   }) : super(key: key);
 
-  final SettingsController settingsController;
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appSettings = ref.watch(settingsProvider);
     // Glue the SettingsController to the MaterialApp.
     //
     // The AnimatedBuilder Widget listens to the SettingsController for changes.
@@ -35,21 +37,10 @@ class MyApp extends StatelessWidget {
           // returns to the app after it has been killed while running in the
           // background.
           restorationScopeId: 'app',
-          theme: ThemeData(
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-            canvasColor: Palette.appBackground,
-            // primaryColor: Palette.darkerGrey,
-            // buttonTheme: const ButtonThemeData(
-            //   buttonColor: Palette.darkerGrey,
-            //   textTheme: ButtonTextTheme.primary,
-            // ),
-            // primary: Colors.black,
-            // secondary: Colors.redAccent,
-            colorScheme: const ColorScheme.light(),
-          ),
-          darkTheme: ThemeData.dark(),
-          themeMode: settingsController.themeMode,
-
+          // themeMode: settingsController.themeMode,
+          themeMode: appSettings.currentTheme,
+          theme: ThemeColors.lightTheme,
+          darkTheme: ThemeColors.darkTheme,
           // Define a function to handle named routes in order to support
           // Flutter web url navigation and deep linking.
           onGenerateRoute: (RouteSettings routeSettings) {
@@ -86,8 +77,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-  // gallery_saver
-  // path_provider
-  // qr_code_scanner
-  // qr_flutter

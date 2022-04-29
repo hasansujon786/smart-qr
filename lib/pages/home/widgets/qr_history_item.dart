@@ -16,6 +16,7 @@ class QrHistoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final QrType qrTypeData = QrType.findByValueType(history.typeAsEnum);
+    final theme = Theme.of(context);
 
     return Padding(
       padding: const EdgeInsets.only(top: 8),
@@ -30,7 +31,7 @@ class QrHistoryItem extends StatelessWidget {
             onDelete();
           }
         },
-        tileColor: Colors.white,
+        tileColor: theme.cardColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_radius)),
         leading: QrIcon(color: qrTypeData.color, icon: qrTypeData.icon),
         title: Text(
@@ -39,9 +40,9 @@ class QrHistoryItem extends StatelessWidget {
         ),
         subtitle: Text(
           'qr details',
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Palette.textMuted),
+          style: theme.textTheme.bodySmall?.copyWith(color: Palette.textMuted),
         ),
-        trailing: Icon(Icons.chevron_right, color: Colors.grey.shade300),
+        trailing: Icon(Icons.chevron_right, color: theme.dividerColor),
       ),
     );
   }

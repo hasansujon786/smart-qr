@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../config/config.dart';
+import '../../../providers/providers.dart';
 import '../../../ui/ui.dart';
 import '../widgets/widgets.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends ConsumerWidget {
   const Settings({Key? key}) : super(key: key);
 
   void _launchMoreApps() async {
@@ -19,8 +21,9 @@ class Settings extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final radius = Constants.borderRadius;
+    final appSettings = ref.watch(settingsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -49,6 +52,26 @@ class Settings extends StatelessWidget {
                       builder: (ctx) => const AppAboutDialog(),
                     );
                   },
+                ),
+                DropdownButton<ThemeMode>(
+                  // Read the selected themeMode from the controller
+                  value: appSettings.currentTheme,
+                  // Call the updateThemeMode method any time the user selects a theme.
+                  onChanged: ref.read(settingsProvider.notifier).updateTheme,
+                  items: const [
+                    DropdownMenuItem(
+                      value: ThemeMode.system,
+                      child: Text('System Theme'),
+                    ),
+                    DropdownMenuItem(
+                      value: ThemeMode.light,
+                      child: Text('Light Theme'),
+                    ),
+                    DropdownMenuItem(
+                      value: ThemeMode.dark,
+                      child: Text('Dark Theme'),
+                    )
+                  ],
                 ),
                 buildVersionName(context),
               ]),
