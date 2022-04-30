@@ -17,4 +17,7 @@ class MyAppSettings {
   MyAppSettings({
     required this.currentTheme,
   });
+
+  get isDarkMode => currentTheme == ThemeMode.dark;
+  get isLightMode => currentTheme == ThemeMode.light;
 }

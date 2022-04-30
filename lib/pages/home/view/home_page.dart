@@ -34,6 +34,7 @@ class _HomePageState extends State<HomePage> {
       body: _screens.elementAt(_currentViewIndex),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
+        elevation: _currentViewIndex == _scanViewIndex ? 0 : 5,
         onPressed: () {
           setState(() => _currentViewIndex = _scanViewIndex);
         },

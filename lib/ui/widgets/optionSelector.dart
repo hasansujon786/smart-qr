@@ -21,7 +21,6 @@ class OptionSelector extends StatelessWidget {
     return Container(
       height: 50,
       decoration: BoxDecoration(
-        color: Colors.grey[100],
         border: Border.all(width: _borderWidth, color: _theme),
         borderRadius: BorderRadius.circular(_rounded + _borderWidth),
       ),

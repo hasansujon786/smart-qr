@@ -9,7 +9,7 @@ class Palette {
 
   static final bandColor = Color(hexColor('#6200ED'));
   static final appBackground = Colors.grey[100];
-  static const appBackgroundLight = Color(0xfffafafa);
+  static final appBackgroundLight = Color(hexColor('#fcfcfc'));
   static final mutedBorder = Colors.grey.shade200;
   static final textDark = Colors.blueGrey[700];
   static final text = Colors.blueGrey[600];
