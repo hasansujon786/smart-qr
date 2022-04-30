@@ -12,9 +12,9 @@ class FabBottomAppBar extends StatefulWidget {
   final double height;
   final double iconSize;
   final double iconFontSize;
-  final Color backgroundColor;
+  final Color? backgroundColor;
   final Color? color;
-  final Color selectedColor;
+  final Color? selectedColor;
   final NotchedShape notchedShape;
   final ValueChanged<int> onTabSelected;
   final bool isFocused;

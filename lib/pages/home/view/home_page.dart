@@ -26,15 +26,14 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Scaffold(
       extendBody: true,
       // Tips: To persists screen state use IndexdStack()
       body: _screens.elementAt(_currentViewIndex),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        elevation: 2.0,
-        foregroundColor: Colors.white,
-        backgroundColor: Theme.of(context).colorScheme.primary,
         onPressed: () {
           setState(() => _currentViewIndex = _scanViewIndex);
         },
@@ -45,6 +44,9 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       bottomNavigationBar: FabBottomAppBar(
+        backgroundColor: theme.bottomNavigationBarTheme.backgroundColor,
+        color: Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
+        selectedColor: Theme.of(context).bottomNavigationBarTheme.selectedItemColor,
         isFocused: _currentViewIndex < _scanViewIndex,
         onTabSelected: (index) => setState(() => _currentViewIndex = index),
         centerItemText: '',
