@@ -13,12 +13,24 @@ class ThemeColors {
     // ),
     // primary: Colors.black,
     // secondary: Colors.redAccent,
+    primaryColor: Color(hexColor('#6200ED')),
+    textTheme: TextTheme(
+      titleLarge: TextStyle(fontWeight: FontWeight.w700, color: Palette.textDark),
+      titleSmall: TextStyle(color: Palette.textDark),
+    ),
+    iconTheme: IconThemeData(color: Palette.textDark),
     colorScheme: const ColorScheme.light(),
+    shadowColor: Palette.softWhite,
   );
 
   static final darkTheme = ThemeData(
-    // cardColor: Colors.blue,
-    // brightness: Brightness.dark,
+    primaryColor: Color(hexColor('#6200ED')),
+    textTheme: TextTheme(
+      titleLarge: TextStyle(fontWeight: FontWeight.w700, color: Colors.grey[200]),
+      titleSmall: TextStyle(color: Colors.grey[200]),
+    ),
+    iconTheme: IconThemeData(color: Palette.softWhite),
     colorScheme: const ColorScheme.dark(),
+    shadowColor: Colors.grey.shade900,
   );
 }

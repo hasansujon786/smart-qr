@@ -13,6 +13,7 @@ class Palette {
   static final textDark = Colors.blueGrey[700];
   static final text = Colors.blueGrey[600];
   static final textMuted = Colors.blueGrey[300];
+  static final softWhite = Colors.grey[300];
 }
 
 int hexColor(String color) {

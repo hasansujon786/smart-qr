@@ -34,10 +34,7 @@ class QrHistoryItem extends StatelessWidget {
         tileColor: theme.cardColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_radius)),
         leading: QrIcon(color: qrTypeData.color, icon: qrTypeData.icon),
-        title: Text(
-          qrTypeData.name,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Palette.textDark),
-        ),
+        title: Text(qrTypeData.name, style: theme.textTheme.titleLarge?.copyWith(fontSize: 18)),
         subtitle: Text(
           'qr details',
           style: theme.textTheme.bodySmall?.copyWith(color: Palette.textMuted),

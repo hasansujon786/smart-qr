@@ -16,6 +16,7 @@ class QrFavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final QrType qrTypeData = QrType.findByValueType(fav.typeAsEnum);
+    final theme = Theme.of(context);
 
     return Padding(
       padding: const EdgeInsets.only(top: 8),
@@ -27,18 +28,15 @@ class QrFavItem extends StatelessWidget {
             'is_fav_page': true,
           });
         },
-        tileColor: Colors.white,
+        tileColor: theme.cardColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(_radius)),
         leading: QrIcon(color: qrTypeData.color, icon: qrTypeData.icon),
-        title: Text(
-          qrTypeData.name,
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Palette.textDark),
-        ),
+        title: Text(qrTypeData.name, style: theme.textTheme.titleLarge?.copyWith(fontSize: 18)),
         subtitle: Text(
           'qr details',
           style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Palette.textMuted),
         ),
-        trailing: Icon(Icons.chevron_right, color: Colors.grey.shade300),
+        trailing: Icon(Icons.chevron_right, color: theme.dividerColor),
       ),
     );
   }

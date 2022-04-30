@@ -45,6 +45,7 @@ class CreateItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final radius = Constants.borderRadius;
+    final theme = Theme.of(context);
 
     return Card(
       // color: qrType.color,
@@ -63,10 +64,7 @@ class CreateItem extends StatelessWidget {
             const SizedBox(height: 5),
             QrIcon(color: qrType.color, icon: qrType.icon),
             const SizedBox(height: 16),
-            Text(
-              qrType.name,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, color: Palette.text),
-            ),
+            Text(qrType.name, style: theme.textTheme.titleLarge?.copyWith(fontSize: 16)),
           ],
         ),
       ),

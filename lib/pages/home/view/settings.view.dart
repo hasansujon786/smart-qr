@@ -36,11 +36,12 @@ class Settings extends ConsumerWidget {
           child: Column(children: [
             const AppInfo(),
             Card(
-              margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
+              margin: const EdgeInsets.only(left: 16, right: 16, top: 12, bottom: 32),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
               shadowColor: Colors.grey.withOpacity(0.3),
               child: Column(children: [
                 const SizedBox(height: 12),
+                buildThemeButton(context, appSettings, ref),
                 SettingItem(icon: Icons.share, title: 'Share app', onPress: _shareAppLink),
                 SettingItem(icon: Icons.star_rounded, title: 'Rate the app', onPress: _launchMoreApps),
                 SettingItem(icon: Icons.apps, title: 'More apps', onPress: _launchMoreApps),
@@ -52,26 +53,6 @@ class Settings extends ConsumerWidget {
                       builder: (ctx) => const AppAboutDialog(),
                     );
                   },
-                ),
-                DropdownButton<ThemeMode>(
-                  // Read the selected themeMode from the controller
-                  value: appSettings.currentTheme,
-                  // Call the updateThemeMode method any time the user selects a theme.
-                  onChanged: ref.read(settingsProvider.notifier).updateTheme,
-                  items: const [
-                    DropdownMenuItem(
-                      value: ThemeMode.system,
-                      child: Text('System Theme'),
-                    ),
-                    DropdownMenuItem(
-                      value: ThemeMode.light,
-                      child: Text('Light Theme'),
-                    ),
-                    DropdownMenuItem(
-                      value: ThemeMode.dark,
-                      child: Text('Dark Theme'),
-                    )
-                  ],
                 ),
                 buildVersionName(context),
               ]),
@@ -91,12 +72,55 @@ class Settings extends ConsumerWidget {
       ),
     );
   }
+
+  Widget buildThemeButton(context, appSettings, ref) {
+    return Column(
+      children: [
+        ListTile(
+          contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          leading: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(19),
+              color: Theme.of(context).canvasColor,
+            ),
+            padding: const EdgeInsets.all(10),
+            child: Icon(Icons.dark_mode, color: Theme.of(context).iconTheme.color),
+          ),
+          title: DropdownButton<ThemeMode>(
+            isExpanded: true,
+            icon: const Icon(Icons.chevron_right),
+            iconEnabledColor: Theme.of(context).dividerColor,
+            underline: const SizedBox(),
+            // Read the selected themeMode from the controller
+            value: appSettings.currentTheme,
+            // Call the updateThemeMode method any time the user selects a theme.
+            onChanged: ref.read(settingsProvider.notifier).updateTheme,
+            items: const [
+              DropdownMenuItem(
+                value: ThemeMode.system,
+                child: Text('System Theme'),
+              ),
+              DropdownMenuItem(
+                value: ThemeMode.light,
+                child: Text('Light Theme'),
+              ),
+              DropdownMenuItem(
+                value: ThemeMode.dark,
+                child: Text('Dark Theme'),
+              )
+            ],
+          ),
+        ),
+        const Divider(height: 0, indent: 24, endIndent: 24)
+      ],
+    );
+  }
 }
 
 class SettingItem extends StatelessWidget {
   final String title;
   final IconData icon;
-  final VoidCallback onPress;
+  final VoidCallback? onPress;
 
   const SettingItem({
     Key? key,
@@ -112,22 +136,18 @@ class SettingItem extends StatelessWidget {
         ListTile(
           onTap: onPress,
           contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          leading: buildIcon(icon),
-          title: Text(title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Palette.textDark)),
+          leading: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(19),
+              color: Theme.of(context).canvasColor,
+            ),
+            padding: const EdgeInsets.all(10),
+            child: Icon(icon, color: Theme.of(context).iconTheme.color),
+          ),
+          title: Text(title, style: Theme.of(context).textTheme.titleSmall),
         ),
         const Divider(height: 0, indent: 24, endIndent: 24)
       ],
-    );
-  }
-
-  buildIcon(IconData icon) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(19),
-        color: Colors.grey[100],
-      ),
-      padding: const EdgeInsets.all(10),
-      child: Icon(icon, color: Palette.textDark),
     );
   }
 }
