@@ -2,7 +2,6 @@ import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-// flutter packages pub run build_runner build
 part 'qr_fav.g.dart';
 
 const String hiveBoxQrFav = 'qr_favs';

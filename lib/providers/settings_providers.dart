@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/models.dart';
+
+// saved keys on hiveBoxMyAppSettings
+const _keyThemeMode = 'ThemeMode';
+
 final settingsProvider = StateNotifierProvider<SettingsNotifier, MyAppSettings>((ref) {
-  return SettingsNotifier();
+  final box = Hive.box(hiveBoxMyAppSettings);
+  final String? theme = box.get(_keyThemeMode);
+  final currentTheme = theme != null ? MyAppSettings.themeModeAsEnum(theme) : ThemeMode.system;
+
+  return SettingsNotifier(MyAppSettings(currentTheme: currentTheme));
 });
 
 class SettingsNotifier extends StateNotifier<MyAppSettings> {
-  SettingsNotifier() : super(MyAppSettings(currentTheme: ThemeMode.system));
+  SettingsNotifier(initialState) : super(initialState);
 
-  void updateTheme(newTheme) => state = MyAppSettings(currentTheme: newTheme);
-}
+  final box = Hive.box(hiveBoxMyAppSettings);
 
-class MyAppSettings {
-  ThemeMode currentTheme;
+  void updateTheme(ThemeMode? newTheme) {
+    if (newTheme == null) return;
 
-  MyAppSettings({
-    required this.currentTheme,
-  });
-
-  get isDarkMode => currentTheme == ThemeMode.dark;
-  get isLightMode => currentTheme == ThemeMode.light;
+    state = MyAppSettings(currentTheme: newTheme);
+    box.put(_keyThemeMode, newTheme.name);
+  }
 }

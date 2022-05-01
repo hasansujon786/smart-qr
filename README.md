@@ -5,3 +5,7 @@ Image.network(
               height: double.infinity,
               fit: BoxFit.cover,
             )
+
+
+
+flutter packages pub run build_runner build

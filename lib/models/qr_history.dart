@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:uuid/uuid.dart';
 
-// flutter packages pub run build_runner build
 part 'qr_history.g.dart';
 
 const String hiveBoxQrHistory = 'qr_histories';

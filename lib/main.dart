@@ -12,6 +12,7 @@ Future<void> main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(QrHistoryAdapter());
   Hive.registerAdapter(QrFavAdapter());
+  await Hive.openBox(hiveBoxMyAppSettings);
   await Hive.openBox<QrHistory>(hiveBoxQrHistory);
   await Hive.openBox<QrFav>(hiveBoxQrFav);
 
