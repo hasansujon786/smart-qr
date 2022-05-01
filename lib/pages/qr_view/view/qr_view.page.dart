@@ -74,6 +74,7 @@ class _QrViewState extends State<QrView> {
 
   Widget _buildQrcodeView(String rawData) {
     return WrapperCard(
+      color: Colors.white,
       blurRadius: 4,
       child: QrImage(
         size: 250,
@@ -85,13 +86,16 @@ class _QrViewState extends State<QrView> {
   }
 
   Widget _buildQrTypeName(name) {
+    final theme = Theme.of(context);
+
     return WrapperCard(
       padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 30),
-      child: Text(name,
-          style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                fontWeight: FontWeight.w500,
-                color: Theme.of(context).colorScheme.primary,
-              )),
+      child: Text(
+        name,
+        style: theme.textTheme.labelLarge?.copyWith(
+          color: Theme.of(context).colorScheme.primary,
+        ),
+      ),
     );
   }
 }

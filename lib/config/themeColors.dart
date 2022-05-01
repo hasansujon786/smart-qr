@@ -17,7 +17,7 @@ class ThemeColors {
       filled: true,
       fillColor: Colors.white,
       hintStyle: TextStyle(color: Colors.grey.shade400),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(Constants.fieldRounded)),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(Constants.inputBorderRadius)),
       enabledBorder: borderStyle(Colors.grey.shade200),
     ),
     textTheme: TextTheme(
@@ -51,7 +51,7 @@ class ThemeColors {
       filled: true,
       fillColor: Colors.grey[800],
       hintStyle: TextStyle(color: Colors.grey.shade600),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(Constants.fieldRounded)),
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(Constants.inputBorderRadius)),
       enabledBorder: borderStyle(Colors.grey[700]),
     ),
     textTheme: TextTheme(
@@ -72,6 +72,6 @@ class ThemeColors {
 OutlineInputBorder borderStyle(Color? color) {
   return OutlineInputBorder(
     borderSide: BorderSide(color: color ?? Colors.white),
-    borderRadius: BorderRadius.circular(Constants.fieldRounded),
+    borderRadius: BorderRadius.circular(Constants.inputBorderRadius),
   );
 }

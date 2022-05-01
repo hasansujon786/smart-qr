@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
-final _theme = const ColorScheme.light().primary;
-const double _rounded = 10;
-const double _borderWidth = 1.2;
+import '../../../config/config.dart';
 
 class OptionSelector extends StatelessWidget {
   final List<String> options;
@@ -18,22 +16,25 @@ class OptionSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const double borderWidth = 1.2;
+    final primaryColor = Theme.of(context).colorScheme.primary;
+
     return Container(
       height: 50,
       decoration: BoxDecoration(
-        border: Border.all(width: _borderWidth, color: _theme),
-        borderRadius: BorderRadius.circular(_rounded + _borderWidth),
+        border: Border.all(width: borderWidth, color: primaryColor),
+        borderRadius: BorderRadius.circular(Constants.inputBorderRadius),
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(_rounded),
+        borderRadius: BorderRadius.circular(Constants.inputBorderRadius - borderWidth),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           // Expanded(child: Container(color: Colors.pink, child: const Center(child: Text('foo')))),
           children: [
             OptionItem(options[0], 0, selectedIndex: selectedOptionIndex, onTap: onTap),
-            Container(width: _borderWidth, color: _theme),
+            Container(width: borderWidth, color: primaryColor),
             OptionItem(options[1], 1, selectedIndex: selectedOptionIndex, onTap: onTap),
-            Container(width: _borderWidth, color: _theme),
+            Container(width: borderWidth, color: primaryColor),
             OptionItem(options[2], 2, selectedIndex: selectedOptionIndex, onTap: onTap),
           ],
         ),
@@ -57,16 +58,18 @@ class OptionItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Expanded(
       child: GestureDetector(
         onTap: () => onTap(index),
         child: Container(
-          color: index == selectedIndex ? _theme : Colors.transparent,
+          color: index == selectedIndex ? theme.colorScheme.primary : Colors.transparent,
           child: Center(
             child: Text(
               title,
               style: TextStyle(
-                color: index == selectedIndex ? Colors.white : _theme,
+                color: index == selectedIndex ? theme.colorScheme.onPrimary : theme.colorScheme.primary,
                 fontWeight: FontWeight.w500,
               ),
             ),

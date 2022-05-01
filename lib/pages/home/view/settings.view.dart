@@ -87,13 +87,12 @@ class Settings extends ConsumerWidget {
             child: Icon(Icons.dark_mode, color: Theme.of(context).iconTheme.color),
           ),
           title: DropdownButton<ThemeMode>(
+            style: Theme.of(context).textTheme.titleSmall,
             isExpanded: true,
             icon: const Icon(Icons.chevron_right),
             iconEnabledColor: Theme.of(context).dividerColor,
             underline: const SizedBox(),
-            // Read the selected themeMode from the controller
             value: appSettings.currentTheme,
-            // Call the updateThemeMode method any time the user selects a theme.
             onChanged: ref.read(settingsProvider.notifier).updateTheme,
             items: const [
               DropdownMenuItem(
