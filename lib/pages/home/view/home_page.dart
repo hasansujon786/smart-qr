@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final isCenterItemOnView = _currentViewIndex == _scanViewIndex;
 
     return Scaffold(
       extendBody: true,
@@ -34,21 +34,16 @@ class _HomePageState extends State<HomePage> {
       body: _screens.elementAt(_currentViewIndex),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        elevation: _currentViewIndex == _scanViewIndex ? 0 : 5,
-        onPressed: () {
-          setState(() => _currentViewIndex = _scanViewIndex);
-        },
+        onPressed: () => setState(() => _currentViewIndex = _scanViewIndex),
+        elevation: isCenterItemOnView ? 0 : 5,
         tooltip: 'Scan',
         child: Icon(
           Icons.qr_code_scanner_outlined,
-          color: _currentViewIndex == _scanViewIndex ? Colors.white60 : Colors.white,
+          color: isCenterItemOnView ? Colors.white60 : Colors.white,
         ),
       ),
       bottomNavigationBar: FabBottomAppBar(
-        backgroundColor: theme.bottomNavigationBarTheme.backgroundColor,
-        color: Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
-        selectedColor: Theme.of(context).bottomNavigationBarTheme.selectedItemColor,
-        isFocused: _currentViewIndex < _scanViewIndex,
+        centerItemOnView: isCenterItemOnView,
         onTabSelected: (index) => setState(() => _currentViewIndex = index),
         centerItemText: '',
         iconFontSize: 10,

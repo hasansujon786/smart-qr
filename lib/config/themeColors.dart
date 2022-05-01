@@ -6,8 +6,10 @@ class ThemeColors {
     visualDensity: VisualDensity.adaptivePlatformDensity,
     canvasColor: Palette.appBackground,
 
-    colorScheme: const ColorScheme.light(),
     primaryColor: Palette.bandColor,
+    colorScheme: ColorScheme.light(
+      primary: Palette.bandColor,
+    ),
 
     ////////////// Light Mode //////////////////
     floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -29,7 +31,7 @@ class ThemeColors {
     shadowColor: Palette.softWhite,
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       selectedItemColor: Colors.orange,
-      unselectedItemColor: Colors.grey,
+      unselectedItemColor: Colors.blueGrey,
       backgroundColor: Colors.white,
     ),
 
@@ -40,8 +42,8 @@ class ThemeColors {
   );
 
   static final darkTheme = ThemeData(
-    colorScheme: const ColorScheme.dark(),
     primaryColor: Palette.bandColor,
+    colorScheme: const ColorScheme.dark(),
 
     ////////////// Dark Mode //////////////////
     floatingActionButtonTheme: FloatingActionButtonThemeData(

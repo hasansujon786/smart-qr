@@ -7,28 +7,23 @@ class FABBottomAppBarItem {
 }
 
 class FabBottomAppBar extends StatefulWidget {
+  final ValueChanged<int> onTabSelected;
   final List<FABBottomAppBarItem> items;
+  final NotchedShape notchedShape;
   final String centerItemText;
+  final bool centerItemOnView;
   final double height;
+
   final double iconSize;
   final double iconFontSize;
-  final Color? backgroundColor;
-  final Color? color;
-  final Color? selectedColor;
-  final NotchedShape notchedShape;
-  final ValueChanged<int> onTabSelected;
-  final bool isFocused;
 
   const FabBottomAppBar({
     Key? key,
     this.height = 60.0,
     this.iconSize = 24.0,
     this.iconFontSize = 12,
-    this.backgroundColor = Colors.white,
-    this.color = Colors.blueGrey,
-    this.selectedColor = Colors.orange,
     this.notchedShape = const CircularNotchedRectangle(),
-    required this.isFocused,
+    required this.centerItemOnView,
     required this.items,
     required this.onTabSelected,
     required this.centerItemText,
@@ -42,20 +37,18 @@ class FabBottomAppBar extends StatefulWidget {
 class _FabBottomAppBarState extends State<FabBottomAppBar> {
   int _selectedIndex = 0;
 
-  _updateIndex(int index) {
-    widget.onTabSelected(index);
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final backgroundColor = Theme.of(context).bottomNavigationBarTheme.backgroundColor;
+
     List<Widget> items = List.generate(widget.items.length, (int index) {
       return _buildTabItem(
         item: widget.items[index],
         index: index,
-        onPressed: _updateIndex,
+        onPressed: (int index) {
+          widget.onTabSelected(index);
+          setState(() => _selectedIndex = index);
+        },
       );
     });
     items.insert(items.length >> 1, _buildMiddleTabItem());
@@ -68,11 +61,13 @@ class _FabBottomAppBarState extends State<FabBottomAppBar> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: items,
       ),
-      color: widget.backgroundColor,
+      color: backgroundColor,
     );
   }
 
   Widget _buildMiddleTabItem() {
+    final color = Theme.of(context).bottomNavigationBarTheme.unselectedItemColor;
+
     return Expanded(
       child: SizedBox(
         height: widget.height,
@@ -81,19 +76,19 @@ class _FabBottomAppBarState extends State<FabBottomAppBar> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(height: widget.iconSize),
-            Text(widget.centerItemText, style: TextStyle(color: widget.color)),
+            Text(widget.centerItemText, style: TextStyle(color: color)),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildTabItem({
-    required FABBottomAppBarItem item,
-    required int index,
-    required ValueChanged<int> onPressed,
-  }) {
-    Color? color = widget.isFocused && _selectedIndex == index ? widget.selectedColor : widget.color;
+  Widget _buildTabItem({required FABBottomAppBarItem item, required int index, required ValueChanged<int> onPressed}) {
+    final navbarTheme = Theme.of(context).bottomNavigationBarTheme;
+    Color? itemColor = !widget.centerItemOnView && _selectedIndex == index
+        ? navbarTheme.selectedItemColor
+        : navbarTheme.unselectedItemColor;
+
     return Expanded(
       child: SizedBox(
         height: widget.height,
@@ -105,8 +100,8 @@ class _FabBottomAppBarState extends State<FabBottomAppBar> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Icon(item.icon, color: color, size: widget.iconSize),
-                Text(item.text, style: TextStyle(color: color, fontSize: widget.iconFontSize))
+                Icon(item.icon, color: itemColor, size: widget.iconSize),
+                Text(item.text, style: TextStyle(color: itemColor, fontSize: widget.iconFontSize))
               ],
             ),
           ),

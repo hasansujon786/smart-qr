@@ -7,7 +7,8 @@ class Palette {
   static const Color lightGrey = Color(0xffE5E5E5);
   static const Color lightBlue = Color(0xffC1F1EB);
 
-  static final bandColor = Color(hexColor('#6200ED'));
+  // #6200ED
+  static final bandColor = Color(hexColor(('#9966FF')));
   static final appBackground = Colors.grey[100];
   static final appBackgroundLight = Color(hexColor('#fcfcfc'));
   static final mutedBorder = Colors.grey.shade200;
