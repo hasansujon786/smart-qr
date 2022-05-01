@@ -6,14 +6,12 @@ class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   static const routeName = '/';
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   static const List<Widget> _screens = <Widget>[
-    // HiveExample(),
     HistoryView(),
     Favorite(),
     CreateView(),

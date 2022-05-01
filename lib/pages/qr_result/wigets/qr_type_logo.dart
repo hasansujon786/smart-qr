@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../config/config.dart';
 import '../../../models/models.dart';
 import '../../../ui/ui.dart';
 
@@ -23,13 +22,13 @@ class QrTypeLogo extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            QrIcon(
-              color: qrType.color,
-              icon: qrType.icon,
-            ),
-            const SizedBox(height: 6),
+            QrIcon(color: qrType.color, icon: qrType.icon),
+            const SizedBox(height: 10),
             FittedBox(
-              child: Text(qrType.name, style: theme.textTheme.titleLarge?.copyWith(fontSize: 16)),
+              child: Text(
+                qrType.name,
+                style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500),
+              ),
             ),
           ],
         ),

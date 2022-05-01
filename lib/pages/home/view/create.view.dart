@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:smart_qr/pages/home/home.dart';
-import 'package:smart_qr/ui/widgets/qr_icon.dart';
 
 import '../../../config/config.dart';
 import '../../../models/models.dart';
+import '../../../pages/home/home.dart';
+import '../../../ui/ui.dart';
 import '../../qr_create/qr_create.dart';
 
 class CreateView extends StatelessWidget {
@@ -19,9 +19,7 @@ class CreateView extends StatelessWidget {
       body: BottomNavBarPadding(
         child: GridView.builder(
           itemCount: supportedCreateQrTypes.length,
-          itemBuilder: (BuildContext context, int index) {
-            return CreateItem(qrType: supportedCreateQrTypes[index]);
-          },
+          itemBuilder: (BuildContext context, int index) => CreateItem(qrType: supportedCreateQrTypes[index]),
           padding: const EdgeInsets.only(top: 12, right: 12, left: 12, bottom: 32),
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
             mainAxisSpacing: 3,
