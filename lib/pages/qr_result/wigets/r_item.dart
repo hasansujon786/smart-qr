@@ -15,7 +15,7 @@ class QrResultItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(title, style: Theme.of(context).textTheme.labelLarge),
-        const SizedBox(height: 2),
+        const SizedBox(height: 4),
         Text(content, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w500)),
         const Padding(
           padding: EdgeInsets.only(top: 4, bottom: 10),

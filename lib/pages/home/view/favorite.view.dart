@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../models/models.dart';
+import '../../../pages/qr_result/qr_result.dart';
 import '../../../providers/providers.dart';
 import '../../../ui/ui.dart';
 import '../widgets/widgets.dart';
@@ -26,11 +27,21 @@ class Favorite extends ConsumerWidget {
         child: ListView.builder(
           itemCount: qrFavs.length,
           itemBuilder: (BuildContext context, int index) {
-            QrFav qr = qrFavs[index];
-            return QrFavItem(qr, index: index, onDelete: () {
-              // TODO: implement
-              // qrHistoryController.remove(id: qr.id, index: index);
-            });
+            QrFav qrFav = qrFavs[index];
+            return QrListItem(
+              index: index,
+              qrTypeData: QrType.findByValueType(qrFav.typeAsEnum),
+              qrDetails: 'qr details',
+              onTap: () {
+                // TODO: implement
+                // qrHistoryController.remove(id: qr.id, index: index);
+                Navigator.pushNamed(context, QrHistoryDetailsPage.routeName, arguments: {
+                  'qr_id': qrFav.id,
+                  'rawcode': qrFav.rawValue,
+                  'is_fav_page': true,
+                });
+              },
+            );
           },
           padding: const EdgeInsets.all(12),
         ),

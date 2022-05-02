@@ -9,7 +9,9 @@ class FloatingSnackBar {
         backgroundColor: Colors.white,
         content: SizedBox(
           height: 18,
-          child: Center(child: Text(message, style: TextStyle(color: Palette.text, fontWeight: FontWeight.w500))),
+          child: Center(
+            child: Text(message, style: TextStyle(color: Palette.text, fontWeight: FontWeight.w500, fontSize: 12)),
+          ),
         ),
         duration: const Duration(seconds: 2),
         behavior: SnackBarBehavior.floating,
