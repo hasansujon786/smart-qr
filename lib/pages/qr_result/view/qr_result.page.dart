@@ -28,16 +28,6 @@ class QrResultPage extends ConsumerWidget {
       ref.read(qrHistoryProvider.notifier).add(qrHistory);
     });
 
-    return ResultView(
-      appBar: AppBar(
-        title: const Text('Result'),
-        centerTitle: true,
-        actions: [
-          AddToFav(qrcode: qrcode, qrId: qrHistory.id),
-        ],
-      ),
-      qrcode: qrcode,
-      rawCode: rawCode,
-    );
+    return ResultView(qrId: qrHistory.id, qrcode: qrcode, rawCode: rawCode);
   }
 }

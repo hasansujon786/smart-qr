@@ -22,7 +22,7 @@ class AddToFav extends StatelessWidget {
             ref.read(qrFavProvider.notifier).add(qrcode.rawValue, qrcode.valueType, qrId);
           }
         },
-        icon: Icon(isFav ? Icons.star : Icons.star_border_outlined),
+        icon: Icon(isFav ? Icons.star : Icons.star_border_outlined, size:  32),
       );
     });
   }

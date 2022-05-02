@@ -2,35 +2,52 @@ import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
 
 import '../../../config/config.dart';
-import '../../../models/models.dart';
 import '../wigets/wigets.dart';
 
 class ResultView extends StatelessWidget {
+  final String qrId;
+  final String pageTitle;
   final Barcode qrcode;
   final String rawCode;
-  final AppBar appBar;
+  final bool showDelete;
   const ResultView({
     Key? key,
+    required this.qrId,
     required this.qrcode,
     required this.rawCode,
-    required this.appBar,
+    this.showDelete = false,
+    this.pageTitle = 'Result',
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final QrType qrType = QrType.findByValueType(qrcode.valueType);
-
     final resultItems = _buildResultItems(qrcode);
 
     return Scaffold(
-      appBar: appBar,
+      appBar: AppBar(
+        title: Text(pageTitle),
+        centerTitle: true,
+        actions: [
+          if (showDelete)
+            IconButton(
+              onPressed: () => Navigator.pop(context, true),
+              icon: const Icon(Icons.delete),
+            ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(Icons.copy),
+          ),
+          const SizedBox(width: 4)
+        ],
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: Constants.verticalPadding),
         child: Column(children: [
-          const SizedBox(height: 28),
-          QrTypeLogo(qrType: qrType),
+          const SizedBox(height: 24),
+          ResultViewHeader(qrcode: qrcode, qrId: qrId),
           const SizedBox(height: 40),
           ...resultItems.rItems,
+          resultItems.actions ?? const SizedBox(),
         ]),
       ),
       bottomNavigationBar: CopyButton(
@@ -48,75 +65,93 @@ ResultItems _buildResultItems(Barcode barcode) {
     case BarcodeValueType.product:
       BarcodeProduct barcodeProduct = barcode as BarcodeProduct;
       copyText = 'Product Code: ${barcodeProduct.code}';
-      return ResultItems([
-        QrResultItem(title: 'Product Code', content: barcodeProduct.code.toString()),
-      ], copyText);
+      return ResultItems(
+        [QrResultItem(title: 'Product Code', content: barcodeProduct.code.toString())],
+        copyText: copyText,
+      );
 
     case BarcodeValueType.location:
       BarcodeLocation barcodeLocation = barcode as BarcodeLocation;
       copyText = barcodeLocation.rawValue;
-      return ResultItems([
-        QrResultItem(title: 'Latitude', content: barcodeLocation.latitude.toString()),
-        QrResultItem(title: 'Longitude', content: barcodeLocation.longitude.toString()),
-      ], copyText);
+      return ResultItems(
+        [
+          QrResultItem(title: 'Latitude', content: barcodeLocation.latitude.toString()),
+          QrResultItem(title: 'Longitude', content: barcodeLocation.longitude.toString()),
+        ],
+        copyText: copyText,
+      );
 
     case BarcodeValueType.url:
       BarcodeUrl barcodeUrl = barcode as BarcodeUrl;
       copyText = '${barcodeUrl.url}';
-      return ResultItems([
-        QrResultItem(title: 'Url', content: barcodeUrl.url ?? ''),
-      ], copyText);
+      return ResultItems(
+        [QrResultItem(title: 'Url', content: barcodeUrl.url ?? '')],
+        copyText: copyText,
+        actions: QrActions.url(barcodeUrl),
+      );
 
     case BarcodeValueType.email:
       BarcodeEmail barcodeEmail = barcode as BarcodeEmail;
       // TODO: get recipients name
       copyText = 'Subject: ${barcodeEmail.subject} \nMessage: ${barcodeEmail.body}';
-      return ResultItems([
-        ...barcodeEmail.recipients.map((recipient) {
-          return recipient == '' ? Container() : QrResultItem(title: 'Email', content: recipient);
-        }),
-        QrResultItem(title: 'Subject', content: barcodeEmail.subject ?? ''),
-        QrResultItem(title: 'Message', content: barcodeEmail.body ?? ''),
-      ], copyText);
+      return ResultItems(
+        [
+          ...barcodeEmail.recipients.map((recipient) {
+            return recipient == '' ? Container() : QrResultItem(title: 'Email', content: recipient);
+          }),
+          QrResultItem(title: 'Subject', content: barcodeEmail.subject ?? ''),
+          QrResultItem(title: 'Message', content: barcodeEmail.body ?? ''),
+        ],
+        copyText: copyText,
+      );
 
     case BarcodeValueType.sms:
       BarcodeSms barcodeSms = barcode as BarcodeSms;
       copyText = 'Phone number: ${barcodeSms.phoneNumber} \nMessage: ${barcodeSms.message}';
-      return ResultItems([
-        QrResultItem(title: 'Phone Number', content: barcodeSms.phoneNumber ?? ''),
-        QrResultItem(title: 'Message', content: barcodeSms.message ?? ''),
-      ], copyText);
+      return ResultItems(
+        [
+          QrResultItem(title: 'Phone Number', content: barcodeSms.phoneNumber ?? ''),
+          QrResultItem(title: 'Message', content: barcodeSms.message ?? ''),
+        ],
+        copyText: copyText,
+      );
 
     case BarcodeValueType.wifi:
       BarcodeWifi barcodeWifi = barcode as BarcodeWifi;
       String? encryptionType = barcodeWifi.encryptionType?.name;
       copyText = 'SSID: ${barcodeWifi.ssid} \nPassword: ${barcodeWifi.password}';
 
-      return ResultItems([
-        QrResultItem(title: 'SSID', content: barcodeWifi.ssid ?? ''),
-        QrResultItem(title: 'Password', content: barcodeWifi.password ?? ''),
-        QrResultItem(title: 'Network Encryption', content: encryptionType?.toUpperCase() ?? ''),
-      ], copyText);
+      return ResultItems(
+        [
+          QrResultItem(title: 'SSID', content: barcodeWifi.ssid ?? ''),
+          QrResultItem(title: 'Password', content: barcodeWifi.password ?? ''),
+          QrResultItem(title: 'Network Encryption', content: encryptionType?.toUpperCase() ?? ''),
+        ],
+        copyText: copyText,
+      );
 
     case BarcodeValueType.phone:
       BarcodePhone barcodePhone = barcode as BarcodePhone;
       copyText = '${barcodePhone.number}';
-      return ResultItems([
-        QrResultItem(title: 'Number', content: barcodePhone.number ?? ''),
-      ], copyText);
+      return ResultItems(
+        [QrResultItem(title: 'Number', content: barcodePhone.number ?? '')],
+        copyText: copyText,
+      );
 
     case BarcodeValueType.text:
       BarcodeText barcodeText = barcode as BarcodeText;
       copyText = barcodeText.rawValue;
-      return ResultItems([
-        QrResultItem(title: 'Text', content: barcodeText.rawValue),
-      ], copyText);
+      return ResultItems(
+        [QrResultItem(title: 'Text', content: barcodeText.rawValue)],
+        copyText: copyText,
+      );
 
     default:
       copyText = barcode.rawValue;
-      return ResultItems([
-        QrResultItem(title: '', content: barcode.rawValue),
-      ], copyText);
+      return ResultItems(
+        [QrResultItem(title: '', content: barcode.rawValue)],
+        copyText: copyText,
+      );
 
     // case BarcodeValueType.contactInfo:
     //   BarcodeContactInfo barcodeContactInfo = barcode as BarcodeContactInfo;
@@ -136,5 +171,7 @@ ResultItems _buildResultItems(Barcode barcode) {
 class ResultItems {
   final List<Widget> rItems;
   final String? copyText;
-  ResultItems(this.rItems, this.copyText);
+  final Widget? actions;
+
+  ResultItems(this.rItems, {this.copyText, this.actions});
 }

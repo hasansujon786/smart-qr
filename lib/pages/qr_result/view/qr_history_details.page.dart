@@ -16,18 +16,9 @@ class QrHistoryDetailsPage extends StatelessWidget {
     final qrcode = qr_tools.parse(rawCode);
 
     return ResultView(
-      appBar: AppBar(
-        title: Text(isFavPage ? 'QR Details' : 'QR History'),
-        centerTitle: true,
-        actions: [
-          if (!isFavPage)
-            IconButton(
-              onPressed: () => Navigator.pop(context, true),
-              icon: const Icon(Icons.delete),
-            ),
-          AddToFav(qrcode: qrcode, qrId: qrId)
-        ],
-      ),
+      pageTitle: isFavPage ? 'QR Favorite' : 'QR History',
+      showDelete: !isFavPage,
+      qrId: qrId,
       qrcode: qrcode,
       rawCode: rawCode,
     );
