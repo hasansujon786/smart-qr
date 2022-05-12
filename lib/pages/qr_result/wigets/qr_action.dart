@@ -98,7 +98,7 @@ class QrAction extends StatelessWidget {
         icon: Icons.wifi_outlined,
         text: 'Copy Password',
         onPressed: () {
-          copyTextToClipboard(context, barcodeWifi.password ?? '', message: 'Password copied');
+          copyTextToClipboard(context, barcodeWifi.password ?? '', message: 'Password copied..');
         },
       ),
     );
