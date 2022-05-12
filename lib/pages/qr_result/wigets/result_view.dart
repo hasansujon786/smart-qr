@@ -79,6 +79,7 @@ ResultItems _buildResultItems(BuildContext context, Barcode barcode) {
       return ResultItems(
         [QrResultItem(title: 'Product Code', content: barcodeProduct.code.toString())],
         copyText: copyText,
+        mainAction: QrAction.product(barcodeProduct, context),
       );
 
     case BarcodeValueType.location:

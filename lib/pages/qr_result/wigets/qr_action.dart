@@ -103,6 +103,19 @@ class QrAction extends StatelessWidget {
       ),
     );
   }
+
+  factory QrAction.product(BarcodeProduct barcodeProduct, context) {
+    return QrAction(
+      FatButton(
+        onLongPress: () => print(barcodeProduct.rawValue),
+        icon: Icons.shopping_bag_outlined,
+        text: 'Copy Code',
+        onPressed: () {
+          copyTextToClipboard(context, barcodeProduct.code.toString(), message: 'Code copied..');
+        },
+      ),
+    );
+  }
 }
 
 // QrActionButton(
