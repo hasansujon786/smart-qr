@@ -2,6 +2,7 @@ import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
 
 import '../../../config/config.dart';
+import '../../../ui/ui.dart';
 import '../wigets/wigets.dart';
 
 class ResultView extends StatelessWidget {
@@ -34,7 +35,9 @@ class ResultView extends StatelessWidget {
               icon: const Icon(Icons.delete),
             ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              copyTextToClipboard(context, resultItems.copyText);
+            },
             icon: const Icon(Icons.copy),
           ),
           const SizedBox(width: 4)
@@ -44,16 +47,24 @@ class ResultView extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: Constants.verticalPadding),
         child: Column(children: [
           const SizedBox(height: 24),
-          ResultViewHeader(qrcode: qrcode, qrId: qrId),
+          ResultViewHeader(qrcode: qrcode, qrId: qrId, copyText: resultItems.copyText),
           const SizedBox(height: 40),
           ...resultItems.rItems,
-          resultItems.actions ?? const SizedBox(),
         ]),
       ),
-      bottomNavigationBar: CopyButton(
-        copyText: resultItems.copyText ?? '',
-        rawValue: qrcode.rawValue,
-      ),
+      bottomNavigationBar: buildMainActionBar(context, resultItems),
+    );
+  }
+
+  Widget buildMainActionBar(BuildContext context, ResultItems resultItems) {
+    return Padding(
+      padding: EdgeInsets.all(Constants.verticalPadding),
+      child: resultItems.mainAction ??
+          FatButton(
+            icon: Icons.copy_rounded,
+            text: 'Copy Text',
+            onPressed: () => copyTextToClipboard(context, resultItems.copyText),
+          ),
     );
   }
 }
@@ -87,7 +98,7 @@ ResultItems _buildResultItems(Barcode barcode) {
       return ResultItems(
         [QrResultItem(title: 'Url', content: barcodeUrl.url ?? '')],
         copyText: copyText,
-        actions: QrActions.url(barcodeUrl),
+        mainAction: QrAction.url(barcodeUrl),
       );
 
     case BarcodeValueType.email:
@@ -170,8 +181,8 @@ ResultItems _buildResultItems(Barcode barcode) {
 
 class ResultItems {
   final List<Widget> rItems;
-  final String? copyText;
-  final Widget? actions;
+  final String copyText;
+  final Widget? mainAction;
 
-  ResultItems(this.rItems, {this.copyText, this.actions});
+  ResultItems(this.rItems, {required this.copyText, this.mainAction});
 }

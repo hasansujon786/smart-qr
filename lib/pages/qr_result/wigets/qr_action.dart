@@ -2,41 +2,37 @@ import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class QrActions extends StatelessWidget {
-  final List<Widget> children;
-  const QrActions(this.children, {Key? key}) : super(key: key);
+import '../../../ui/ui.dart';
+
+class QrAction extends StatelessWidget {
+  final Widget mainAction;
+  const QrAction(this.mainAction, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 32),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: children,
+    return mainAction;
+  }
+
+  factory QrAction.url(BarcodeUrl barcodeUrl) {
+    return QrAction(
+      FatButton(
+        icon: Icons.mouse_outlined,
+        text: 'Open in Browser',
+        onPressed: () => launch(barcodeUrl.url ?? ''),
       ),
     );
   }
-
-  factory QrActions.url(BarcodeUrl barcodeUrl) {
-    return QrActions([
-      QrActionButton(
-        label: 'Share',
-        icon: Icons.share,
-        onTap: () {
-          launch(barcodeUrl.url ?? 'sdf');
-        },
-      ),
-      // QrActionButton(
-      //   label: 'Open Link',
-      //   icon: Icons.link,
-      //   onTap: () {
-      //     launch(barcodeUrl.url ?? 'sdf');
-      //   },
-      // )
-    ]);
-  }
 }
 
+// QrActionButton(
+//   label: 'Open Link',
+//   icon: Icons.link,
+//   onTap: () {
+//     launch(barcodeUrl.url ?? 'sdf');
+//   },
+// )
+
+// TODO: delete this
 class QrActionButton extends StatelessWidget {
   final VoidCallback onTap;
   final String label;

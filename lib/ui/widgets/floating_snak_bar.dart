@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:smart_qr/config/config.dart';
+import 'package:flutter/services.dart';
+
+import '../../../config/config.dart';
 
 class FloatingSnackBar {
   static ScaffoldFeatureController showFloatingSnackBar(context, {required String message, double width = 200}) {
@@ -23,4 +25,10 @@ class FloatingSnackBar {
       ),
     );
   }
+}
+
+void copyTextToClipboard(BuildContext context, String text) {
+  Clipboard.setData(ClipboardData(text: text)).then((_) {
+    FloatingSnackBar.showFloatingSnackBar(context, message: 'Text copied', width: 120);
+  });
 }
