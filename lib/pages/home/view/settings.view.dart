@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../config/config.dart';
 import '../../../providers/providers.dart';
@@ -12,7 +12,7 @@ class Settings extends ConsumerWidget {
   const Settings({Key? key}) : super(key: key);
 
   void _launchMoreApps() async {
-    if (!await launch(playStoreMoreAppsLink)) throw 'Could not launch';
+    if (!await launchUrlString(playStoreMoreAppsLink, mode: LaunchMode.externalApplication)) throw 'Could not launch';
   }
 
   void _shareAppLink() {

@@ -1,6 +1,7 @@
 import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../ui/ui.dart';
 
@@ -18,7 +19,7 @@ class QrAction extends StatelessWidget {
       FatButton(
         icon: Icons.mouse_outlined,
         text: 'Open in Browser',
-        onPressed: () => launch(barcodeUrl.url ?? ''),
+        onPressed: () => launchUrlString(barcodeUrl.url ?? ''),
       ),
     );
   }
@@ -29,7 +30,7 @@ class QrAction extends StatelessWidget {
         onLongPress: () => print(barcodePhone.rawValue),
         icon: Icons.phone_rounded,
         text: 'Call',
-        onPressed: () => launch(barcodePhone.rawValue),
+        onPressed: () => launchUrlString(barcodePhone.rawValue),
       ),
     );
   }
@@ -50,7 +51,7 @@ class QrAction extends StatelessWidget {
           );
 
           // print(smsLaunchUri.toFilePath());
-          launch(smsLaunchUri.toString());
+          launchUrl(smsLaunchUri);
         },
       ),
     );
@@ -72,7 +73,7 @@ class QrAction extends StatelessWidget {
             }),
           );
 
-          launch(emailLaunchUri.toString());
+          launchUrl(emailLaunchUri);
         },
       ),
     );
@@ -87,7 +88,7 @@ class QrAction extends StatelessWidget {
         onPressed: () {
           var latitude = barcodeLocation.latitude;
           var longitude = barcodeLocation.longitude;
-          launch('geo:$latitude,$longitude?q=$latitude,$longitude');
+          launchUrlString('geo:$latitude,$longitude?q=$latitude,$longitude');
         },
       ),
     );
@@ -119,14 +120,6 @@ class QrAction extends StatelessWidget {
     );
   }
 }
-
-// QrActionButton(
-//   label: 'Open Link',
-//   icon: Icons.link,
-//   onTap: () {
-//     launch(barcodeUrl.url ?? 'sdf');
-//   },
-// )
 
 // TODO: delete this
 class QrActionButton extends StatelessWidget {
