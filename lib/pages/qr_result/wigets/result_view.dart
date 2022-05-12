@@ -22,7 +22,7 @@ class ResultView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final resultItems = _buildResultItems(qrcode);
+    final resultItems = _buildResultItems(context, qrcode);
 
     return Scaffold(
       appBar: AppBar(
@@ -69,7 +69,7 @@ class ResultView extends StatelessWidget {
   }
 }
 
-ResultItems _buildResultItems(Barcode barcode) {
+ResultItems _buildResultItems(BuildContext context, Barcode barcode) {
   String copyText;
 
   switch (barcode.valueType) {
@@ -146,6 +146,7 @@ ResultItems _buildResultItems(Barcode barcode) {
           QrResultItem(title: 'Network Encryption', content: encryptionType?.toUpperCase() ?? ''),
         ],
         copyText: copyText,
+        mainAction: QrAction.wifi(barcodeWifi, context),
       );
 
     case BarcodeValueType.phone:

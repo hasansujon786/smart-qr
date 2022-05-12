@@ -90,6 +90,19 @@ class QrAction extends StatelessWidget {
       ),
     );
   }
+
+  factory QrAction.wifi(BarcodeWifi barcodeWifi, context) {
+    return QrAction(
+      FatButton(
+        onLongPress: () => print(barcodeWifi.rawValue),
+        icon: Icons.wifi_outlined,
+        text: 'Copy Password',
+        onPressed: () {
+          copyTextToClipboard(context, barcodeWifi.password ?? '', message: 'Password copied');
+        },
+      ),
+    );
+  }
 }
 
 // QrActionButton(
