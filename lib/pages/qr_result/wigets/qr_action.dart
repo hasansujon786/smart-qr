@@ -1,6 +1,5 @@
 import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../ui/ui.dart';
@@ -41,10 +40,17 @@ class QrAction extends StatelessWidget {
         onLongPress: () => print(barcodeSms.rawValue),
         icon: Icons.sms_outlined,
         text: 'Send Message',
-        onPressed: () => {
-          Clipboard.setData(ClipboardData(text: barcodeSms.message)).then((_) {
-            launch('sms:${barcodeSms.phoneNumber}');
-          })
+        onPressed: () {
+          final Uri smsLaunchUri = Uri(
+            scheme: 'sms',
+            path: barcodeSms.phoneNumber,
+            query: _encodeQueryParameters(<String, String>{
+              'body': barcodeSms.message ?? '',
+            }),
+          );
+
+          // print(smsLaunchUri.toFilePath());
+          launch(smsLaunchUri.toString());
         },
       ),
     );
@@ -57,14 +63,10 @@ class QrAction extends StatelessWidget {
         icon: Icons.email_outlined,
         text: 'Send Email',
         onPressed: () {
-          String? encodeQueryParameters(Map<String, String> params) {
-            return params.entries.map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&');
-          }
-
           final Uri emailLaunchUri = Uri(
             scheme: 'mailto',
             path: barcodeEmail.recipients[0],
-            query: encodeQueryParameters(<String, String>{
+            query: _encodeQueryParameters(<String, String>{
               'subject': barcodeEmail.subject ?? '',
               'body': barcodeEmail.body ?? '',
             }),
@@ -98,7 +100,7 @@ class QrAction extends StatelessWidget {
         icon: Icons.wifi_outlined,
         text: 'Copy Password',
         onPressed: () {
-          copyTextToClipboard(context, barcodeWifi.password ?? '', message: 'Password copied..');
+          copyTextWithFeedback(context, barcodeWifi.password ?? '', message: 'Password copied..');
         },
       ),
     );
@@ -111,7 +113,7 @@ class QrAction extends StatelessWidget {
         icon: Icons.shopping_bag_outlined,
         text: 'Copy Code',
         onPressed: () {
-          copyTextToClipboard(context, barcodeProduct.code.toString(), message: 'Code copied..');
+          copyTextWithFeedback(context, barcodeProduct.code.toString(), message: 'Code copied..');
         },
       ),
     );
@@ -153,4 +155,8 @@ class QrActionButton extends StatelessWidget {
       onPressed: onTap,
     );
   }
+}
+
+String? _encodeQueryParameters(Map<String, String> params) {
+  return params.entries.map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&');
 }

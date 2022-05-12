@@ -36,7 +36,7 @@ class ResultView extends StatelessWidget {
             ),
           IconButton(
             onPressed: () {
-              copyTextToClipboard(context, resultItems.copyText);
+              copyTextWithFeedback(context, resultItems.copyText);
             },
             icon: const Icon(Icons.copy),
           ),
@@ -63,7 +63,7 @@ class ResultView extends StatelessWidget {
           FatButton(
             icon: Icons.copy_rounded,
             text: 'Copy Text',
-            onPressed: () => copyTextToClipboard(context, resultItems.copyText),
+            onPressed: () => copyTextWithFeedback(context, resultItems.copyText),
           ),
     );
   }

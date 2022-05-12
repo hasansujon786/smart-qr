@@ -35,7 +35,7 @@ class FloatingSnackBar {
   }
 }
 
-void copyTextToClipboard(BuildContext context, String text, {message = 'Text Copied..'}) {
+void copyTextWithFeedback(BuildContext context, String text, {message = 'Text Copied..'}) {
   Clipboard.setData(ClipboardData(text: text)).then((_) {
     FloatingSnackBar.showFloatingSnackBar(context, message: message, width: 150);
   });
