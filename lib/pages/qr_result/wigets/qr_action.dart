@@ -75,6 +75,21 @@ class QrAction extends StatelessWidget {
       ),
     );
   }
+
+  factory QrAction.location(BarcodeLocation barcodeLocation) {
+    return QrAction(
+      FatButton(
+        onLongPress: () => print(barcodeLocation.rawValue),
+        icon: Icons.map,
+        text: 'Open in Map',
+        onPressed: () {
+          var latitude = barcodeLocation.latitude;
+          var longitude = barcodeLocation.longitude;
+          launch('geo:$latitude,$longitude?q=$latitude,$longitude');
+        },
+      ),
+    );
+  }
 }
 
 // QrActionButton(

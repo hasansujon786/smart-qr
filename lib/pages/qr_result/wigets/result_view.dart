@@ -83,13 +83,16 @@ ResultItems _buildResultItems(Barcode barcode) {
 
     case BarcodeValueType.location:
       BarcodeLocation barcodeLocation = barcode as BarcodeLocation;
-      copyText = barcodeLocation.rawValue;
+      String lat = barcodeLocation.latitude.toString();
+      String long = barcodeLocation.longitude.toString();
+      copyText = 'Latitude: $lat Longitude: $long \nQuery $lat,$long';
       return ResultItems(
         [
-          QrResultItem(title: 'Latitude', content: barcodeLocation.latitude.toString()),
-          QrResultItem(title: 'Longitude', content: barcodeLocation.longitude.toString()),
+          QrResultItem(title: 'Latitude', content: lat),
+          QrResultItem(title: 'Longitude', content: long),
         ],
         copyText: copyText,
+        mainAction: QrAction.location(barcodeLocation),
       );
 
     case BarcodeValueType.url:
