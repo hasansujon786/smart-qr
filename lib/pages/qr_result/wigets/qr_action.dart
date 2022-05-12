@@ -1,5 +1,6 @@
 import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../ui/ui.dart';
@@ -19,6 +20,58 @@ class QrAction extends StatelessWidget {
         icon: Icons.mouse_outlined,
         text: 'Open in Browser',
         onPressed: () => launch(barcodeUrl.url ?? ''),
+      ),
+    );
+  }
+
+  factory QrAction.phone(BarcodePhone barcodePhone) {
+    return QrAction(
+      FatButton(
+        onLongPress: () => print(barcodePhone.rawValue),
+        icon: Icons.phone_rounded,
+        text: 'Call',
+        onPressed: () => launch(barcodePhone.rawValue),
+      ),
+    );
+  }
+
+  factory QrAction.sms(BarcodeSms barcodeSms) {
+    return QrAction(
+      FatButton(
+        onLongPress: () => print(barcodeSms.rawValue),
+        icon: Icons.sms_outlined,
+        text: 'Send Message',
+        onPressed: () => {
+          Clipboard.setData(ClipboardData(text: barcodeSms.message)).then((_) {
+            launch('sms:${barcodeSms.phoneNumber}');
+          })
+        },
+      ),
+    );
+  }
+
+  factory QrAction.email(BarcodeEmail barcodeEmail) {
+    return QrAction(
+      FatButton(
+        onLongPress: () => print(barcodeEmail.rawValue),
+        icon: Icons.email_outlined,
+        text: 'Send Email',
+        onPressed: () {
+          String? encodeQueryParameters(Map<String, String> params) {
+            return params.entries.map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&');
+          }
+
+          final Uri emailLaunchUri = Uri(
+            scheme: 'mailto',
+            path: barcodeEmail.recipients[0],
+            query: encodeQueryParameters(<String, String>{
+              'subject': barcodeEmail.subject ?? '',
+              'body': barcodeEmail.body ?? '',
+            }),
+          );
+
+          launch(emailLaunchUri.toString());
+        },
       ),
     );
   }
