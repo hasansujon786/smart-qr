@@ -36,6 +36,7 @@ dev_dependencies:
   hive_generator: ^1.1.2
   build_runner: ^2.1.8
   icons_launcher: ^1.1.7
+  flutter_native_splash: ^2.1.6
 
 flutter:
   uses-material-design: true
@@ -51,3 +52,8 @@ flutter_icons:
   image_path: 'assets/images/launcher_icon.png'
   ios: false
   android: true
+flutter_native_splash:
+  color: "#42a5f5"
+  image: 'assets/images/launcher_icon.png'
+  ios: false
+  web: false
