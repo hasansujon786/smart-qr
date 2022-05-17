@@ -19,7 +19,7 @@ class QrAction extends StatelessWidget {
       FatButton(
         icon: Icons.mouse_outlined,
         text: 'Open in Browser',
-        onPressed: () => launchUrlString(barcodeUrl.url ?? ''),
+        onPressed: () => launchUrlString(barcodeUrl.url ?? '', mode: LaunchMode.externalApplication),
       ),
     );
   }
@@ -27,7 +27,6 @@ class QrAction extends StatelessWidget {
   factory QrAction.phone(BarcodePhone barcodePhone) {
     return QrAction(
       FatButton(
-        onLongPress: () => print(barcodePhone.rawValue),
         icon: Icons.phone_rounded,
         text: 'Call',
         onPressed: () => launchUrlString(barcodePhone.rawValue),
@@ -38,7 +37,6 @@ class QrAction extends StatelessWidget {
   factory QrAction.sms(BarcodeSms barcodeSms) {
     return QrAction(
       FatButton(
-        onLongPress: () => print(barcodeSms.rawValue),
         icon: Icons.sms_outlined,
         text: 'Send Message',
         onPressed: () {
@@ -60,7 +58,6 @@ class QrAction extends StatelessWidget {
   factory QrAction.email(BarcodeEmail barcodeEmail) {
     return QrAction(
       FatButton(
-        onLongPress: () => print(barcodeEmail.rawValue),
         icon: Icons.email_outlined,
         text: 'Send Email',
         onPressed: () {
@@ -82,7 +79,6 @@ class QrAction extends StatelessWidget {
   factory QrAction.location(BarcodeLocation barcodeLocation) {
     return QrAction(
       FatButton(
-        onLongPress: () => print(barcodeLocation.rawValue),
         icon: Icons.map,
         text: 'Open in Map',
         onPressed: () {
@@ -97,7 +93,6 @@ class QrAction extends StatelessWidget {
   factory QrAction.wifi(BarcodeWifi barcodeWifi, context) {
     return QrAction(
       FatButton(
-        onLongPress: () => print(barcodeWifi.rawValue),
         icon: Icons.wifi_outlined,
         text: 'Copy Password',
         onPressed: () {
@@ -110,7 +105,6 @@ class QrAction extends StatelessWidget {
   factory QrAction.product(BarcodeProduct barcodeProduct, context) {
     return QrAction(
       FatButton(
-        onLongPress: () => print(barcodeProduct.rawValue),
         icon: Icons.shopping_bag_outlined,
         text: 'Copy Code',
         onPressed: () {
