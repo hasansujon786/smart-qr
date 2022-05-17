@@ -9,12 +9,14 @@ class QrListItem extends StatelessWidget {
   final QrType qrTypeData;
   final String qrDetails;
   final VoidCallback onTap;
+  final VoidCallback? onLongPress;
   const QrListItem({
     Key? key,
     required this.index,
     required this.qrTypeData,
     required this.qrDetails,
     required this.onTap,
+    this.onLongPress,
   }) : super(key: key);
 
   @override
@@ -24,6 +26,7 @@ class QrListItem extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: ListTile(
+        onLongPress: onLongPress,
         onTap: onTap,
         tileColor: theme.cardColor,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Constants.borderRadius)),

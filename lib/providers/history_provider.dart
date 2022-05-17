@@ -37,6 +37,12 @@ class QrHistoryNotifier extends StateNotifier<List<QrHistory>> {
     box.deleteAt(index);
   }
 
+  void removeMultiple(List<int> list) {
+    var keys = list.map((e) => box.keyAt(e));
+    box.deleteAll(keys);
+    state = box.values.toList();
+  }
+
   // void edit({required String id, required String description}) {
   //   state = [
   //     for (final todo in state)

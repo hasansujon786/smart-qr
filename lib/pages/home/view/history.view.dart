@@ -7,31 +7,39 @@ import '../../../providers/history_provider.dart';
 import '../../../ui/ui.dart';
 import '../widgets/widgets.dart';
 
-class HistoryView extends ConsumerWidget {
+class HistoryView extends ConsumerStatefulWidget {
   const HistoryView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ref) {
+  _HistoryViewState createState() => _HistoryViewState();
+}
+
+class _HistoryViewState extends ConsumerState<HistoryView> {
+  void viewQrHistory(qrHistoryController, QrHistory qrHistory, int index) async {
+    var shouldDelete = await Navigator.pushNamed(context, QrHistoryDetailsPage.routeName, arguments: {
+      'qr_id': qrHistory.id,
+      'rawcode': qrHistory.rawValue,
+      'is_fav_page': false,
+    });
+    if (shouldDelete != null && shouldDelete == true) {
+      qrHistoryController.remove(id: qrHistory.id, index: index);
+    }
+  }
+
+  bool _isMultiSelectMode = false;
+  var _selectedItemIdxs = <int>[];
+
+  @override
+  Widget build(BuildContext context) {
     var qrHistories = ref.watch(qrHistoryProvider).reversed.toList();
     var qrHistoryController = ref.read(qrHistoryProvider.notifier);
-    void viewQrHistory(QrHistory qrHistory, int index) async {
-      var shouldDelete = await Navigator.pushNamed(context, QrHistoryDetailsPage.routeName, arguments: {
-        'qr_id': qrHistory.id,
-        'rawcode': qrHistory.rawValue,
-        'is_fav_page': false,
-      });
-      if (shouldDelete != null && shouldDelete == true) {
-        qrHistoryController.remove(id: qrHistory.id, index: index);
-      }
-    }
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('History'),
         centerTitle: true,
-        actions: [
-          buildPopupMenu(qrHistoryController),
-        ],
+        actions:
+            _isMultiSelectMode ? buildSelectModeAction(qrHistoryController) : [buildPopupMenu(qrHistoryController)],
       ),
       body: BottomNavBarPadding(
         child: ListView.builder(
@@ -42,13 +50,42 @@ class HistoryView extends ConsumerWidget {
               index: index,
               qrTypeData: QrType.findByValueType(qrHistory.typeAsEnum),
               qrDetails: 'qr details',
-              onTap: () => viewQrHistory(qrHistory, index),
+              onTap: () {
+                if (_isMultiSelectMode) {
+                  setState(() => _selectedItemIdxs.add(index));
+                } else {
+                  viewQrHistory(qrHistoryController, qrHistory, index);
+                }
+              },
+              onLongPress: () {
+                setState(() => _isMultiSelectMode = !_isMultiSelectMode);
+              },
             );
           },
           padding: const EdgeInsets.all(12),
         ),
       ),
     );
+  }
+
+  List<Widget> buildSelectModeAction(QrHistoryNotifier qrHistoryController) {
+    return [
+      IconButton(
+        onPressed: () {
+          qrHistoryController.removeMultiple(_selectedItemIdxs);
+        },
+        icon: const Icon(Icons.delete),
+      ),
+      IconButton(
+        onPressed: () {
+          setState(() {
+            _isMultiSelectMode = false;
+            _selectedItemIdxs = [];
+          });
+        },
+        icon: const Icon(Icons.close),
+      )
+    ];
   }
 
   Widget buildPopupMenu(qrHistoryController) {
