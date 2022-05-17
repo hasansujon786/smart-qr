@@ -27,67 +27,81 @@ class _HistoryViewState extends ConsumerState<HistoryView> {
   }
 
   bool _isMultiSelectMode = false;
-  var _selectedItemIdxs = <int>[];
+  var _selectedItemsIdx = <int>[];
 
   @override
   Widget build(BuildContext context) {
     var qrHistories = ref.watch(qrHistoryProvider).reversed.toList();
     var qrHistoryController = ref.read(qrHistoryProvider.notifier);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('History'),
-        centerTitle: true,
-        actions:
-            _isMultiSelectMode ? buildSelectModeAction(qrHistoryController) : [buildPopupMenu(qrHistoryController)],
-      ),
-      body: BottomNavBarPadding(
-        child: ListView.builder(
-          itemCount: qrHistories.length,
-          itemBuilder: (BuildContext context, int index) {
-            QrHistory qrHistory = qrHistories[index];
-            return QrListItem(
-              selectMode: _isMultiSelectMode,
-              selected: _selectedItemIdxs.any((element) => element == index),
-              index: index,
-              qrTypeData: QrType.findByValueType(qrHistory.typeAsEnum),
-              qrDetails: 'qr details',
-              onTap: () {
-                if (_isMultiSelectMode) {
-                  if (_selectedItemIdxs.contains(index)) {
-                    setState(() => _selectedItemIdxs.remove(index));
+    return WillPopScope(
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('History'),
+          centerTitle: true,
+          actions: _isMultiSelectMode
+              ? buildSelectModeActions(qrHistoryController, qrHistories.length)
+              : [buildPopupMenu(qrHistoryController)],
+        ),
+        body: BottomNavBarPadding(
+          child: ListView.builder(
+            itemCount: qrHistories.length,
+            itemBuilder: (BuildContext context, int index) {
+              QrHistory qrHistory = qrHistories[index];
+              return QrListItem(
+                selectMode: _isMultiSelectMode,
+                selected: _selectedItemsIdx.any((element) => element == index),
+                index: index,
+                qrTypeData: QrType.findByValueType(qrHistory.typeAsEnum),
+                qrDetails: 'qr details',
+                onTap: () {
+                  if (_isMultiSelectMode) {
+                    if (_selectedItemsIdx.contains(index)) {
+                      setState(() => _selectedItemsIdx.remove(index));
+                    } else {
+                      setState(() => _selectedItemsIdx.add(index));
+                    }
                   } else {
-                    setState(() => _selectedItemIdxs.add(index));
+                    viewQrHistory(qrHistoryController, qrHistory, index);
                   }
-                  print(_selectedItemIdxs);
-                } else {
-                  viewQrHistory(qrHistoryController, qrHistory, index);
-                }
-              },
-              onLongPress: () {
-                if (_isMultiSelectMode) return;
+                },
+                onLongPress: () {
+                  if (_isMultiSelectMode) return;
 
-                setState(() {
-                  _isMultiSelectMode = true;
-                  _selectedItemIdxs.add(index);
-                });
-                print(_selectedItemIdxs);
-              },
-            );
-          },
-          padding: const EdgeInsets.all(12),
+                  setState(() {
+                    _isMultiSelectMode = true;
+                    _selectedItemsIdx.add(index);
+                  });
+                },
+              );
+            },
+            padding: const EdgeInsets.all(12),
+          ),
         ),
       ),
+      onWillPop: () {
+        if (_isMultiSelectMode) {
+          setState(() {
+            _selectedItemsIdx = [];
+            _isMultiSelectMode = false;
+          });
+          return Future.value(false);
+        }
+        return Future.value(true);
+      },
     );
   }
 
-  List<Widget> buildSelectModeAction(QrHistoryNotifier qrHistoryController) {
+  List<Widget> buildSelectModeActions(QrHistoryNotifier qrHistoryController, int qrHistoriesLenght) {
     return [
       IconButton(
         onPressed: () {
-          qrHistoryController.removeMultiple(_selectedItemIdxs);
+          // ListView Items are reversed, so _selectedItemsIdx current index needs to be reversed
+          var reversedItemsIdx = _selectedItemsIdx.map((e) => qrHistoriesLenght - (e + 1));
+
+          qrHistoryController.removeMultiple(reversedItemsIdx);
           setState(() {
-            _selectedItemIdxs = [];
+            _selectedItemsIdx = [];
             _isMultiSelectMode = false;
           });
         },
@@ -97,7 +111,7 @@ class _HistoryViewState extends ConsumerState<HistoryView> {
         onPressed: () {
           setState(() {
             _isMultiSelectMode = false;
-            _selectedItemIdxs = [];
+            _selectedItemsIdx = [];
           });
         },
         icon: const Icon(Icons.close),
