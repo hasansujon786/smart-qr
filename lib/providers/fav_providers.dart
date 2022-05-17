@@ -4,11 +4,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import '../models/models.dart';
 
-// final List<QrFav> _sampleHistories = [
-//   QrFav(rawValue: 'sdfsfsdfsdf', type: BarcodeValueType.text.name),
-//   QrFav(rawValue: 'sdfsfsdfsdf', type: BarcodeValueType.text.name),
-// ];
-
 final qrFavProvider = StateNotifierProvider<QrFavNotifier, List<QrFav>>((ref) {
   final box = Hive.box<QrFav>(hiveBoxQrFav);
   var _items = box.values.toList();
@@ -28,7 +23,7 @@ class QrFavNotifier extends StateNotifier<List<QrFav>> {
     //   return;
     // }
     final newQr = QrFav(type: type.name, rawValue: raw, id: id);
-    state = [newQr, ...state];
+    state = [...state, newQr];
     box.add(newQr);
   }
 

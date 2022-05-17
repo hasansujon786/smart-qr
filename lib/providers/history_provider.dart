@@ -3,11 +3,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import '../models/models.dart';
 
-// final List<QrHistory> _sampleHistories = [
-//   QrHistory(rawValue: 'sdfsfsdfsdf', type: BarcodeValueType.text.name),
-//   QrHistory(rawValue: 'sdfsfsdfsdf', type: BarcodeValueType.text.name),
-// ];
-
 final qrHistoryProvider = StateNotifierProvider<QrHistoryNotifier, List<QrHistory>>((ref) {
   final box = Hive.box<QrHistory>(hiveBoxQrHistory);
   var _items = box.values.toList();
@@ -26,7 +21,7 @@ class QrHistoryNotifier extends StateNotifier<List<QrHistory>> {
     //   print('================== unsupported qr type =====================');
     //   return;
     // }
-    state = [qrHistory, ...state];
+    state = [...state, qrHistory];
     box.add(qrHistory);
   }
 

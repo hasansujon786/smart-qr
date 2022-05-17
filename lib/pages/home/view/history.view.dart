@@ -12,7 +12,7 @@ class HistoryView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    var qrHistories = ref.watch(qrHistoryProvider);
+    var qrHistories = ref.watch(qrHistoryProvider).reversed.toList();
     var qrHistoryController = ref.read(qrHistoryProvider.notifier);
     void viewQrHistory(QrHistory qrHistory, int index) async {
       var shouldDelete = await Navigator.pushNamed(context, QrHistoryDetailsPage.routeName, arguments: {

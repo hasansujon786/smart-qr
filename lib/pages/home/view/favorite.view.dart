@@ -12,7 +12,7 @@ class Favorite extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    var qrFavs = ref.watch(qrFavProvider);
+    var qrFavs = ref.watch(qrFavProvider).reversed.toList();
     var qrFavsController = ref.read(qrFavProvider.notifier);
 
     return Scaffold(
