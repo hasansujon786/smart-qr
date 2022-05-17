@@ -47,18 +47,31 @@ class _HistoryViewState extends ConsumerState<HistoryView> {
           itemBuilder: (BuildContext context, int index) {
             QrHistory qrHistory = qrHistories[index];
             return QrListItem(
+              selectMode: _isMultiSelectMode,
+              selected: _selectedItemIdxs.any((element) => element == index),
               index: index,
               qrTypeData: QrType.findByValueType(qrHistory.typeAsEnum),
               qrDetails: 'qr details',
               onTap: () {
                 if (_isMultiSelectMode) {
-                  setState(() => _selectedItemIdxs.add(index));
+                  if (_selectedItemIdxs.contains(index)) {
+                    setState(() => _selectedItemIdxs.remove(index));
+                  } else {
+                    setState(() => _selectedItemIdxs.add(index));
+                  }
+                  print(_selectedItemIdxs);
                 } else {
                   viewQrHistory(qrHistoryController, qrHistory, index);
                 }
               },
               onLongPress: () {
-                setState(() => _isMultiSelectMode = !_isMultiSelectMode);
+                if (_isMultiSelectMode) return;
+
+                setState(() {
+                  _isMultiSelectMode = true;
+                  _selectedItemIdxs.add(index);
+                });
+                print(_selectedItemIdxs);
               },
             );
           },
@@ -73,6 +86,10 @@ class _HistoryViewState extends ConsumerState<HistoryView> {
       IconButton(
         onPressed: () {
           qrHistoryController.removeMultiple(_selectedItemIdxs);
+          setState(() {
+            _selectedItemIdxs = [];
+            _isMultiSelectMode = false;
+          });
         },
         icon: const Icon(Icons.delete),
       ),

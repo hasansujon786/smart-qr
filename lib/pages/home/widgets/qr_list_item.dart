@@ -10,6 +10,8 @@ class QrListItem extends StatelessWidget {
   final String qrDetails;
   final VoidCallback onTap;
   final VoidCallback? onLongPress;
+  final bool selectMode;
+  final bool selected;
   const QrListItem({
     Key? key,
     required this.index,
@@ -17,6 +19,8 @@ class QrListItem extends StatelessWidget {
     required this.qrDetails,
     required this.onTap,
     this.onLongPress,
+    this.selectMode = false,
+    this.selected = false,
   }) : super(key: key);
 
   @override
@@ -33,7 +37,9 @@ class QrListItem extends StatelessWidget {
         leading: QrIcon(color: qrTypeData.color, icon: qrTypeData.icon),
         title: Text(qrTypeData.name, style: theme.textTheme.titleLarge?.copyWith(fontSize: 18)),
         subtitle: Text(qrDetails, style: theme.textTheme.bodySmall?.copyWith(color: Palette.textMuted)),
-        trailing: Icon(Icons.chevron_right, color: theme.dividerColor),
+        trailing: !selectMode
+            ? Icon(Icons.chevron_right, color: theme.dividerColor)
+            : !selected ? Icon(Icons.circle_rounded, color: theme.dividerColor) : const Icon(Icons.check_circle, color: Colors.green),
       ),
     );
   }
