@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../config/config.dart';
+
 class FloatingSnackBar {
   static ScaffoldFeatureController showFloatingSnackBar(context, {required String message, double width = 200}) {
     return ScaffoldMessenger.of(context).showSnackBar(
@@ -16,14 +18,16 @@ class FloatingSnackBar {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
-                color: Theme.of(context).cardColor,
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(14),
-                // border: Border.all(width: 0.8, color: Theme.of(context).shadowColor),
                 boxShadow: [BoxShadow(color: Theme.of(context).shadowColor, blurRadius: 2)],
               ),
               height: 42,
               child: Center(
-                child: Text(message, style: Theme.of(context).textTheme.labelLarge),
+                child: Text(
+                  message,
+                  style: TextStyle(color: Palette.textDark, fontSize: 12, fontWeight: FontWeight.w500),
+                ),
               ),
             ),
           ],

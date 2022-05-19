@@ -47,7 +47,10 @@ class _CameraControlsState extends State<CameraControls> with WidgetsBindingObse
 
                 // if no img is selected
                 final reslult = await qr_tools.decodeFromImage();
-                if (reslult == null) return;
+                if (reslult == null) {
+                  FloatingSnackBar.showFloatingSnackBar(context, message: 'No QR found.');
+                  return;
+                }
 
                 // show result page
                 widget.controller.pause();
