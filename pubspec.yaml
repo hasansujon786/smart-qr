@@ -49,7 +49,7 @@ flutter:
     - assets/images/
 
 flutter_icons:
-  image_path: 'assets/images/launcher_icon.png'
+  image_path: 'design/app_icon/launcher_icon.png'
   ios: false
   android: true
 flutter_native_splash:

@@ -14,7 +14,12 @@ class AppInfo extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           appName,
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),
+          style: TextStyle(
+            shadows: [Shadow(color: Theme.of(context).shadowColor, blurRadius: 3, offset: const Offset(1, 2))],
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).primaryColor,
+          ),
         ),
       ],
     );
@@ -29,15 +34,13 @@ class AppIcon extends StatelessWidget {
     return Container(
       width: 60,
       height: 60,
-      padding: const EdgeInsets.all(4),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(12),
         color: Colors.white,
-        boxShadow: [BoxShadow(color: Colors.grey.shade300, blurRadius: 1)],
+        boxShadow: [BoxShadow(color: Theme.of(context).shadowColor, blurRadius: 2)],
       ),
-      child: Center(
-        child: Icon(Icons.qr_code_scanner, size: 32, color: Theme.of(context).primaryColor),
-      ),
+      child: Image.asset('assets/images/app-icon-sm.png'),
     );
   }
 }

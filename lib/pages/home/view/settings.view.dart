@@ -16,8 +16,7 @@ class Settings extends ConsumerWidget {
   }
 
   void _shareAppLink() {
-    // Share.share('Scan QR & Barcode with $appName. Download from $playStoreAppLink');
-    Share.share('Scan QR & Barcode with $appName.');
+    Share.share('Scan & Create QR with $appName. \nDownload from $playStoreAppLink');
   }
 
   @override
