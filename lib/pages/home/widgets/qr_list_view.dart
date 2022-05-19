@@ -13,8 +13,8 @@ class QrListView extends StatefulWidget {
     Key? key,
     required this.title,
     required this.qrList,
-    this.qrListController,
     required this.onItemTap,
+    required this.qrListController,
   }) : super(key: key);
 
   @override
@@ -25,19 +25,41 @@ class _QrListViewState extends State<QrListView> {
   bool _isMultiSelectMode = false;
   var _selectedItemsIdx = <int>[];
 
+  void delteAllItems() {
+    // ListView Items are reversed, so _selectedItemsIdx current index needs to be reversed
+    var reversedItemsIdx = _selectedItemsIdx.map((e) => widget.qrList.length - (e + 1));
+
+    widget.qrListController.removeMultiple(reversedItemsIdx);
+    exitMultiSelect();
+  }
+
+  void exitMultiSelect() {
+    setState(() {
+      _isMultiSelectMode = false;
+      _selectedItemsIdx = [];
+    });
+  }
+
+  void enterSelectMode(int? index) {
+    if (_isMultiSelectMode) return;
+    setState(() {
+      _isMultiSelectMode = true;
+      if (index != null) _selectedItemsIdx.add(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // var qrHistories = ref.watch(qrHistoryProvider).reversed.toList();
-    // var qrHistoryController = ref.read(qrHistoryProvider.notifier);
-
     return WillPopScope(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: buildAppTitle(),
           centerTitle: true,
-          actions: _isMultiSelectMode
-              ? buildSelectModeActions(widget.qrListController, widget.qrList.length)
-              : [buildPopupMenu(widget.qrListController)],
+          leading: _isMultiSelectMode ? IconButton(onPressed: exitMultiSelect, icon: const Icon(Icons.close)) : null,
+          actions: [
+            if (!_isMultiSelectMode) buildPopupMenu(widget.qrListController),
+            if (_isMultiSelectMode) IconButton(onPressed: delteAllItems, icon: const Icon(Icons.delete)),
+          ],
         ),
         body: BottomNavBarPadding(
           child: ListView.builder(
@@ -60,17 +82,9 @@ class _QrListViewState extends State<QrListView> {
                     }
                   } else {
                     widget.onItemTap(index);
-                    // viewQrHistory(widget.qrHistoryController, qrHistory, index);
                   }
                 },
-                onLongPress: () {
-                  if (_isMultiSelectMode) return;
-
-                  setState(() {
-                    _isMultiSelectMode = true;
-                    _selectedItemsIdx.add(index);
-                  });
-                },
+                onLongPress: () => enterSelectMode(index),
               );
             },
             padding: const EdgeInsets.all(12),
@@ -79,10 +93,7 @@ class _QrListViewState extends State<QrListView> {
       ),
       onWillPop: () {
         if (_isMultiSelectMode) {
-          setState(() {
-            _selectedItemsIdx = [];
-            _isMultiSelectMode = false;
-          });
+          exitMultiSelect();
           return Future.value(false);
         }
         return Future.value(true);
@@ -90,39 +101,21 @@ class _QrListViewState extends State<QrListView> {
     );
   }
 
-  List<Widget> buildSelectModeActions(qrHistoryController, int qrHistoriesLenght) {
-    return [
-      IconButton(
-        onPressed: () {
-          // ListView Items are reversed, so _selectedItemsIdx current index needs to be reversed
-          var reversedItemsIdx = _selectedItemsIdx.map((e) => qrHistoriesLenght - (e + 1));
-
-          qrHistoryController.removeMultiple(reversedItemsIdx);
-          setState(() {
-            _selectedItemsIdx = [];
-            _isMultiSelectMode = false;
-          });
-        },
-        icon: const Icon(Icons.delete),
-      ),
-      IconButton(
-        onPressed: () {
-          setState(() {
-            _isMultiSelectMode = false;
-            _selectedItemsIdx = [];
-          });
-        },
-        icon: const Icon(Icons.close),
-      )
-    ];
+  Widget buildAppTitle() {
+    var count = _selectedItemsIdx.length;
+    String p = count > 1 ? 'items' : 'item';
+    return Text(!_isMultiSelectMode ? widget.title : '$count $p selected');
   }
 
-  Widget buildPopupMenu(qrHistoryController) {
+  Widget buildPopupMenu(qrListController) {
     return PopupMenuButton<_HistoryPopupAppBarMenu>(
       onSelected: (value) {
         switch (value) {
           case _HistoryPopupAppBarMenu.deleteAll:
-            qrHistoryController.clear();
+            qrListController.clear();
+            break;
+          case _HistoryPopupAppBarMenu.enterSelectMode:
+            enterSelectMode(null);
             break;
           default:
         }
@@ -130,7 +123,11 @@ class _QrListViewState extends State<QrListView> {
       itemBuilder: (contex) => [
         const PopupMenuItem(
           value: _HistoryPopupAppBarMenu.deleteAll,
-          child: PmItemChild(icon: Icons.delete_forever, text: 'Delete All'),
+          child: PopupMenuItemChild(icon: Icons.delete_forever, text: 'Delete All'),
+        ),
+        const PopupMenuItem(
+          value: _HistoryPopupAppBarMenu.enterSelectMode,
+          child: PopupMenuItemChild(icon: Icons.check_box_rounded, text: 'Select'),
         ),
       ],
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -138,4 +135,7 @@ class _QrListViewState extends State<QrListView> {
   }
 }
 
-enum _HistoryPopupAppBarMenu { deleteAll }
+enum _HistoryPopupAppBarMenu {
+  deleteAll,
+  enterSelectMode,
+}
