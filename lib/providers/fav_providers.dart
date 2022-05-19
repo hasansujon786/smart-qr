@@ -40,6 +40,12 @@ class QrFavNotifier extends StateNotifier<List<QrFav>> {
     state = state.where((element) => element.id != id).toList();
   }
 
+  void removeMultiple(Iterable<int> list) {
+    var keys = list.map((e) => box.keyAt(e));
+    box.deleteAll(keys);
+    state = box.values.toList();
+  }
+
   // void edit({required String id, required String description}) {
   //   state = [
   //     for (final todo in state)

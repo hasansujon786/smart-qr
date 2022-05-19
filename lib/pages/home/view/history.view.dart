@@ -4,18 +4,26 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../models/models.dart';
 import '../../../pages/qr_result/qr_result.dart';
 import '../../../providers/history_provider.dart';
-import '../../../ui/ui.dart';
 import '../widgets/widgets.dart';
 
-class HistoryView extends ConsumerStatefulWidget {
+class HistoryView extends ConsumerWidget {
   const HistoryView({Key? key}) : super(key: key);
 
   @override
-  _HistoryViewState createState() => _HistoryViewState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    var qrHistories = ref.watch(qrHistoryProvider).reversed.toList();
+    var qrHistoryController = ref.read(qrHistoryProvider.notifier);
+    return QrListView(
+      title: 'History',
+      qrList: qrHistories,
+      qrListController: qrHistoryController,
+      onItemTap: (int index) {
+        viewQrHistory(context, qrHistoryController, index, qrHistories[index]);
+      },
+    );
+  }
 
-class _HistoryViewState extends ConsumerState<HistoryView> {
-  void viewQrHistory(qrHistoryController, QrHistory qrHistory, int index) async {
+  void viewQrHistory(context, qrHistoryController, int index, QrHistory qrHistory) async {
     var shouldDelete = await Navigator.pushNamed(context, QrHistoryDetailsPage.routeName, arguments: {
       'qr_id': qrHistory.id,
       'rawcode': qrHistory.rawValue,
@@ -25,122 +33,8 @@ class _HistoryViewState extends ConsumerState<HistoryView> {
       qrHistoryController.remove(id: qrHistory.id, index: index);
     }
   }
-
-  bool _isMultiSelectMode = false;
-  var _selectedItemsIdx = <int>[];
-
-  @override
-  Widget build(BuildContext context) {
-    var qrHistories = ref.watch(qrHistoryProvider).reversed.toList();
-    var qrHistoryController = ref.read(qrHistoryProvider.notifier);
-
-    return WillPopScope(
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('History'),
-          centerTitle: true,
-          actions: _isMultiSelectMode
-              ? buildSelectModeActions(qrHistoryController, qrHistories.length)
-              : [buildPopupMenu(qrHistoryController)],
-        ),
-        body: BottomNavBarPadding(
-          child: ListView.builder(
-            itemCount: qrHistories.length,
-            itemBuilder: (BuildContext context, int index) {
-              QrHistory qrHistory = qrHistories[index];
-              return QrListItem(
-                selectMode: _isMultiSelectMode,
-                selected: _selectedItemsIdx.any((element) => element == index),
-                index: index,
-                qrTypeData: QrType.findByValueType(qrHistory.typeAsEnum),
-                qrDetails: 'qr details',
-                onTap: () {
-                  if (_isMultiSelectMode) {
-                    if (_selectedItemsIdx.contains(index)) {
-                      setState(() => _selectedItemsIdx.remove(index));
-                    } else {
-                      setState(() => _selectedItemsIdx.add(index));
-                    }
-                  } else {
-                    viewQrHistory(qrHistoryController, qrHistory, index);
-                  }
-                },
-                onLongPress: () {
-                  if (_isMultiSelectMode) return;
-
-                  setState(() {
-                    _isMultiSelectMode = true;
-                    _selectedItemsIdx.add(index);
-                  });
-                },
-              );
-            },
-            padding: const EdgeInsets.all(12),
-          ),
-        ),
-      ),
-      onWillPop: () {
-        if (_isMultiSelectMode) {
-          setState(() {
-            _selectedItemsIdx = [];
-            _isMultiSelectMode = false;
-          });
-          return Future.value(false);
-        }
-        return Future.value(true);
-      },
-    );
-  }
-
-  List<Widget> buildSelectModeActions(QrHistoryNotifier qrHistoryController, int qrHistoriesLenght) {
-    return [
-      IconButton(
-        onPressed: () {
-          // ListView Items are reversed, so _selectedItemsIdx current index needs to be reversed
-          var reversedItemsIdx = _selectedItemsIdx.map((e) => qrHistoriesLenght - (e + 1));
-
-          qrHistoryController.removeMultiple(reversedItemsIdx);
-          setState(() {
-            _selectedItemsIdx = [];
-            _isMultiSelectMode = false;
-          });
-        },
-        icon: const Icon(Icons.delete),
-      ),
-      IconButton(
-        onPressed: () {
-          setState(() {
-            _isMultiSelectMode = false;
-            _selectedItemsIdx = [];
-          });
-        },
-        icon: const Icon(Icons.close),
-      )
-    ];
-  }
-
-  Widget buildPopupMenu(qrHistoryController) {
-    return PopupMenuButton<_HistoryPopupAppBarMenu>(
-      onSelected: (value) {
-        switch (value) {
-          case _HistoryPopupAppBarMenu.deleteAll:
-            qrHistoryController.clear();
-            break;
-          default:
-        }
-      },
-      itemBuilder: (contex) => [
-        const PopupMenuItem(
-          value: _HistoryPopupAppBarMenu.deleteAll,
-          child: PmItemChild(icon: Icons.delete_forever, text: 'Delete All'),
-        ),
-      ],
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-    );
-  }
 }
 
-enum _HistoryPopupAppBarMenu { deleteAll }
 
 // Read hive box direactly
 // body: ValueListenableBuilder(

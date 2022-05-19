@@ -30,7 +30,7 @@ class QrHistoryNotifier extends StateNotifier<List<QrHistory>> {
     box.clear();
   }
 
-  void remove({required String id, required int index}) {
+  void remove({required int index}) {
     // state = state.where((element) => element.id != id).toList();
     state.removeAt(index);
     state = [...state];

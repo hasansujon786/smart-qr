@@ -15,37 +15,17 @@ class Favorite extends ConsumerWidget {
     var qrFavs = ref.watch(qrFavProvider).reversed.toList();
     var qrFavsController = ref.read(qrFavProvider.notifier);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Favorites'),
-        centerTitle: true,
-        actions: [
-          buildPopupMenu(qrFavsController),
-        ],
-      ),
-      body: BottomNavBarPadding(
-        child: ListView.builder(
-          itemCount: qrFavs.length,
-          itemBuilder: (BuildContext context, int index) {
-            QrFav qrFav = qrFavs[index];
-            return QrListItem(
-              index: index,
-              qrTypeData: QrType.findByValueType(qrFav.typeAsEnum),
-              qrDetails: 'qr details',
-              onTap: () {
-                // TODO: implement
-                // qrHistoryController.remove(id: qr.id, index: index);
-                Navigator.pushNamed(context, QrHistoryDetailsPage.routeName, arguments: {
-                  'qr_id': qrFav.id,
-                  'rawcode': qrFav.rawValue,
-                  'is_fav_page': true,
-                });
-              },
-            );
-          },
-          padding: const EdgeInsets.all(12),
-        ),
-      ),
+    return QrListView(
+      title: 'Favorites',
+      qrList: qrFavs,
+      qrListController: qrFavsController,
+      onItemTap: (int index) {
+        Navigator.pushNamed(context, QrHistoryDetailsPage.routeName, arguments: {
+          'qr_id': qrFavs[index].id,
+          'rawcode': qrFavs[index].rawValue,
+          'is_fav_page': true,
+        });
+      },
     );
   }
 
