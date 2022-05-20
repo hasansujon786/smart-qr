@@ -37,8 +37,13 @@ class _DownloadButtonState extends State<DownloadButton> {
   }
 
   void saveQrAsImg() async {
-    final success = await qr_tools.downloadQrAsPng(widget.qrcodeRawValue, widget.fg, widget.bg) ?? false;
-    widget.onDownload(success);
+    final success = await qr_tools.downloadQrAsPng(
+      widget.qrcodeRawValue,
+      fg: widget.fg,
+      bg: widget.bg,
+      albumName: appName,
+    );
+    widget.onDownload(success ?? false);
     setState(() => _isLoading = false);
   }
 

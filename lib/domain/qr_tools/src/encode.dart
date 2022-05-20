@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:ui' as ui;
-
 import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,11 +12,11 @@ import '../qr_tools.dart';
 const imageSize = 1080.00;
 const imageMargin = 10.00;
 
-Future<bool?> downloadQrAsPng(String qrText, Color? foregroundColor, Color? backgroundColor) async {
-  String? path = await _createQrPicture(qrText, foregroundColor, backgroundColor);
+Future<bool?> downloadQrAsPng(String qrText, {Color? fg, Color? bg, required String albumName}) async {
+  String? path = await _createQrPicture(qrText, fg, bg);
   if (path == null) return false;
 
-  return await GallerySaver.saveImage(path);
+  return await GallerySaver.saveImage(path, albumName: albumName);
 }
 
 Future<void> _writeToFile(ByteData data, String path) async {
