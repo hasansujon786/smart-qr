@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 // primary: '#9966FF',
+// primaryLight: #BC85FC  used in dark mode
 // primaryDark: 'purple.600',
 class Palette {
   static final Color? darkerGrey = Colors.grey[600];
@@ -8,7 +9,7 @@ class Palette {
   static const Color lightBlue = Color(0xffC1F1EB);
 
   // #6200ED
-  static final bandColor = Color(hexColor(('#9966FF')));
+  static final brandColor = Color(hexColor(('#9966FF')));
   static final appBackground = Colors.grey[100];
   static final appBackgroundLight = Color(hexColor('#fcfcfc'));
   static final mutedBorder = Colors.grey.shade200;

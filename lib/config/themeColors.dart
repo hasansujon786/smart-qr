@@ -6,14 +6,14 @@ class ThemeColors {
     visualDensity: VisualDensity.adaptivePlatformDensity,
     canvasColor: Palette.appBackground,
 
-    primaryColor: Palette.bandColor,
+    primaryColor: Palette.brandColor,
     colorScheme: ColorScheme.light(
-      primary: Palette.bandColor,
+      primary: Palette.brandColor,
     ),
 
     ////////////// Light Mode //////////////////
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: Palette.bandColor,
+      backgroundColor: Palette.brandColor,
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
@@ -42,12 +42,12 @@ class ThemeColors {
   );
 
   static final darkTheme = ThemeData(
-    primaryColor: Palette.bandColor,
+    primaryColor: Palette.brandColor,
     colorScheme: const ColorScheme.dark(),
 
     ////////////// Dark Mode //////////////////
     floatingActionButtonTheme: FloatingActionButtonThemeData(
-      backgroundColor: Palette.bandColor,
+      backgroundColor: Palette.brandColor,
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
