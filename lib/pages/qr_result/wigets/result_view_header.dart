@@ -11,11 +11,13 @@ class ResultViewHeader extends StatelessWidget {
   final Barcode qrcode;
   final String qrId;
   final String copyText;
+  final String details;
   const ResultViewHeader({
     Key? key,
     required this.qrcode,
     required this.qrId,
     required this.copyText,
+    required this.details,
   }) : super(key: key);
 
   @override
@@ -43,7 +45,7 @@ class ResultViewHeader extends StatelessWidget {
               children: [
                 Text(qrType.name, style: theme.textTheme.titleLarge?.copyWith(fontSize: 18)),
                 const SizedBox(height: 4),
-                Text('qr details', style: theme.textTheme.bodySmall?.copyWith(color: Palette.textMuted))
+                Text(details, style: theme.textTheme.bodySmall?.copyWith(color: Palette.textMuted))
               ],
             ),
           ),

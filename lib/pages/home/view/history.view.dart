@@ -28,6 +28,7 @@ class HistoryView extends ConsumerWidget {
       'qr_id': qrHistory.id,
       'rawcode': qrHistory.rawValue,
       'is_fav_page': false,
+      'qr_createdAt': qrHistory.createdAt
     });
     if (shouldDelete != null && shouldDelete == true) {
       qrHistoryController.remove(id: qrHistory.id, index: index);

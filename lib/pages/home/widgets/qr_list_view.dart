@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../config/config.dart';
 import '../../../models/models.dart';
 import '../../../pages/home/widgets/widgets.dart';
 import '../../../ui/ui.dart';
@@ -72,7 +73,7 @@ class _QrListViewState extends State<QrListView> {
                 selected: _selectedItemsIdx.any((element) => element == index),
                 index: index,
                 qrTypeData: QrType.findByValueType(item.typeAsEnum),
-                qrDetails: 'fooo sdfsdf',
+                qrDetails: getDate(item.createdAt),
                 onTap: () {
                   if (_isMultiSelectMode) {
                     if (_selectedItemsIdx.contains(index)) {

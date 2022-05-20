@@ -11,11 +11,13 @@ class ResultView extends StatelessWidget {
   final Barcode qrcode;
   final String rawCode;
   final bool showDelete;
+  final DateTime? createdAt;
   const ResultView({
     Key? key,
     required this.qrId,
     required this.qrcode,
     required this.rawCode,
+    required this.createdAt,
     this.showDelete = false,
     this.pageTitle = 'Result',
   }) : super(key: key);
@@ -47,7 +49,12 @@ class ResultView extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: Constants.verticalPadding),
         child: Column(children: [
           const SizedBox(height: 24),
-          ResultViewHeader(qrcode: qrcode, qrId: qrId, copyText: resultItems.copyText),
+          ResultViewHeader(
+            qrcode: qrcode,
+            qrId: qrId,
+            copyText: resultItems.copyText,
+            details: createdAt == null ? '' : getDate(createdAt),
+          ),
           const SizedBox(height: 40),
           ...resultItems.rItems,
         ]),

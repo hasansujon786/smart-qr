@@ -22,6 +22,7 @@ class Favorite extends ConsumerWidget {
           'qr_id': qrFavs[index].id,
           'rawcode': qrFavs[index].rawValue,
           'is_fav_page': true,
+          'qr_createdAt': qrFavs[index].createdAt
         });
       },
     );

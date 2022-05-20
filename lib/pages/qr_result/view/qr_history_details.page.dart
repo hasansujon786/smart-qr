@@ -13,14 +13,16 @@ class QrHistoryDetailsPage extends StatelessWidget {
     final qrId = args['qr_id'] as String;
     final rawCode = args['rawcode'] as String;
     final isFavPage = args['is_fav_page'] as bool;
+    final createdAt = args['qr_createdAt'] as DateTime?;
     final qrcode = qr_tools.parse(rawCode);
 
     return ResultView(
-      pageTitle: isFavPage ? 'QR Favorite' : 'QR History',
-      showDelete: !isFavPage,
       qrId: qrId,
       qrcode: qrcode,
       rawCode: rawCode,
+      createdAt: createdAt,
+      pageTitle: isFavPage ? 'QR Favorite' : 'QR History',
+      showDelete: !isFavPage,
     );
   }
 }

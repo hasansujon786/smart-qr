@@ -28,6 +28,11 @@ class QrResultPage extends ConsumerWidget {
       ref.read(qrHistoryProvider.notifier).add(qrHistory);
     });
 
-    return ResultView(qrId: qrHistory.id, qrcode: qrcode, rawCode: rawCode);
+    return ResultView(
+      qrId: qrHistory.id,
+      qrcode: qrcode,
+      rawCode: rawCode,
+      createdAt: qrHistory.createdAt,
+    );
   }
 }
