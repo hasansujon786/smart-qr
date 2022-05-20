@@ -52,10 +52,6 @@ class _HomePageState extends State<HomePage> {
           FABBottomAppBarItem(icon: Icons.settings_outlined, text: 'Settings'),
         ],
       ),
-      // bottomNavigationBar: BottomNavBar(
-      //   index: _currentViewIndex,
-      //   onTap: (index) => setState(() => _currentViewIndex = index),
-      // ),
     );
   }
 }
