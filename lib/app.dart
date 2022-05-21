@@ -20,6 +20,7 @@ class MyApp extends ConsumerWidget {
     // The AnimatedBuilder Widget listens to the SettingsController for changes.
     // Whenever the user updates their settings, the MaterialApp is rebuilt.
     return MaterialApp(
+      title: appName,
       debugShowCheckedModeBanner: false,
       // Providing a restorationScopeId allows the Navigator built by the
       // MaterialApp to restore the navigation stack when a user leaves and
