@@ -115,35 +115,6 @@ class QrAction extends StatelessWidget {
   }
 }
 
-// TODO: delete this
-class QrActionButton extends StatelessWidget {
-  final VoidCallback onTap;
-  final String label;
-  final IconData icon;
-  const QrActionButton({
-    Key? key,
-    required this.onTap,
-    required this.label,
-    required this.icon,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return TextButton.icon(
-      style: ButtonStyle(
-        padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 24, vertical: 10)),
-        backgroundColor: MaterialStateProperty.all(Colors.grey[300]),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.0)),
-        ),
-      ),
-      label: Text(label),
-      icon: Icon(icon),
-      onPressed: onTap,
-    );
-  }
-}
-
 String? _encodeQueryParameters(Map<String, String> params) {
   return params.entries.map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&');
 }
