@@ -6,6 +6,8 @@ Image.network(
               fit: BoxFit.cover,
             )
 
+TODO: check models from barcodeParser
+import 'package:barcode_parser/models.dart';
 
 
 # Useful CLI commands

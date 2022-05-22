@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:images_picker/images_picker.dart';
 import 'package:scan/scan.dart';
 
 import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
-import '../../qr_result/qr_result.dart';
 import '../../../ui/ui.dart';
+import '../../qr_result/qr_result.dart';
 
 class CameraControls extends StatefulWidget {
   final ScanController controller;
@@ -15,6 +16,40 @@ class CameraControls extends StatefulWidget {
 
 class _CameraControlsState extends State<CameraControls> with WidgetsBindingObserver {
   bool isFlashOn = false;
+
+  void openImgPicker() async {
+    // trun off flush & pause camera
+    if (isFlashOn) switchFlashOff();
+    widget.controller.pause();
+
+    List<Media>? img = await ImagesPicker.pick();
+    // if no img is selected
+    if (img == null) return;
+
+    final reslult = await qr_tools.decodeFromImage(img[0]);
+    if (reslult == null) {
+      FloatingSnackBar.showFloatingSnackBar(context, message: 'No QR found.');
+      return;
+    }
+
+    // show result page
+    widget.controller.pause();
+    Navigator.pushNamed(context, QrResultPage.routeName, arguments: {
+      'qrcodeRawValue': reslult,
+    }).then((value) {
+      widget.controller.resume();
+    });
+  }
+
+  void toggleFlash() {
+    widget.controller.toggleTorchMode();
+    setState(() => isFlashOn = !isFlashOn);
+  }
+
+  void switchFlashOff() {
+    widget.controller.toggleTorchMode();
+    setState(() => isFlashOn = false);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,44 +63,17 @@ class _CameraControlsState extends State<CameraControls> with WidgetsBindingObse
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            IconButton(
-              onPressed: () {
-                widget.controller.toggleTorchMode();
-                setState(() => isFlashOn = !isFlashOn);
-              },
-              icon: Icon(isFlashOn ? Icons.flash_on : Icons.flash_off, color: Colors.white, size: 24),
-            ),
+            buildIconButton(isFlashOn ? Icons.flash_on : Icons.flash_off, toggleFlash),
             Text('|', style: TextStyle(color: Colors.white.withOpacity(0.1), fontSize: 22)),
-            IconButton(
-              onPressed: () async {
-                // toggle flush & pause camera
-                if (isFlashOn) {
-                  widget.controller.toggleTorchMode();
-                  setState(() => isFlashOn = false);
-                }
-                widget.controller.pause();
-
-                // if no img is selected
-                final reslult = await qr_tools.decodeFromImage();
-                if (reslult == null) {
-                  FloatingSnackBar.showFloatingSnackBar(context, message: 'No QR found.');
-                  return;
-                }
-
-                // show result page
-                widget.controller.pause();
-                Navigator.pushNamed(context, QrResultPage.routeName, arguments: {
-                  'qrcodeRawValue': reslult,
-                }).then((value) {
-                  widget.controller.resume();
-                });
-              },
-              icon: const Icon(Icons.image_outlined, color: Colors.white, size: 24),
-            )
+            buildIconButton(Icons.image_outlined, openImgPicker)
           ],
         ),
       ),
     );
+  }
+
+  Widget buildIconButton(IconData icon, VoidCallback onPress) {
+    return IconButton(onPressed: onPress, icon: Icon(icon, color: Colors.white, size: 24));
   }
 
   // In order to get hot reload to work we need to pause the camera if the platform
@@ -92,13 +100,11 @@ class _CameraControlsState extends State<CameraControls> with WidgetsBindingObse
     super.dispose();
   }
 
+  // Crontroll the camera while the app goes to background
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
-      if (isFlashOn) {
-        widget.controller.toggleTorchMode();
-        setState(() => isFlashOn = false);
-      }
+      if (isFlashOn) switchFlashOff();
       widget.controller.pause();
       print('paused =================================');
     } else if (state == AppLifecycleState.resumed) {
