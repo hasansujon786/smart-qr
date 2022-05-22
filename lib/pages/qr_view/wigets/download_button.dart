@@ -89,7 +89,7 @@ class _Btn extends StatelessWidget {
           children: const [
             Icon(Icons.download_rounded),
             SizedBox(width: 8),
-            Text('Download', style: TextStyle(fontSize: 16)),
+            Text('Save to Gallery', style: TextStyle(fontSize: 16)),
           ],
         ),
       ),
@@ -119,7 +119,7 @@ class _SmallBtn extends StatelessWidget {
   factory _SmallBtn.success() {
     return const _SmallBtn(
       state: _ButtonState.success,
-      child: Icon(Icons.done, size: 28),
+      child: Icon(Icons.done, size: 28, color: Colors.white),
     );
   }
 
