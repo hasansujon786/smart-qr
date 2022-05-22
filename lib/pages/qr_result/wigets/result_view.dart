@@ -116,15 +116,17 @@ ResultItems _buildResultItems(BuildContext context, Barcode barcode) {
       BarcodeEmail barcodeEmail = barcode as BarcodeEmail;
       // TODO: get recipients name
       String email = barcodeEmail.recipients[0];
-      copyText = 'Email: $email \nSubject: ${barcodeEmail.subject} \nMessage: ${barcodeEmail.body}';
+      String? subject = barcodeEmail.subject ?? '';
+      String? body = barcodeEmail.body ?? '';
+      copyText = 'Email: $email \nSubject: $subject \nMessage: $body';
       return ResultItems(
         [
           // ...barcodeEmail.recipients.map((recipient) {
           //   return recipient == '' ? Container() : QrResultItem(title: 'Email', content: recipient);
           // }),
           QrResultItem(title: 'Email', content: email),
-          QrResultItem(title: 'Subject', content: barcodeEmail.subject ?? ''),
-          QrResultItem(title: 'Message', content: barcodeEmail.body ?? ''),
+          QrResultItem(title: 'Subject', content: subject),
+          QrResultItem(title: 'Message', content: body),
         ],
         copyText: copyText,
         mainAction: QrAction.email(barcodeEmail),
