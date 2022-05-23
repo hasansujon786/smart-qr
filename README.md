@@ -9,6 +9,8 @@ Image.network(
 TODO: check models from barcodeParser
 import 'package:barcode_parser/models.dart';
 
+TODO: fix qr_view_page background
+
 
 # Useful CLI commands
 ## Update hive classes
