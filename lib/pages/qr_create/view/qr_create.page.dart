@@ -1,15 +1,13 @@
 import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../config/config.dart';
 import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
-import '../../../providers/providers.dart';
 import '../../../ui/ui.dart';
 import '../../qr_view/qr_view.dart';
 import '../qr_create.dart';
 
-class QrCreatePage extends ConsumerStatefulWidget {
+class QrCreatePage extends StatefulWidget {
   static const routeName = '/qr_create';
 
   const QrCreatePage({Key? key}) : super(key: key);
@@ -18,7 +16,7 @@ class QrCreatePage extends ConsumerStatefulWidget {
   _QrCreatePageState createState() => _QrCreatePageState();
 }
 
-class _QrCreatePageState extends ConsumerState<QrCreatePage> {
+class _QrCreatePageState extends State<QrCreatePage> {
   final _formKey = GlobalKey<FormState>();
   final Map<String, String> _formState = {};
 
@@ -43,10 +41,9 @@ class _QrCreatePageState extends ConsumerState<QrCreatePage> {
   @override
   Widget build(BuildContext context) {
     final qrcodeType = ModalRoute.of(context)!.settings.arguments as BarcodeValueType;
-    final appSettings = ref.watch(settingsProvider);
 
     return Scaffold(
-      backgroundColor: appSettings.isDarkMode ? Theme.of(context).canvasColor : Palette.appBackgroundLight,
+      backgroundColor: isDarkMode(context) ? Theme.of(context).canvasColor : Palette.appBackgroundLight,
       appBar: AppBar(
         title: const Text('Create QR code'),
         centerTitle: true,
