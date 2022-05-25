@@ -41,9 +41,10 @@ class _QrCreatePageState extends State<QrCreatePage> {
   @override
   Widget build(BuildContext context) {
     final qrcodeType = ModalRoute.of(context)!.settings.arguments as BarcodeValueType;
+    bool darkMode = isDarkMode();
 
     return Scaffold(
-      backgroundColor: isDarkMode(context) ? Theme.of(context).canvasColor : Palette.appBackgroundLight,
+      backgroundColor: darkMode ? Theme.of(context).canvasColor : Palette.appBackgroundLight,
       appBar: AppBar(
         title: const Text('Create QR code'),
         centerTitle: true,

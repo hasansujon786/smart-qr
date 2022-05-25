@@ -1,14 +1,15 @@
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 String getDate(datetime) {
   return formatDate(datetime, [h, ':', nn, ' ', am, '  ', dd, '/', m, '/', yyyy]);
 }
 
-bool isDarkMode(BuildContext context) {
-  return MediaQuery.of(context).platformBrightness == Brightness.dark;
+bool isDarkMode() {
+  return SchedulerBinding.instance.window.platformBrightness == Brightness.dark;
 }
 
-bool isLightMode(BuildContext context) {
-  return MediaQuery.of(context).platformBrightness == Brightness.light;
+bool isLightMode() {
+  return SchedulerBinding.instance.window.platformBrightness == Brightness.light;
 }
