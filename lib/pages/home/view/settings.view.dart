@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../../../config/config.dart';
-import '../../../providers/providers.dart';
 import '../../../ui/ui.dart';
 import '../widgets/widgets.dart';
 
-class Settings extends ConsumerWidget {
+class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
 
-  void _launchMoreApps() async {
-    if (!await launchUrlString(playStoreMoreAppsLink, mode: LaunchMode.externalApplication)) throw 'Could not launch';
+  void _launcLink(String link) async {
+    if (!await launchUrlString(link, mode: LaunchMode.externalApplication)) throw 'Could not launch';
   }
 
   void _shareAppLink() {
-    Share.share('Scan & Create QR with $appName. \nDownload from $playStoreAppLink');
+    Share.share('Scan & Create QR Code with $appName. \nDownload from $playStoreAppLink');
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final radius = Constants.borderRadius;
-    final appSettings = ref.watch(settingsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -39,11 +36,22 @@ class Settings extends ConsumerWidget {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(radius)),
               shadowColor: Colors.grey.withOpacity(0.3),
               child: Column(children: [
-                const SizedBox(height: 12),
-                buildThemeButton(context, appSettings, ref),
-                SettingItem(icon: Icons.share, title: 'Share app', onPress: _shareAppLink),
-                SettingItem(icon: Icons.star_rounded, title: 'Rate the app', onPress: _launchMoreApps),
-                SettingItem(icon: Icons.apps, title: 'More apps', onPress: _launchMoreApps),
+                const ThemeSelectorMenu(),
+                SettingItem(
+                  icon: Icons.share,
+                  title: 'Share app',
+                  onPress: _shareAppLink,
+                ),
+                SettingItem(
+                  icon: Icons.star_rounded,
+                  title: 'Rate the app',
+                  onPress: () => _launcLink(playStoreAppLink),
+                ),
+                SettingItem(
+                  icon: Icons.apps,
+                  title: 'More apps',
+                  onPress: () => _launcLink(playStoreMoreAppsLink),
+                ),
                 SettingItem(
                   title: 'About',
                   onPress: () {
@@ -53,6 +61,7 @@ class Settings extends ConsumerWidget {
                     );
                   },
                 ),
+                const Divider(height: 0, indent: 24, endIndent: 24),
                 buildVersionName(context),
               ]),
             ),
@@ -69,83 +78,6 @@ class Settings extends ConsumerWidget {
         'Version $appVersion',
         style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Palette.textMuted),
       ),
-    );
-  }
-
-  Widget buildThemeButton(context, appSettings, ref) {
-    return Column(
-      children: [
-        ListTile(
-          contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          leading: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(19),
-              color: Theme.of(context).canvasColor,
-            ),
-            padding: const EdgeInsets.all(10),
-            child: Icon(Icons.dark_mode, color: Theme.of(context).iconTheme.color),
-          ),
-          title: DropdownButton<ThemeMode>(
-            style: Theme.of(context).textTheme.titleSmall,
-            isExpanded: true,
-            icon: const Icon(Icons.chevron_right),
-            iconEnabledColor: Theme.of(context).dividerColor,
-            underline: const SizedBox(),
-            value: appSettings.currentTheme,
-            onChanged: ref.read(settingsProvider.notifier).updateTheme,
-            items: const [
-              DropdownMenuItem(
-                value: ThemeMode.system,
-                child: Text('System Theme'),
-              ),
-              DropdownMenuItem(
-                value: ThemeMode.light,
-                child: Text('Light Theme'),
-              ),
-              DropdownMenuItem(
-                value: ThemeMode.dark,
-                child: Text('Dark Theme'),
-              )
-            ],
-          ),
-        ),
-        const Divider(height: 0, indent: 24, endIndent: 24)
-      ],
-    );
-  }
-}
-
-class SettingItem extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final VoidCallback? onPress;
-
-  const SettingItem({
-    Key? key,
-    required this.title,
-    this.icon = Icons.info,
-    required this.onPress,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTile(
-          onTap: onPress,
-          contentPadding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          leading: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(19),
-              color: Theme.of(context).canvasColor,
-            ),
-            padding: const EdgeInsets.all(10),
-            child: Icon(icon, color: Theme.of(context).iconTheme.color),
-          ),
-          title: Text(title, style: Theme.of(context).textTheme.titleSmall),
-        ),
-        const Divider(height: 0, indent: 24, endIndent: 24)
-      ],
     );
   }
 }
