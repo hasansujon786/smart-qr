@@ -1,3 +1,4 @@
+import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
 
 import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
@@ -14,12 +15,11 @@ class QrHistoryDetailsPage extends StatelessWidget {
     final rawCode = args['rawcode'] as String;
     final isFavPage = args['is_fav_page'] as bool;
     final createdAt = args['qr_createdAt'] as DateTime?;
-    final qrcode = qr_tools.parse(rawCode);
+    final Barcode qrcode = qr_tools.parse(rawCode);
 
     return ResultView(
       qrId: qrId,
       qrcode: qrcode,
-      rawCode: rawCode,
       createdAt: createdAt,
       pageTitle: isFavPage ? 'QR Favorite' : 'QR History',
       showDelete: !isFavPage,

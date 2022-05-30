@@ -7,16 +7,14 @@ import '../wigets/wigets.dart';
 
 class ResultView extends StatelessWidget {
   final String qrId;
-  final String pageTitle;
   final Barcode qrcode;
-  final String rawCode;
+  final String pageTitle;
   final bool showDelete;
   final DateTime? createdAt;
   const ResultView({
     Key? key,
     required this.qrId,
     required this.qrcode,
-    required this.rawCode,
     required this.createdAt,
     this.showDelete = false,
     this.pageTitle = 'Result',
@@ -185,9 +183,6 @@ ResultItems _buildResultItems(BuildContext context, Barcode barcode) {
 
     // case BarcodeValueType.contactInfo:
     //   BarcodeContactInfo barcodeContactInfo = barcode as BarcodeContactInfo;
-    //   break;
-    // case BarcodeValueType.location:
-    //   BarcodeLocation barcodeLocation = barcode as BarcodeLocation;
     //   break;
     // case BarcodeValueType.calendarEvent:
     //   BarcodeCalendarEvent barcodeCalendarEvent = barcode as BarcodeCalendarEvent;

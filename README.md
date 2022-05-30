@@ -15,6 +15,7 @@ TODO: fix qr_view_page background
 lib\config\constants.dart
 android\local.properties
 android\app\build.gradle
+android\app\src\main\AndroidManifest.xml
 
 
 # Useful CLI commands

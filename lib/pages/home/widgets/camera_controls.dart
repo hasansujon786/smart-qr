@@ -78,14 +78,14 @@ class _CameraControlsState extends State<CameraControls> with WidgetsBindingObse
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
-  @override
-  void reassemble() {
-    super.reassemble();
-    widget.controller.pause();
-    Future.delayed(const Duration(seconds: 1), (() {
-      widget.controller.resume();
-    }));
-  }
+  // @override
+  // void reassemble() {
+  //   super.reassemble();
+  //   widget.controller.pause();
+  //   Future.delayed(const Duration(seconds: 1), (() {
+  //     widget.controller.resume();
+  //   }));
+  // }
 
   @override
   void initState() {

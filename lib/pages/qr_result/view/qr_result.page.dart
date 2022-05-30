@@ -2,7 +2,6 @@ import 'package:barcode_parser/barcode_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
 import '../../../models/models.dart';
 import '../../../providers/history_provider.dart';
 import '../wigets/wigets.dart';
@@ -13,9 +12,7 @@ class QrResultPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-    final rawCode = args['qrcodeRawValue'] ?? '';
-    final Barcode qrcode = qr_tools.parse(rawCode);
+    final qrcode = ModalRoute.of(context)!.settings.arguments as Barcode;
 
     // bool isSupportedValue = qrCodeTypes.any((element) => element.type == qrcode.valueType);
     // if (!isSupportedValue) {
@@ -31,7 +28,6 @@ class QrResultPage extends ConsumerWidget {
     return ResultView(
       qrId: qrHistory.id,
       qrcode: qrcode,
-      rawCode: rawCode,
       createdAt: qrHistory.createdAt,
     );
   }
