@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:images_picker/images_picker.dart';
 import 'package:scan/scan.dart';
+import 'package:smart_qr/config/config.dart';
 
 import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
 import '../../../ui/ui.dart';
-import '../../qr_result/qr_result.dart';
 
 class CameraControls extends StatefulWidget {
   final ScanController controller;
@@ -34,11 +34,7 @@ class _CameraControlsState extends State<CameraControls> with WidgetsBindingObse
 
     // show result page
     widget.controller.pause();
-    Navigator.pushNamed(context, QrResultPage.routeName, arguments: {
-      'qrcodeRawValue': reslult,
-    }).then((value) {
-      widget.controller.resume();
-    });
+    showQrResultPage(context, data: reslult, controller: widget.controller, filterProductQr: false);
   }
 
   void toggleFlash() {
