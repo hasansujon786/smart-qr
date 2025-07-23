@@ -1,9 +1,9 @@
 import 'package:barcode_parser/barcode_parser.dart';
 import 'package:images_picker/images_picker.dart';
-import 'package:scan/scan.dart';
+// import 'package:scan/scan.dart';
 
 Future<String?> decodeFromImage(Media img) async {
-  return await Scan.parse(img.path);
+  return "get_path"; // TODO: replace snan
 }
 
 /// Parse qrcode from raw value

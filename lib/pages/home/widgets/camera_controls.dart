@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:images_picker/images_picker.dart';
-import 'package:scan/scan.dart';
+// import 'package:scan/scan.dart';
 import 'package:smart_qr/config/config.dart';
 
 import '../../../domain/qr_tools/qr_tools.dart' as qr_tools;
 import '../../../ui/ui.dart';
 
 class CameraControls extends StatefulWidget {
-  final ScanController controller;
+  final dynamic controller;
   const CameraControls({Key? key, required this.controller}) : super(key: key);
 
   @override

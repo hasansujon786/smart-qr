@@ -7,19 +7,20 @@ publish_to: 'none'
 version: 1.0.1+2
 
 environment:
-  sdk: ">=2.16.1 <3.0.0"
+  sdk: ">=2.16.1 <4.0.0"  # Allow Dart 3.x for Flutter 3.10.0
 
 dependencies:
   flutter:
     sdk: flutter
-  scan: ^1.6.0
+  # scan: ^1.6.0
   images_picker: ^1.2.10
   gallery_saver: ^2.3.2
-  path_provider: ^2.0.9
+  # path_provider: ^2.0.9
+  path_provider: ^2.1.1
   qr_flutter: ^4.0.0
-  # barcode_parser: ^0.2.0
-  barcode_parser:
-    path: packages/barcode_parser
+  barcode_parser: ^0.2.0
+  # barcode_parser:
+  #   path: packages/barcode_parser
   hive: ^2.0.6
   hive_flutter: ^1.1.0
   flutter_riverpod: ^1.0.4
@@ -38,6 +39,8 @@ dev_dependencies:
   build_runner: ^2.1.8
   icons_launcher: ^1.1.7
   flutter_native_splash: ^2.1.6
+dependency_overrides:
+  file: ^7.0.0  # Only if needed
 
 flutter:
   uses-material-design: true

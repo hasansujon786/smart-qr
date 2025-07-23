@@ -103,7 +103,7 @@ final allKnownQrTypes = [
   QrType(
     type: BarcodeValueType.whatsapp,
     name: 'WhatsApp',
-    icon: Icons.whatsapp,
+    icon: Icons.chat_bubble, // TODO: update this icon
     color: Color(hexColor('#6ADCCC')),
   ),
   QrType(
