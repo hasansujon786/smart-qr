@@ -48,7 +48,7 @@ _Available for Android via Google Play_
 
 ## 📁 Project Structure
 
-```
+```bash
 smart_qr/
 ├── android/              # Android-specific code and build config
 ├── ios/                  # iOS-specific code and build config
@@ -96,7 +96,7 @@ This project was designed and developed by **Hasan Mahmud** as a **solo develope
 **Smart QR** is part of my developer portfolio and showcases my ability to design, build, and ship high-quality mobile apps using Flutter.
 This project reflects my focus on clean architecture, intuitive UX, and efficient state management.
 
-If you're looking for a Flutter or cross-platform developer who can take ownership and deliver — I'd love to chat.
+Feel free to explore the code — and reach out if you're hiring or interested in collaboration!
 
 ---
 
@@ -113,4 +113,4 @@ If you're looking for a Flutter or cross-platform developer who can take ownersh
 This project is licensed under the **CC BY-NC 4.0 License**.  
 You’re welcome to learn from or adapt the code for personal or educational use — commercial use is not permitted.
 
-🔗 [Learn more](https://creativecommons.org/licenses/by-nc/4.0/)
+🔗 [View License](https://creativecommons.org/licenses/by-nc/4.0/)
